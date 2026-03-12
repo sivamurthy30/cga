@@ -18,48 +18,47 @@ html, body {
 }
 
 html {
-  background: #0f172a;
+  background: #ffffff;
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
 :root {
-  --rich-black: #0f172a;
-  --charcoal: #1e293b;
-  --dark-gray: #334155;
-  --medium-gray: #64748b;
-  --light-gray: #94a3b8;
-  --silver: #cbd5e1;
-  --platinum: #e2e8f0;
-  --pearl: #f8fafc;
+  --rich-black: #1a1a1a;
+  --charcoal: #2a2a2a;
+  --dark-gray: #4a4a4a;
+  --medium-gray: #6a6a6a;
+  --light-gray: #9a9a9a;
+  --silver: #d0d0d0;
+  --platinum: #e8e8e8;
+  --pearl: #f5f5f5;
   --white: #ffffff;
   
-  --primary: #475569;
-  --primary-light: #64748b;
-  --primary-dark: #334155;
+  --primary: #2a2a2a;
+  --primary-light: #4a4a4a;
+  --primary-dark: #1a1a1a;
   
   --accent-blue: #3b82f6;
   --accent-amber: #f59e0b;
   --accent-rose: #f43f5e;
   --accent-emerald: #10b981;
   
-  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
-  --shadow-soft: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
-  --shadow-medium: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
-  --shadow-strong: 0 20px 25px rgba(0, 0, 0, 0.15), 0 10px 10px rgba(0, 0, 0, 0.04);
-  --shadow-dramatic: 0 25px 50px rgba(0, 0, 0, 0.25), 0 10px 20px rgba(0, 0, 0, 0.1);
+  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-soft: 0 2px 4px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-strong: 0 8px 16px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.05);
+  --shadow-dramatic: 0 12px 24px rgba(0, 0, 0, 0.12), 0 6px 12px rgba(0, 0, 0, 0.08);
 }
 
 body {
-  font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', 'Roboto Mono', 'Ubuntu Monospace', monospace;
-  background: #0f172a;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  background: #ffffff;
   background-attachment: fixed;
   color: var(--rich-black);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-feature-settings: 'liga' 0;
   letter-spacing: -0.01em;
   min-height: 100vh;
   margin: 0;
@@ -71,7 +70,7 @@ body {
 
 .App {
   min-height: 100vh;
-  background: #0f172a;
+  background: #ffffff;
   background-attachment: fixed;
   width: 100vw;
   margin: 0;
@@ -82,8 +81,8 @@ body {
 }
 
 .App-header {
-  background: #1e293b;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: #ffffff;
+  border-bottom: 1px solid #e8e8e8;
   padding: 3rem 0;
   position: relative;
   width: 100%;
@@ -107,21 +106,21 @@ body {
   align-items: center;
   gap: 0.75rem;
   padding: 0.5rem 1rem;
-  background: rgba(30, 41, 59, 0.8);
+  background: #f5f5f5;
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid #e8e8e8;
 }
 
 .user-name {
-  color: var(--white);
+  color: #1a1a1a;
   font-size: 0.875rem;
   font-weight: 500;
 }
 
 .logout-button {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: var(--light-gray);
+  border: 1px solid #d0d0d0;
+  color: #4a4a4a;
   padding: 0.4rem 0.875rem;
   border-radius: 12px;
   font-size: 0.75rem;
@@ -131,9 +130,9 @@ body {
 }
 
 .logout-button:hover {
-  background: var(--accent-rose);
-  border-color: var(--accent-rose);
-  color: var(--white);
+  background: #1a1a1a;
+  border-color: #1a1a1a;
+  color: #ffffff;
   transform: translateY(-1px);
 }
 
@@ -143,11 +142,11 @@ body {
   gap: 0.5rem;
   padding: 0.75rem 1.25rem;
   background: transparent;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid #d0d0d0;
   border-radius: 8px;
   font-size: 0.8125rem;
   font-weight: 600;
-  font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', monospace;
+  font-family: inherit;
   transition: all 0.3s ease;
 }
 
@@ -171,7 +170,7 @@ body {
 }
 
 .backend-status .status-text {
-  color: var(--white);
+  color: #1a1a1a;
 }
 
 @keyframes pulse {
@@ -182,27 +181,27 @@ body {
 .App-header h1 {
   font-size: 5rem;
   font-weight: 700;
-  color: var(--white);
+  color: #1a1a1a;
   text-align: center;
   margin-bottom: 0;
-  letter-spacing: 0.1em;
-  font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', 'Roboto Mono', monospace;
+  letter-spacing: 0.05em;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   position: relative;
   line-height: 1.1;
-  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
+  text-shadow: none;
 }
 
 .about-button {
   background: transparent;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  color: var(--white);
+  border: 1px solid #d0d0d0;
+  color: #1a1a1a;
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', monospace;
+  font-family: inherit;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -211,8 +210,8 @@ body {
 }
 
 .about-button:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.5);
+  background: #f5f5f5;
+  border-color: #1a1a1a;
   transform: translateY(-2px);
 }
 
@@ -280,8 +279,8 @@ body {
 }
 
 .col-left {
-  background: linear-gradient(180deg, #fafbfc 0%, #f1f5f9 100%);
-  border-right: 1px solid var(--platinum);
+  background: #ffffff;
+  border-right: 1px solid #e8e8e8;
   padding: 3rem 3rem 3rem 3rem;
   position: relative;
 }
@@ -410,15 +409,14 @@ body {
 .form-control {
   width: 100%;
   padding: 1rem 1.25rem;
-  border: 2px solid var(--platinum);
-  border-radius: 12px;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
   font-size: 0.9375rem;
-  background: var(--white);
+  background: #ffffff;
   color: var(--rich-black);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', monospace;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 
-              inset 0 1px 2px rgba(0, 0, 0, 0.02);
+  font-family: inherit;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
   line-height: 1.5;
 }
 
@@ -448,7 +446,7 @@ body {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', monospace;
+  font-family: inherit;
   letter-spacing: 0.01em;
   text-transform: none;
   display: inline-flex;
@@ -482,9 +480,9 @@ body {
 }
 
 .btn-primary {
-  background: var(--primary);
-  color: var(--white);
-  box-shadow: 0 4px 12px rgba(71, 85, 105, 0.3);
+  background: #1a1a1a;
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border: none;
   position: relative;
   overflow: hidden;
@@ -510,14 +508,14 @@ body {
 
 .btn-primary:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(71, 85, 105, 0.4);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .btn-secondary {
   background: transparent;
-  color: var(--primary);
-  border: 2px solid var(--primary);
-  box-shadow: 0 2px 8px rgba(71, 85, 105, 0.15);
+  color: #1a1a1a;
+  border: 1px solid #1a1a1a;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   position: relative;
   overflow: hidden;
 }
@@ -539,9 +537,9 @@ body {
 }
 
 .btn-secondary:hover:not(:disabled) {
-  color: var(--white);
+  color: #ffffff;
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(71, 85, 105, 0.25);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .btn:disabled {
@@ -581,7 +579,7 @@ body {
 }
 
 .skill-tag {
-  background: #f8fafc;
+  background: #ffffff;
   color: var(--rich-black);
   padding: 0.9rem 1.4rem;
   border-radius: 24px;
@@ -590,19 +588,17 @@ body {
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  border: 2px solid var(--platinum);
+  border: 1px solid #d0d0d0;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: default;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 
-              0 4px 12px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .skill-tag:hover {
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  background: #f5f5f5;
   border-color: var(--primary);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 
-              0 8px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .skill-remove {
