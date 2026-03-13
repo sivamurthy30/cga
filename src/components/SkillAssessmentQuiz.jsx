@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { gsap } from 'gsap';
-import '../SkillAssessment.css';
+import '../styles/SkillAssessment.css';
 
 const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
   const [currentSkillIndex, setCurrentSkillIndex] = useState(0);

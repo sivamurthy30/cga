@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { gsap } from 'gsap';
-import '../Auth.css';
+import '../styles/Auth.css';
 
 const Auth = ({ onAuthSuccess }) => {
   const [isLogin, setIsLogin] = useState(true);

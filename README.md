@@ -10,10 +10,11 @@ An intelligent career guidance system that helps learners discover their ideal t
 
 ## 📚 Quick Navigation
 
-- **🚀 [Getting Started](GETTING_STARTED.md)** - Setup guide (5 min)
-- **🏗️ [Architecture](ARCHITECTURE.md)** - System design
-- **⚡ [Quick Reference](QUICK_REFERENCE.md)** - Commands & tips
-- **🔧 [Troubleshooting](TROUBLESHOOTING.md)** - Fix issues
+- **🚀 [Getting Started](docs/GETTING_STARTED.md)** - Setup guide (5 min)
+- **🏗️ [Architecture](docs/ARCHITECTURE.md)** - System design
+- **📁 [Project Structure](docs/PROJECT_STRUCTURE.md)** - File organization
+- **⚡ [Quick Reference](docs/QUICK_REFERENCE.md)** - Commands & tips
+- **🔧 [Troubleshooting](docs/TROUBLESHOOTING.md)** - Fix issues
 - [Features](#-key-features)
 - [Quick Start](#-quick-start)
 - [User Flow](#-user-flow)
@@ -23,10 +24,11 @@ An intelligent career guidance system that helps learners discover their ideal t
 ## 📖 New to the Project?
 
 **Start here:**
-1. 📘 **[GETTING_STARTED.md](GETTING_STARTED.md)** - Easy setup guide (5 min)
-2. 🏗️ **[ARCHITECTURE.md](ARCHITECTURE.md)** - How it all works
-3. ⚡ **[QUICK_REFERENCE.md](QUICK_REFERENCE.md)** - Quick commands
-4. 🔧 **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** - Common issues
+1. 📘 **[docs/GETTING_STARTED.md](docs/GETTING_STARTED.md)** - Easy setup guide (5 min)
+2. 📁 **[docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md)** - Understand file organization
+3. 🏗️ **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** - How it all works
+4. ⚡ **[docs/QUICK_REFERENCE.md](docs/QUICK_REFERENCE.md)** - Quick commands
+5. 🔧 **[docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** - Common issues
 
 ---
 
@@ -108,53 +110,36 @@ npm start
 ## 📁 Project Structure
 
 ```
-sga/cga/
-├── 📱 FRONTEND
-│   ├── src/components/
-│   │   ├── Auth.jsx                    # Authentication
-│   │   ├── OnboardingFlow.jsx          # 33 roles onboarding
-│   │   ├── SkillAssessmentQuiz.jsx     # Quiz (80+ questions)
-│   │   └── InteractiveRoadmap.jsx      # Visual roadmap
-│   ├── src/
-│   │   ├── App.js                      # Main app
-│   │   ├── App.css, Auth.css           # Styles
-│   │   ├── Onboarding.css              # Onboarding styles
-│   │   ├── SkillAssessment.css         # Quiz styles
-│   │   └── DesignSystem.css            # Design system
-│   └── public/                         # Static assets
+cga/
+├── 📄 docs/                         # Documentation
+│   ├── GETTING_STARTED.md           # Setup guide
+│   ├── ARCHITECTURE.md              # System design
+│   ├── PROJECT_STRUCTURE.md         # File organization
+│   ├── PROJECT_SUMMARY.md           # Overview
+│   ├── QUICK_REFERENCE.md           # Commands
+│   └── TROUBLESHOOTING.md           # Solutions
 │
-├── 🔧 BACKEND
-│   ├── backend/
-│   │   ├── simple_app.py               # Main API (all 33 roles)
-│   │   ├── roadmap_scraper.py          # Roadmap.sh integration
-│   │   └── database/                   # Database layer
-│   └── preprocessing/
-│       └── github_analyzer.py          # GitHub analysis
+├── 🎨 src/                          # Frontend (React)
+│   ├── components/                  # React components
+│   ├── services/                    # API services
+│   ├── data/                        # Static data
+│   ├── styles/                      # CSS files
+│   ├── App.js                       # Main app
+│   └── index.js                     # Entry point
 │
-├── 🤖 ML MODELS
-│   ├── ml_models/
-│   │   ├── resume_tip_recommender.py   # ML model class
-│   │   └── resume_tip_model.pkl        # Trained (99.9%)
-│   ├── data/
-│   │   ├── generate_training_data.py   # 33 roles data
-│   │   └── resume_tips_training_data.json # 50k samples
-│   └── train_resume_tip_model.py       # Model trainer
+├── ⚙️ backend/                      # Backend (Flask)
+│   ├── simple_app.py                # Main API
+│   ├── database/                    # Database layer
+│   └── data/                        # Backend data
 │
-├── 📚 DOCUMENTATION
-│   ├── README.md                       # This file
-│   ├── PROJECT_SUMMARY.md              # Faculty overview
-│   ├── FINAL_PROJECT_STATUS.md         # Complete status
-│   ├── ML_MODELS_EXPLAINED.md          # ML details
-│   ├── THEME_QUICK_REFERENCE.md        # Design system
-│   └── data/
-│       ├── TRAINING_DATA_DOCUMENTATION.md
-│       └── FACULTY_PRESENTATION_SUMMARY.md
-│
-└── ⚙️ CONFIG
-    ├── package.json                    # Node dependencies
-    ├── requirements.txt                # Python dependencies
-    └── .env                            # Environment variables
+├── 🤖 ml_models/                    # ML models
+├── 🔄 bandit/                       # Recommendation algorithms
+├── 🔧 preprocessing/                # Data preprocessing
+├── 📊 data/                         # Training data
+└── 🌐 public/                       # Static assets
 ```
+
+See [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md) for detailed structure.
 
 ---
 
@@ -276,14 +261,17 @@ See `THEME_QUICK_REFERENCE.md` for complete design system.
 
 ## 📝 Documentation
 
+All documentation is now organized in the `docs/` folder:
+
 | Document | Purpose |
 |----------|---------|
-| **[README.md](README.md)** | Complete documentation (this file) |
-| **[GETTING_STARTED.md](GETTING_STARTED.md)** | Setup guide for beginners |
-| **[ARCHITECTURE.md](ARCHITECTURE.md)** | System design & data flow |
-| **[PROJECT_SUMMARY.md](PROJECT_SUMMARY.md)** | Project overview |
-| **[QUICK_REFERENCE.md](QUICK_REFERENCE.md)** | Commands & API reference |
-| **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** | Common issues & solutions |
+| **[README.md](README.md)** | Main documentation (this file) |
+| **[docs/GETTING_STARTED.md](docs/GETTING_STARTED.md)** | Setup guide for beginners |
+| **[docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md)** | File organization explained |
+| **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** | System design & data flow |
+| **[docs/PROJECT_SUMMARY.md](docs/PROJECT_SUMMARY.md)** | Project overview |
+| **[docs/QUICK_REFERENCE.md](docs/QUICK_REFERENCE.md)** | Commands & API reference |
+| **[docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** | Common issues & solutions |
 
 ---
 

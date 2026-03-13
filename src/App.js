@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import './DesignSystem.css';
+import './styles/DesignSystem.css';
 import './App.css';
 import Auth from './components/Auth';
 import InteractiveRoadmap from './components/InteractiveRoadmap';

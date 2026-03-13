@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { gsap } from 'gsap';
-import '../Onboarding.css';
+import '../styles/Onboarding.css';
 
 const OnboardingFlow = ({ onComplete }) => {
   const [currentStep, setCurrentStep] = useState(0); // Start at welcome screen
