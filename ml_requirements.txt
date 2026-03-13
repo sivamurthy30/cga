@@ -1,9 +1,0 @@
-# ML Model Dependencies for Resume Tip Recommender
-scikit-learn>=1.0.0
-numpy>=1.21.0
-pandas>=1.3.0
-joblib>=1.1.0
-
-# Already in main requirements.txt but listed here for reference:
-# flask
-# flask-cors

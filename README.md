@@ -10,27 +10,23 @@ An intelligent career guidance system that helps learners discover their ideal t
 
 ## 📚 Quick Navigation
 
-- **🚀 [Getting Started Guide](GETTING_STARTED.md)** - Simple guide for students & developers
-- **🏗️ [Architecture Guide](ARCHITECTURE.md)** - Visual system architecture
+- **🚀 [Getting Started](GETTING_STARTED.md)** - Setup guide (5 min)
+- **🏗️ [Architecture](ARCHITECTURE.md)** - System design
+- **⚡ [Quick Reference](QUICK_REFERENCE.md)** - Commands & tips
+- **🔧 [Troubleshooting](TROUBLESHOOTING.md)** - Fix issues
 - [Features](#-key-features)
 - [Quick Start](#-quick-start)
-- [Project Structure](#-project-structure)
 - [User Flow](#-user-flow)
-- [Documentation](#-documentation)
-- [Technologies](#-technologies-used)
 
 ---
 
 ## 📖 New to the Project?
 
-**📚 [Start with the Documentation Index](DOCS_INDEX.md)** - Find the right guide for you!
-
-**Quick paths:**
-1. 📘 **[GETTING_STARTED.md](GETTING_STARTED.md)** - Easy step-by-step guide (5 min)
-2. 🏗️ **[ARCHITECTURE.md](ARCHITECTURE.md)** - How everything works together
-3. 🎨 **[VISUAL_GUIDE.md](VISUAL_GUIDE.md)** - Visual diagrams & flowcharts
-4. ⚡ **[QUICK_REFERENCE.md](QUICK_REFERENCE.md)** - Commands & quick tips
-5. 🔧 **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** - Fix common issues
+**Start here:**
+1. 📘 **[GETTING_STARTED.md](GETTING_STARTED.md)** - Easy setup guide (5 min)
+2. 🏗️ **[ARCHITECTURE.md](ARCHITECTURE.md)** - How it all works
+3. ⚡ **[QUICK_REFERENCE.md](QUICK_REFERENCE.md)** - Quick commands
+4. 🔧 **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** - Common issues
 
 ---
 
@@ -280,34 +276,14 @@ See `THEME_QUICK_REFERENCE.md` for complete design system.
 
 ## 📝 Documentation
 
-### 📚 For Everyone
-| Document | Purpose | Best For |
-|----------|---------|----------|
-| **[GETTING_STARTED.md](GETTING_STARTED.md)** | Simple step-by-step guide | Beginners, Students |
-| **[VISUAL_GUIDE.md](VISUAL_GUIDE.md)** | Visual diagrams & flowcharts | Visual learners |
-| **[QUICK_REFERENCE.md](QUICK_REFERENCE.md)** | Commands & quick tips | Quick lookup |
-| **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** | Fix common issues | When stuck |
-
-### 🎓 For Students
 | Document | Purpose |
 |----------|---------|
-| `GETTING_STARTED.md` | Start here - easiest guide |
-| `VISUAL_GUIDE.md` | See how it all fits together |
-| `PROJECT_SUMMARY.md` | Project overview |
-
-### 👨‍💻 For Developers
-| Document | Purpose |
-|----------|---------|
-| `ARCHITECTURE.md` | System design & data flow |
-| `README.md` | Complete technical docs (this file) |
-| `ML_MODELS_EXPLAINED.md` | ML implementation details |
-
-### 👔 For Faculty
-| Document | Purpose |
-|----------|---------|
-| `PROJECT_SUMMARY.md` | High-level overview |
-| `FINAL_PROJECT_STATUS.md` | Complete status report |
-| `data/FACULTY_PRESENTATION_SUMMARY.md` | Presentation guide |
+| **[README.md](README.md)** | Complete documentation (this file) |
+| **[GETTING_STARTED.md](GETTING_STARTED.md)** | Setup guide for beginners |
+| **[ARCHITECTURE.md](ARCHITECTURE.md)** | System design & data flow |
+| **[PROJECT_SUMMARY.md](PROJECT_SUMMARY.md)** | Project overview |
+| **[QUICK_REFERENCE.md](QUICK_REFERENCE.md)** | Commands & API reference |
+| **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** | Common issues & solutions |
 
 ---
 
