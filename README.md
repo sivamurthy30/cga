@@ -10,12 +10,27 @@ An intelligent career guidance system that helps learners discover their ideal t
 
 ## 📚 Quick Navigation
 
+- **🚀 [Getting Started Guide](GETTING_STARTED.md)** - Simple guide for students & developers
+- **🏗️ [Architecture Guide](ARCHITECTURE.md)** - Visual system architecture
 - [Features](#-key-features)
 - [Quick Start](#-quick-start)
 - [Project Structure](#-project-structure)
 - [User Flow](#-user-flow)
 - [Documentation](#-documentation)
 - [Technologies](#-technologies-used)
+
+---
+
+## 📖 New to the Project?
+
+**📚 [Start with the Documentation Index](DOCS_INDEX.md)** - Find the right guide for you!
+
+**Quick paths:**
+1. 📘 **[GETTING_STARTED.md](GETTING_STARTED.md)** - Easy step-by-step guide (5 min)
+2. 🏗️ **[ARCHITECTURE.md](ARCHITECTURE.md)** - How everything works together
+3. 🎨 **[VISUAL_GUIDE.md](VISUAL_GUIDE.md)** - Visual diagrams & flowcharts
+4. ⚡ **[QUICK_REFERENCE.md](QUICK_REFERENCE.md)** - Commands & quick tips
+5. 🔧 **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** - Fix common issues
 
 ---
 
@@ -265,14 +280,33 @@ See `THEME_QUICK_REFERENCE.md` for complete design system.
 
 ## 📝 Documentation
 
+### 📚 For Everyone
+| Document | Purpose | Best For |
+|----------|---------|----------|
+| **[GETTING_STARTED.md](GETTING_STARTED.md)** | Simple step-by-step guide | Beginners, Students |
+| **[VISUAL_GUIDE.md](VISUAL_GUIDE.md)** | Visual diagrams & flowcharts | Visual learners |
+| **[QUICK_REFERENCE.md](QUICK_REFERENCE.md)** | Commands & quick tips | Quick lookup |
+| **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** | Fix common issues | When stuck |
+
+### 🎓 For Students
 | Document | Purpose |
 |----------|---------|
-| `README.md` | Main documentation (this file) |
-| `PROJECT_SUMMARY.md` | Project overview for faculty |
-| `FINAL_PROJECT_STATUS.md` | Complete implementation status |
+| `GETTING_STARTED.md` | Start here - easiest guide |
+| `VISUAL_GUIDE.md` | See how it all fits together |
+| `PROJECT_SUMMARY.md` | Project overview |
+
+### 👨‍💻 For Developers
+| Document | Purpose |
+|----------|---------|
+| `ARCHITECTURE.md` | System design & data flow |
+| `README.md` | Complete technical docs (this file) |
 | `ML_MODELS_EXPLAINED.md` | ML implementation details |
-| `THEME_QUICK_REFERENCE.md` | Design system guide |
-| `data/TRAINING_DATA_DOCUMENTATION.md` | Training data documentation |
+
+### 👔 For Faculty
+| Document | Purpose |
+|----------|---------|
+| `PROJECT_SUMMARY.md` | High-level overview |
+| `FINAL_PROJECT_STATUS.md` | Complete status report |
 | `data/FACULTY_PRESENTATION_SUMMARY.md` | Presentation guide |
 
 ---
