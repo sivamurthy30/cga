@@ -1,0 +1,58 @@
+[
+  {
+    "id": "e1",
+    "source": "html-basics",
+    "target": "css-fundamentals",
+    "type": "dependency",
+    "animated": true
+  },
+  {
+    "id": "e2",
+    "source": "css-fundamentals",
+    "target": "javascript-basics",
+    "type": "dependency",
+    "animated": true
+  },
+  {
+    "id": "e3",
+    "source": "javascript-basics",
+    "target": "version-control",
+    "type": "dependency",
+    "animated": true
+  },
+  {
+    "id": "e4",
+    "source": "version-control",
+    "target": "react-js",
+    "type": "dependency",
+    "animated": true
+  },
+  {
+    "id": "e5",
+    "source": "react-js",
+    "target": "state-management",
+    "type": "dependency",
+    "animated": true
+  },
+  {
+    "id": "e6",
+    "source": "state-management",
+    "target": "typescript",
+    "type": "dependency",
+    "animated": true
+  },
+  {
+    "id": "e7",
+    "source": "typescript",
+    "target": "testing",
+    "type": "dependency",
+    "animated": true
+  },
+  {
+    "id": "e8",
+    "source": "testing",
+    "target": "performance-optimization",
+    "type": "dependency",
+    "animated": true
+  }
+]

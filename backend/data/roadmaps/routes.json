@@ -1,0 +1,66 @@
+[
+  {
+    "type": "roadmap",
+    "path": "/roadmap/frontend-developer"
+  },
+  {
+    "type": "roadmap",
+    "path": "/roadmap/backend-developer"
+  },
+  {
+    "type": "roadmap",
+    "path": "/roadmap/full-stack-developer"
+  },
+  {
+    "type": "roadmap",
+    "path": "/roadmap/devops-engineer"
+  },
+  {
+    "type": "roadmap",
+    "path": "/roadmap/data-scientist"
+  },
+  {
+    "type": "roadmap",
+    "path": "/roadmap/react-developer"
+  },
+  {
+    "type": "roadmap",
+    "path": "/roadmap/python-developer"
+  },
+  {
+    "type": "topic",
+    "path": "/roadmap/frontend-developer/html-basics"
+  },
+  {
+    "type": "topic",
+    "path": "/roadmap/frontend-developer/css-fundamentals"
+  },
+  {
+    "type": "topic",
+    "path": "/roadmap/frontend-developer/javascript-basics"
+  },
+  {
+    "type": "topic",
+    "path": "/roadmap/frontend-developer/version-control"
+  },
+  {
+    "type": "topic",
+    "path": "/roadmap/frontend-developer/react-js"
+  },
+  {
+    "type": "topic",
+    "path": "/roadmap/frontend-developer/state-management"
+  },
+  {
+    "type": "topic",
+    "path": "/roadmap/frontend-developer/typescript"
+  },
+  {
+    "type": "topic",
+    "path": "/roadmap/frontend-developer/testing"
+  },
+  {
+    "type": "topic",
+    "path": "/roadmap/frontend-developer/performance-optimization"
+  }
+]

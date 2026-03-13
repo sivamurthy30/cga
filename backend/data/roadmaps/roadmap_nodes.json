@@ -1,0 +1,299 @@
+[
+  {
+    "id": "html-basics",
+    "title": "HTML Basics",
+    "slug": "html-basics",
+    "type": "core",
+    "level": "beginner",
+    "description": "Learn HTML structure, semantic elements, and best practices",
+    "roadmap": "frontend-developer",
+    "link": "/roadmap/frontend-developer/html-basics",
+    "position": {
+      "x": 200,
+      "y": 80
+    },
+    "data": {
+      "title": "HTML Basics",
+      "level": "beginner",
+      "link": "/roadmap/frontend-developer/html-basics"
+    },
+    "animation": {
+      "initial": {
+        "opacity": 0,
+        "scale": 0.8
+      },
+      "animate": {
+        "opacity": 1,
+        "scale": 1
+      },
+      "transition": {
+        "duration": 0.4,
+        "delay": 0.0
+      }
+    }
+  },
+  {
+    "id": "css-fundamentals",
+    "title": "CSS Fundamentals",
+    "slug": "css-fundamentals",
+    "type": "core",
+    "level": "beginner",
+    "description": "Master CSS styling, layouts, and responsive design",
+    "roadmap": "frontend-developer",
+    "link": "/roadmap/frontend-developer/css-fundamentals",
+    "position": {
+      "x": 450,
+      "y": 80
+    },
+    "data": {
+      "title": "CSS Fundamentals",
+      "level": "beginner",
+      "link": "/roadmap/frontend-developer/css-fundamentals"
+    },
+    "animation": {
+      "initial": {
+        "opacity": 0,
+        "scale": 0.8
+      },
+      "animate": {
+        "opacity": 1,
+        "scale": 1
+      },
+      "transition": {
+        "duration": 0.4,
+        "delay": 0.1
+      }
+    }
+  },
+  {
+    "id": "javascript-basics",
+    "title": "JavaScript Basics",
+    "slug": "javascript-basics",
+    "type": "core",
+    "level": "beginner",
+    "description": "Learn JavaScript fundamentals and DOM manipulation",
+    "roadmap": "frontend-developer",
+    "link": "/roadmap/frontend-developer/javascript-basics",
+    "position": {
+      "x": 700,
+      "y": 80
+    },
+    "data": {
+      "title": "JavaScript Basics",
+      "level": "beginner",
+      "link": "/roadmap/frontend-developer/javascript-basics"
+    },
+    "animation": {
+      "initial": {
+        "opacity": 0,
+        "scale": 0.8
+      },
+      "animate": {
+        "opacity": 1,
+        "scale": 1
+      },
+      "transition": {
+        "duration": 0.4,
+        "delay": 0.2
+      }
+    }
+  },
+  {
+    "id": "version-control",
+    "title": "Version Control (Git)",
+    "slug": "version-control",
+    "type": "core",
+    "level": "intermediate",
+    "description": "Master Git for code versioning and collaboration",
+    "roadmap": "frontend-developer",
+    "link": "/roadmap/frontend-developer/version-control",
+    "position": {
+      "x": 200,
+      "y": 380
+    },
+    "data": {
+      "title": "Version Control (Git)",
+      "level": "intermediate",
+      "link": "/roadmap/frontend-developer/version-control"
+    },
+    "animation": {
+      "initial": {
+        "opacity": 0,
+        "scale": 0.8
+      },
+      "animate": {
+        "opacity": 1,
+        "scale": 1
+      },
+      "transition": {
+        "duration": 0.4,
+        "delay": 0.0
+      }
+    }
+  },
+  {
+    "id": "react-js",
+    "title": "React.js",
+    "slug": "react-js",
+    "type": "core",
+    "level": "intermediate",
+    "description": "Build modern web applications with React",
+    "roadmap": "frontend-developer",
+    "link": "/roadmap/frontend-developer/react-js",
+    "position": {
+      "x": 450,
+      "y": 380
+    },
+    "data": {
+      "title": "React.js",
+      "level": "intermediate",
+      "link": "/roadmap/frontend-developer/react-js"
+    },
+    "animation": {
+      "initial": {
+        "opacity": 0,
+        "scale": 0.8
+      },
+      "animate": {
+        "opacity": 1,
+        "scale": 1
+      },
+      "transition": {
+        "duration": 0.4,
+        "delay": 0.1
+      }
+    }
+  },
+  {
+    "id": "state-management",
+    "title": "State Management",
+    "slug": "state-management",
+    "type": "core",
+    "level": "intermediate",
+    "description": "Manage application state effectively",
+    "roadmap": "frontend-developer",
+    "link": "/roadmap/frontend-developer/state-management",
+    "position": {
+      "x": 700,
+      "y": 380
+    },
+    "data": {
+      "title": "State Management",
+      "level": "intermediate",
+      "link": "/roadmap/frontend-developer/state-management"
+    },
+    "animation": {
+      "initial": {
+        "opacity": 0,
+        "scale": 0.8
+      },
+      "animate": {
+        "opacity": 1,
+        "scale": 1
+      },
+      "transition": {
+        "duration": 0.4,
+        "delay": 0.2
+      }
+    }
+  },
+  {
+    "id": "typescript",
+    "title": "TypeScript",
+    "slug": "typescript",
+    "type": "core",
+    "level": "advanced",
+    "description": "Add type safety to JavaScript applications",
+    "roadmap": "frontend-developer",
+    "link": "/roadmap/frontend-developer/typescript",
+    "position": {
+      "x": 200,
+      "y": 680
+    },
+    "data": {
+      "title": "TypeScript",
+      "level": "advanced",
+      "link": "/roadmap/frontend-developer/typescript"
+    },
+    "animation": {
+      "initial": {
+        "opacity": 0,
+        "scale": 0.8
+      },
+      "animate": {
+        "opacity": 1,
+        "scale": 1
+      },
+      "transition": {
+        "duration": 0.4,
+        "delay": 0.0
+      }
+    }
+  },
+  {
+    "id": "testing",
+    "title": "Testing",
+    "slug": "testing",
+    "type": "core",
+    "level": "advanced",
+    "description": "Write tests for reliable applications",
+    "roadmap": "frontend-developer",
+    "link": "/roadmap/frontend-developer/testing",
+    "position": {
+      "x": 450,
+      "y": 680
+    },
+    "data": {
+      "title": "Testing",
+      "level": "advanced",
+      "link": "/roadmap/frontend-developer/testing"
+    },
+    "animation": {
+      "initial": {
+        "opacity": 0,
+        "scale": 0.8
+      },
+      "animate": {
+        "opacity": 1,
+        "scale": 1
+      },
+      "transition": {
+        "duration": 0.4,
+        "delay": 0.1
+      }
+    }
+  },
+  {
+    "id": "performance-optimization",
+    "title": "Performance Optimization",
+    "slug": "performance-optimization",
+    "type": "core",
+    "level": "advanced",
+    "description": "Optimize web application performance",
+    "roadmap": "frontend-developer",
+    "link": "/roadmap/frontend-developer/performance-optimization",
+    "position": {
+      "x": 700,
+      "y": 680
+    },
+    "data": {
+      "title": "Performance Optimization",
+      "level": "advanced",
+      "link": "/roadmap/frontend-developer/performance-optimization"
+    },
+    "animation": {
+      "initial": {
+        "opacity": 0,
+        "scale": 0.8
+      },
+      "animate": {
+        "opacity": 1,
+        "scale": 1
+      },
+      "transition": {
+        "duration": 0.4,
+        "delay": 0.2
+      }
+    }
+  }
+]

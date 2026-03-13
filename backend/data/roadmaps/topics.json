@@ -1,0 +1,291 @@
+[
+  {
+    "title": "HTML Basics",
+    "slug": "html-basics",
+    "roadmap": "frontend-developer",
+    "description": "Learn HTML structure, semantic elements, and best practices",
+    "learning_objectives": [
+      "Understand HTML Basics fundamentals",
+      "Apply HTML Basics in real projects",
+      "Master HTML Basics best practices"
+    ],
+    "topics_to_learn": [
+      "HTML Document Structure",
+      "Semantic HTML",
+      "Forms and Validation",
+      "Accessibility Basics"
+    ],
+    "recommended_articles": [
+      "MDN HTML Guide",
+      "HTML Best Practices"
+    ],
+    "practice_resources": [
+      "FreeCodeCamp HTML Course",
+      "HTML Exercises"
+    ],
+    "projects": [
+      "Build a project using HTML Basics",
+      "Create a portfolio piece with HTML Basics"
+    ],
+    "next_topics": [
+      "CSS Fundamentals"
+    ]
+  },
+  {
+    "title": "CSS Fundamentals",
+    "slug": "css-fundamentals",
+    "roadmap": "frontend-developer",
+    "description": "Master CSS styling, layouts, and responsive design",
+    "learning_objectives": [
+      "Understand CSS Fundamentals fundamentals",
+      "Apply CSS Fundamentals in real projects",
+      "Master CSS Fundamentals best practices"
+    ],
+    "topics_to_learn": [
+      "CSS Selectors",
+      "Box Model",
+      "Flexbox",
+      "Grid Layout",
+      "Responsive Design"
+    ],
+    "recommended_articles": [
+      "CSS Tricks Guide",
+      "Modern CSS Layouts"
+    ],
+    "practice_resources": [
+      "CSS Diner",
+      "Flexbox Froggy"
+    ],
+    "projects": [
+      "Build a project using CSS Fundamentals",
+      "Create a portfolio piece with CSS Fundamentals"
+    ],
+    "next_topics": [
+      "JavaScript Basics"
+    ]
+  },
+  {
+    "title": "JavaScript Basics",
+    "slug": "javascript-basics",
+    "roadmap": "frontend-developer",
+    "description": "Learn JavaScript fundamentals and DOM manipulation",
+    "learning_objectives": [
+      "Understand JavaScript Basics fundamentals",
+      "Apply JavaScript Basics in real projects",
+      "Master JavaScript Basics best practices"
+    ],
+    "topics_to_learn": [
+      "Variables and Data Types",
+      "Functions",
+      "DOM Manipulation",
+      "Events",
+      "ES6+ Features"
+    ],
+    "recommended_articles": [
+      "JavaScript.info",
+      "MDN JavaScript Guide"
+    ],
+    "practice_resources": [
+      "JavaScript30",
+      "Exercism JavaScript Track"
+    ],
+    "projects": [
+      "Build a project using JavaScript Basics",
+      "Create a portfolio piece with JavaScript Basics"
+    ],
+    "next_topics": [
+      "Version Control (Git)"
+    ]
+  },
+  {
+    "title": "Version Control (Git)",
+    "slug": "version-control",
+    "roadmap": "frontend-developer",
+    "description": "Master Git for code versioning and collaboration",
+    "learning_objectives": [
+      "Understand Version Control (Git) fundamentals",
+      "Apply Version Control (Git) in real projects",
+      "Master Version Control (Git) best practices"
+    ],
+    "topics_to_learn": [
+      "Git Basics",
+      "Branching and Merging",
+      "GitHub/GitLab",
+      "Pull Requests"
+    ],
+    "recommended_articles": [
+      "Pro Git Book",
+      "Git Workflow Guide"
+    ],
+    "practice_resources": [
+      "Learn Git Branching",
+      "GitHub Learning Lab"
+    ],
+    "projects": [
+      "Build a project using Version Control (Git)",
+      "Create a portfolio piece with Version Control (Git)"
+    ],
+    "next_topics": [
+      "React.js"
+    ]
+  },
+  {
+    "title": "React.js",
+    "slug": "react-js",
+    "roadmap": "frontend-developer",
+    "description": "Build modern web applications with React",
+    "learning_objectives": [
+      "Understand React.js fundamentals",
+      "Apply React.js in real projects",
+      "Master React.js best practices"
+    ],
+    "topics_to_learn": [
+      "Components and Props",
+      "State and Lifecycle",
+      "Hooks",
+      "Context API",
+      "React Router"
+    ],
+    "recommended_articles": [
+      "React Official Docs",
+      "React Patterns"
+    ],
+    "practice_resources": [
+      "React Tutorial",
+      "Build React Projects"
+    ],
+    "projects": [
+      "Build a project using React.js",
+      "Create a portfolio piece with React.js"
+    ],
+    "next_topics": [
+      "State Management"
+    ]
+  },
+  {
+    "title": "State Management",
+    "slug": "state-management",
+    "roadmap": "frontend-developer",
+    "description": "Manage application state effectively",
+    "learning_objectives": [
+      "Understand State Management fundamentals",
+      "Apply State Management in real projects",
+      "Master State Management best practices"
+    ],
+    "topics_to_learn": [
+      "Redux",
+      "Redux Toolkit",
+      "Zustand",
+      "Recoil"
+    ],
+    "recommended_articles": [
+      "Redux Documentation",
+      "State Management Patterns"
+    ],
+    "practice_resources": [
+      "Redux Tutorial",
+      "State Management Examples"
+    ],
+    "projects": [
+      "Build a project using State Management",
+      "Create a portfolio piece with State Management"
+    ],
+    "next_topics": [
+      "TypeScript"
+    ]
+  },
+  {
+    "title": "TypeScript",
+    "slug": "typescript",
+    "roadmap": "frontend-developer",
+    "description": "Add type safety to JavaScript applications",
+    "learning_objectives": [
+      "Understand TypeScript fundamentals",
+      "Apply TypeScript in real projects",
+      "Master TypeScript best practices"
+    ],
+    "topics_to_learn": [
+      "Type Annotations",
+      "Interfaces",
+      "Generics",
+      "Advanced Types"
+    ],
+    "recommended_articles": [
+      "TypeScript Handbook",
+      "TypeScript Deep Dive"
+    ],
+    "practice_resources": [
+      "TypeScript Exercises",
+      "Type Challenges"
+    ],
+    "projects": [
+      "Build a project using TypeScript",
+      "Create a portfolio piece with TypeScript"
+    ],
+    "next_topics": [
+      "Testing"
+    ]
+  },
+  {
+    "title": "Testing",
+    "slug": "testing",
+    "roadmap": "frontend-developer",
+    "description": "Write tests for reliable applications",
+    "learning_objectives": [
+      "Understand Testing fundamentals",
+      "Apply Testing in real projects",
+      "Master Testing best practices"
+    ],
+    "topics_to_learn": [
+      "Unit Testing",
+      "Integration Testing",
+      "E2E Testing",
+      "Test-Driven Development"
+    ],
+    "recommended_articles": [
+      "Testing Best Practices",
+      "TDD Guide"
+    ],
+    "practice_resources": [
+      "Testing JavaScript",
+      "Cypress Tutorial"
+    ],
+    "projects": [
+      "Build a project using Testing",
+      "Create a portfolio piece with Testing"
+    ],
+    "next_topics": [
+      "Performance Optimization"
+    ]
+  },
+  {
+    "title": "Performance Optimization",
+    "slug": "performance-optimization",
+    "roadmap": "frontend-developer",
+    "description": "Optimize web application performance",
+    "learning_objectives": [
+      "Understand Performance Optimization fundamentals",
+      "Apply Performance Optimization in real projects",
+      "Master Performance Optimization best practices"
+    ],
+    "topics_to_learn": [
+      "Code Splitting",
+      "Lazy Loading",
+      "Memoization",
+      "Web Vitals"
+    ],
+    "recommended_articles": [
+      "Web Performance Guide",
+      "React Performance"
+    ],
+    "practice_resources": [
+      "Performance Optimization Course",
+      "Web Vitals Workshop"
+    ],
+    "projects": [
+      "Build a project using Performance Optimization",
+      "Create a portfolio piece with Performance Optimization"
+    ],
+    "next_topics": []
+  }
+]

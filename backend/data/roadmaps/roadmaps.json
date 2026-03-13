@@ -1,0 +1,58 @@
+[
+  {
+    "title": "Frontend Developer",
+    "slug": "frontend-developer",
+    "url": "/roadmap/frontend-developer",
+    "category": "Role-Based Roadmap",
+    "thumbnail": "/images/frontend.png",
+    "short_description": "Step by step guide to becoming a modern frontend developer"
+  },
+  {
+    "title": "Backend Developer",
+    "slug": "backend-developer",
+    "url": "/roadmap/backend-developer",
+    "category": "Role-Based Roadmap",
+    "thumbnail": "/images/backend.png",
+    "short_description": "Step by step guide to becoming a modern backend developer"
+  },
+  {
+    "title": "Full Stack Developer",
+    "slug": "full-stack-developer",
+    "url": "/roadmap/full-stack-developer",
+    "category": "Role-Based Roadmap",
+    "thumbnail": "/images/fullstack.png",
+    "short_description": "Step by step guide to becoming a modern full stack developer"
+  },
+  {
+    "title": "DevOps Engineer",
+    "slug": "devops-engineer",
+    "url": "/roadmap/devops-engineer",
+    "category": "Role-Based Roadmap",
+    "thumbnail": "/images/devops.png",
+    "short_description": "Step by step guide to becoming a modern DevOps engineer"
+  },
+  {
+    "title": "Data Scientist",
+    "slug": "data-scientist",
+    "url": "/roadmap/data-scientist",
+    "category": "Role-Based Roadmap",
+    "thumbnail": "/images/data-science.png",
+    "short_description": "Step by step guide to becoming a data scientist"
+  },
+  {
+    "title": "React Developer",
+    "slug": "react-developer",
+    "url": "/roadmap/react-developer",
+    "category": "Skill-Based Roadmap",
+    "thumbnail": "/images/react.png",
+    "short_description": "Everything you need to know to become a React developer"
+  },
+  {
+    "title": "Python Developer",
+    "slug": "python-developer",
+    "url": "/roadmap/python-developer",
+    "category": "Skill-Based Roadmap",
+    "thumbnail": "/images/python.png",
+    "short_description": "Step by step guide to becoming a Python developer"
+  }
+]
