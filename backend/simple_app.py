@@ -1857,7 +1857,7 @@ if __name__ == '__main__':
     print(f"✅ Roadmap Scraper: {ROADMAP_SCRAPER_AVAILABLE}")
     print(f"✅ Roles Data: {ROLES_AVAILABLE}")
     print("="*50)
-    print("📡 Starting server on http://localhost:5001")
+    print("📡 Starting server on http://localhost:8000")
     print("="*50 + "\n")
     
-    app.run(debug=True, host='0.0.0.0', port=5001)
+    app.run(debug=True, host='localhost', port=8000)

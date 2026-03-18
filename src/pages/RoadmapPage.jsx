@@ -37,7 +37,7 @@ const RoadmapPage = () => {
   const fetchRoadmapData = async (roadmapId) => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5001/api/roadmap/complete`);
+      const response = await fetch(`/api/roadmap/complete`);
       const data = await response.json();
       
       if (!data.error) {

@@ -25,7 +25,7 @@ const AdvancedFeatures = ({ learnerProfile, onFeaturesUpdate }) => {
       formData.append('file', resumeFile);
       formData.append('learner_id', Date.now());
 
-      const response = await fetch('http://localhost:5001/resume/upload', {
+      const response = await fetch('/resume/upload', {
         method: 'POST',
         body: formData,
       });
@@ -80,7 +80,7 @@ const AdvancedFeatures = ({ learnerProfile, onFeaturesUpdate }) => {
     setResults(null);
 
     try {
-      const response = await fetch('http://localhost:5001/github/analyze', {
+      const response = await fetch('/github/analyze', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -141,7 +141,7 @@ const AdvancedFeatures = ({ learnerProfile, onFeaturesUpdate }) => {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5001/api/recommend', {
+      const response = await fetch('/api/recommend', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

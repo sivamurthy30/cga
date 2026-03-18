@@ -93,7 +93,7 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
     setLoading(true);
     console.log('🗺️ Fetching roadmap for role:', role);
     try {
-      const response = await fetch(`http://localhost:5001/roadmap/role/${encodeURIComponent(role)}`);
+      const response = await fetch(`/roadmap/role/${encodeURIComponent(role)}`);
       const data = await response.json();
       
       console.log('📊 Roadmap data received:', data);

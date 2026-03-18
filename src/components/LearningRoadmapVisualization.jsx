@@ -36,7 +36,7 @@ const LearningRoadmapVisualization = ({ learnerProfile }) => {
 
   const fetchRoadmapData = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/roadmap/complete');
+      const response = await fetch('/api/roadmap/complete');
       const data = await response.json();
       
       if (data.error) {

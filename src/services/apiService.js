@@ -2,7 +2,7 @@
  * API Service for communicating with ML Backend
  */
 
-const API_BASE_URL = 'http://localhost:5001';
+const API_BASE_URL = '';
 
 class APIService {
   constructor() {

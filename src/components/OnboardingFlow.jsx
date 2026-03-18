@@ -215,7 +215,7 @@ const OnboardingFlow = ({ onComplete }) => {
       const formData = new FormData();
       formData.append('file', file);
       
-      const uploadResponse = await fetch('http://localhost:5001/resume/upload', {
+      const uploadResponse = await fetch('/resume/upload', {
         method: 'POST',
         body: formData
       });
@@ -229,7 +229,7 @@ const OnboardingFlow = ({ onComplete }) => {
       
       // Step 2: Get AI role suggestion (with fallback)
       try {
-        const suggestionResponse = await fetch('http://localhost:5001/ai/suggest-role', {
+        const suggestionResponse = await fetch('/ai/suggest-role', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -286,7 +286,7 @@ const OnboardingFlow = ({ onComplete }) => {
     setError(null);
     
     try {
-      const response = await fetch('http://localhost:5001/github/analyze', {
+      const response = await fetch('/github/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -304,7 +304,7 @@ const OnboardingFlow = ({ onComplete }) => {
       
       // Get AI role suggestion based on GitHub skills
       try {
-        const suggestionResponse = await fetch('http://localhost:5001/ai/suggest-role', {
+        const suggestionResponse = await fetch('/ai/suggest-role', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

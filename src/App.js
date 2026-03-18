@@ -71,7 +71,7 @@ function App() {
     
     if (authToken && userId) {
       // Verify token with backend
-      fetch('http://localhost:5001/api/auth/verify', {
+      fetch('/api/auth/verify', {
         headers: {
           'Authorization': `Bearer ${authToken}`
         }
@@ -150,7 +150,7 @@ function App() {
     
     // Call logout endpoint
     if (authToken) {
-      fetch('http://localhost:5001/api/auth/logout', {
+      fetch('/api/auth/logout', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${authToken}`

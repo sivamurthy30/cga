@@ -32,7 +32,7 @@ const Auth = ({ onAuthSuccess }) => {
 
     try {
       // Try to login with demo account
-      const response = await fetch('http://localhost:5001/api/auth/login', {
+      const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -46,7 +46,7 @@ const Auth = ({ onAuthSuccess }) => {
       if (!response.ok) {
         // If demo account doesn't exist, create it
         if (response.status === 401) {
-          const signupResponse = await fetch('http://localhost:5001/api/auth/signup', {
+          const signupResponse = await fetch('/api/auth/signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -138,7 +138,7 @@ const Auth = ({ onAuthSuccess }) => {
 
     try {
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/signup';
-      const response = await fetch(`http://localhost:5001${endpoint}`, {
+      const response = await fetch(`${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
