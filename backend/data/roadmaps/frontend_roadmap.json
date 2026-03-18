@@ -1,0 +1,609 @@
+{
+  "title": "Frontend Developer",
+  "slug": "frontend-developer",
+  "description": "Frontend development involves creating the user interface and user experience of web applications. This comprehensive roadmap covers everything from basic HTML/CSS to advanced frameworks, tools, and best practices used in modern web development.",
+  "sections": [
+    {
+      "level": "Foundation",
+      "topics": [
+        {
+          "id": "internet-basics",
+          "title": "How the Internet Works",
+          "slug": "internet-basics",
+          "level": "foundation",
+          "description": "Understand HTTP, DNS, browsers, and how the web works",
+          "subtopics": [
+            "HTTP/HTTPS Protocol",
+            "DNS and Domain Names",
+            "Browsers and How They Work",
+            "Hosting and Servers"
+          ],
+          "tools": [
+            "Chrome DevTools",
+            "Postman"
+          ],
+          "articles": [
+            "How the Web Works - MDN",
+            "HTTP Protocol Explained"
+          ],
+          "practice_links": [
+            "HTTP Status Codes Quiz",
+            "DNS Lookup Practice"
+          ]
+        },
+        {
+          "id": "html-basics",
+          "title": "HTML Fundamentals",
+          "slug": "html-basics",
+          "level": "foundation",
+          "description": "Learn HTML structure, semantic elements, and accessibility",
+          "subtopics": [
+            "HTML Document Structure",
+            "Semantic HTML5 Elements",
+            "Forms and Input Types",
+            "Tables and Lists",
+            "Accessibility (ARIA)",
+            "SEO Basics"
+          ],
+          "tools": [
+            "VS Code",
+            "HTML Validator"
+          ],
+          "articles": [
+            "MDN HTML Guide",
+            "Semantic HTML Best Practices",
+            "Web Accessibility Guide"
+          ],
+          "practice_links": [
+            "FreeCodeCamp HTML Course",
+            "HTML Exercises",
+            "Build a Portfolio Page"
+          ]
+        },
+        {
+          "id": "css-fundamentals",
+          "title": "CSS Fundamentals",
+          "slug": "css-fundamentals",
+          "level": "foundation",
+          "description": "Master CSS styling, layouts, and responsive design",
+          "subtopics": [
+            "CSS Selectors and Specificity",
+            "Box Model",
+            "Positioning",
+            "Flexbox Layout",
+            "CSS Grid",
+            "Responsive Design",
+            "Media Queries",
+            "CSS Variables"
+          ],
+          "tools": [
+            "CSS Grid Generator",
+            "Flexbox Playground",
+            "Can I Use"
+          ],
+          "articles": [
+            "CSS Tricks Complete Guide",
+            "Modern CSS Layouts",
+            "Responsive Web Design"
+          ],
+          "practice_links": [
+            "CSS Diner",
+            "Flexbox Froggy",
+            "Grid Garden",
+            "Build Responsive Layouts"
+          ]
+        },
+        {
+          "id": "javascript-basics",
+          "title": "JavaScript Fundamentals",
+          "slug": "javascript-basics",
+          "level": "foundation",
+          "description": "Learn JavaScript core concepts and DOM manipulation",
+          "subtopics": [
+            "Variables and Data Types",
+            "Functions and Scope",
+            "Arrays and Objects",
+            "DOM Manipulation",
+            "Events and Event Handling",
+            "ES6+ Features",
+            "Async JavaScript",
+            "Promises and Async/Await"
+          ],
+          "tools": [
+            "Browser Console",
+            "Node.js",
+            "ESLint"
+          ],
+          "articles": [
+            "JavaScript.info",
+            "MDN JavaScript Guide",
+            "You Don't Know JS"
+          ],
+          "practice_links": [
+            "JavaScript30",
+            "Exercism JavaScript Track",
+            "LeetCode Easy Problems"
+          ]
+        }
+      ]
+    },
+    {
+      "level": "Beginner",
+      "topics": [
+        {
+          "id": "version-control",
+          "title": "Version Control (Git)",
+          "slug": "version-control",
+          "level": "beginner",
+          "description": "Master Git for code versioning and collaboration",
+          "subtopics": [
+            "Git Basics (init, add, commit)",
+            "Branching and Merging",
+            "GitHub/GitLab/Bitbucket",
+            "Pull Requests and Code Review",
+            "Git Workflows",
+            "Resolving Conflicts"
+          ],
+          "tools": [
+            "Git",
+            "GitHub",
+            "GitLab",
+            "GitHub Desktop"
+          ],
+          "articles": [
+            "Pro Git Book",
+            "Git Workflow Guide",
+            "GitHub Flow"
+          ],
+          "practice_links": [
+            "Learn Git Branching",
+            "GitHub Learning Lab",
+            "Git Exercises"
+          ]
+        },
+        {
+          "id": "package-managers",
+          "title": "Package Managers",
+          "slug": "package-managers",
+          "level": "beginner",
+          "description": "Learn npm, yarn, and package management",
+          "subtopics": [
+            "npm Basics",
+            "package.json",
+            "Installing Packages",
+            "Yarn",
+            "pnpm",
+            "Semantic Versioning"
+          ],
+          "tools": [
+            "npm",
+            "Yarn",
+            "pnpm"
+          ],
+          "articles": [
+            "npm Documentation",
+            "Package Management Guide"
+          ],
+          "practice_links": [
+            "Create npm Package",
+            "Manage Dependencies"
+          ]
+        },
+        {
+          "id": "css-preprocessors",
+          "title": "CSS Preprocessors",
+          "slug": "css-preprocessors",
+          "level": "beginner",
+          "description": "Use Sass/SCSS for advanced CSS",
+          "subtopics": [
+            "Sass/SCSS Syntax",
+            "Variables and Nesting",
+            "Mixins and Functions",
+            "Partials and Imports",
+            "Less (Alternative)"
+          ],
+          "tools": [
+            "Sass",
+            "Less",
+            "PostCSS"
+          ],
+          "articles": [
+            "Sass Guide",
+            "CSS Preprocessors Comparison"
+          ],
+          "practice_links": [
+            "Sass Exercises",
+            "Build with Sass"
+          ]
+        },
+        {
+          "id": "build-tools",
+          "title": "Build Tools",
+          "slug": "build-tools",
+          "level": "beginner",
+          "description": "Learn Webpack, Vite, and build processes",
+          "subtopics": [
+            "Module Bundlers",
+            "Webpack Basics",
+            "Vite",
+            "Parcel",
+            "Task Runners",
+            "Code Splitting"
+          ],
+          "tools": [
+            "Webpack",
+            "Vite",
+            "Parcel",
+            "Rollup"
+          ],
+          "articles": [
+            "Webpack Documentation",
+            "Vite Guide",
+            "Modern Build Tools"
+          ],
+          "practice_links": [
+            "Configure Webpack",
+            "Build Tool Comparison"
+          ]
+        }
+      ]
+    },
+    {
+      "level": "Intermediate",
+      "topics": [
+        {
+          "id": "react-js",
+          "title": "React.js",
+          "slug": "react-js",
+          "level": "intermediate",
+          "description": "Build modern web applications with React",
+          "subtopics": [
+            "Components and Props",
+            "State and Lifecycle",
+            "Hooks (useState, useEffect, etc.)",
+            "Context API",
+            "React Router",
+            "Forms and Validation",
+            "Performance Optimization",
+            "Custom Hooks"
+          ],
+          "tools": [
+            "Create React App",
+            "React DevTools",
+            "Vite"
+          ],
+          "articles": [
+            "React Official Docs",
+            "React Patterns",
+            "React Best Practices"
+          ],
+          "practice_links": [
+            "React Tutorial",
+            "Build React Projects",
+            "React Challenges"
+          ]
+        },
+        {
+          "id": "state-management",
+          "title": "State Management",
+          "slug": "state-management",
+          "level": "intermediate",
+          "description": "Manage application state effectively",
+          "subtopics": [
+            "Redux",
+            "Redux Toolkit",
+            "Zustand",
+            "Recoil",
+            "MobX",
+            "Context API Patterns"
+          ],
+          "tools": [
+            "Redux DevTools",
+            "Zustand",
+            "Recoil"
+          ],
+          "articles": [
+            "Redux Documentation",
+            "State Management Patterns",
+            "When to Use Redux"
+          ],
+          "practice_links": [
+            "Redux Tutorial",
+            "State Management Examples",
+            "Build Todo App with Redux"
+          ]
+        },
+        {
+          "id": "api-integration",
+          "title": "API Integration",
+          "slug": "api-integration",
+          "level": "intermediate",
+          "description": "Fetch and manage data from APIs",
+          "subtopics": [
+            "REST APIs",
+            "Fetch API",
+            "Axios",
+            "GraphQL",
+            "Apollo Client",
+            "React Query",
+            "SWR",
+            "Error Handling"
+          ],
+          "tools": [
+            "Axios",
+            "React Query",
+            "Apollo Client",
+            "Postman"
+          ],
+          "articles": [
+            "REST API Best Practices",
+            "GraphQL Guide",
+            "Data Fetching in React"
+          ],
+          "practice_links": [
+            "Build API Client",
+            "GraphQL Tutorial",
+            "API Integration Projects"
+          ]
+        },
+        {
+          "id": "styling-solutions",
+          "title": "Modern CSS Solutions",
+          "slug": "styling-solutions",
+          "level": "intermediate",
+          "description": "CSS-in-JS and modern styling approaches",
+          "subtopics": [
+            "Styled Components",
+            "Emotion",
+            "CSS Modules",
+            "Tailwind CSS",
+            "Material-UI",
+            "Chakra UI",
+            "Theme Management"
+          ],
+          "tools": [
+            "Styled Components",
+            "Tailwind CSS",
+            "Material-UI"
+          ],
+          "articles": [
+            "CSS-in-JS Comparison",
+            "Tailwind CSS Guide",
+            "Component Libraries"
+          ],
+          "practice_links": [
+            "Style with Tailwind",
+            "Build UI Components",
+            "Theme Switching"
+          ]
+        }
+      ]
+    },
+    {
+      "level": "Advanced",
+      "topics": [
+        {
+          "id": "typescript",
+          "title": "TypeScript",
+          "slug": "typescript",
+          "level": "advanced",
+          "description": "Add type safety to JavaScript applications",
+          "subtopics": [
+            "Type Annotations",
+            "Interfaces and Types",
+            "Generics",
+            "Advanced Types",
+            "TypeScript with React",
+            "Type Guards",
+            "Utility Types"
+          ],
+          "tools": [
+            "TypeScript Compiler",
+            "TSConfig",
+            "TS-Node"
+          ],
+          "articles": [
+            "TypeScript Handbook",
+            "TypeScript Deep Dive",
+            "React TypeScript Cheatsheet"
+          ],
+          "practice_links": [
+            "TypeScript Exercises",
+            "Type Challenges",
+            "Convert JS to TS"
+          ]
+        },
+        {
+          "id": "testing",
+          "title": "Testing",
+          "slug": "testing",
+          "level": "advanced",
+          "description": "Write tests for reliable applications",
+          "subtopics": [
+            "Unit Testing",
+            "Integration Testing",
+            "E2E Testing",
+            "Jest",
+            "React Testing Library",
+            "Cypress",
+            "Playwright",
+            "Test-Driven Development"
+          ],
+          "tools": [
+            "Jest",
+            "React Testing Library",
+            "Cypress",
+            "Playwright"
+          ],
+          "articles": [
+            "Testing Best Practices",
+            "TDD Guide",
+            "Testing React Applications"
+          ],
+          "practice_links": [
+            "Testing JavaScript",
+            "Cypress Tutorial",
+            "Write Test Suites"
+          ]
+        },
+        {
+          "id": "performance-optimization",
+          "title": "Performance Optimization",
+          "slug": "performance-optimization",
+          "level": "advanced",
+          "description": "Optimize web application performance",
+          "subtopics": [
+            "Code Splitting",
+            "Lazy Loading",
+            "Memoization",
+            "Web Vitals",
+            "Image Optimization",
+            "Bundle Size Optimization",
+            "Caching Strategies",
+            "Performance Monitoring"
+          ],
+          "tools": [
+            "Lighthouse",
+            "WebPageTest",
+            "Bundle Analyzer"
+          ],
+          "articles": [
+            "Web Performance Guide",
+            "React Performance",
+            "Core Web Vitals"
+          ],
+          "practice_links": [
+            "Performance Optimization Course",
+            "Web Vitals Workshop",
+            "Optimize Real App"
+          ]
+        },
+        {
+          "id": "ssr-ssg",
+          "title": "SSR & SSG",
+          "slug": "ssr-ssg",
+          "level": "advanced",
+          "description": "Server-Side Rendering and Static Site Generation",
+          "subtopics": [
+            "Next.js",
+            "Server-Side Rendering",
+            "Static Site Generation",
+            "Incremental Static Regeneration",
+            "Gatsby",
+            "Remix",
+            "SEO Optimization"
+          ],
+          "tools": [
+            "Next.js",
+            "Gatsby",
+            "Remix"
+          ],
+          "articles": [
+            "Next.js Documentation",
+            "SSR vs SSG vs CSR",
+            "Modern Rendering Patterns"
+          ],
+          "practice_links": [
+            "Build with Next.js",
+            "Gatsby Tutorial",
+            "SSR Project"
+          ]
+        },
+        {
+          "id": "pwa",
+          "title": "Progressive Web Apps",
+          "slug": "pwa",
+          "level": "advanced",
+          "description": "Build installable web applications",
+          "subtopics": [
+            "Service Workers",
+            "Web App Manifest",
+            "Offline Functionality",
+            "Push Notifications",
+            "App Shell Pattern",
+            "Workbox"
+          ],
+          "tools": [
+            "Workbox",
+            "Lighthouse",
+            "PWA Builder"
+          ],
+          "articles": [
+            "PWA Guide",
+            "Service Workers Explained",
+            "Building PWAs"
+          ],
+          "practice_links": [
+            "Build a PWA",
+            "Service Worker Tutorial",
+            "PWA Checklist"
+          ]
+        },
+        {
+          "id": "web-security",
+          "title": "Web Security",
+          "slug": "web-security",
+          "level": "advanced",
+          "description": "Secure your web applications",
+          "subtopics": [
+            "HTTPS and SSL",
+            "CORS",
+            "XSS Prevention",
+            "CSRF Protection",
+            "Content Security Policy",
+            "Authentication",
+            "Authorization",
+            "OWASP Top 10"
+          ],
+          "tools": [
+            "OWASP ZAP",
+            "Snyk",
+            "npm audit"
+          ],
+          "articles": [
+            "Web Security Guide",
+            "OWASP Top 10",
+            "Secure Coding Practices"
+          ],
+          "practice_links": [
+            "Security Challenges",
+            "Secure Your App",
+            "Security Audit"
+          ]
+        },
+        {
+          "id": "ci-cd",
+          "title": "CI/CD",
+          "slug": "ci-cd",
+          "level": "advanced",
+          "description": "Automate deployment and testing",
+          "subtopics": [
+            "GitHub Actions",
+            "GitLab CI",
+            "Jenkins",
+            "Automated Testing",
+            "Deployment Strategies",
+            "Docker",
+            "Vercel/Netlify"
+          ],
+          "tools": [
+            "GitHub Actions",
+            "Docker",
+            "Vercel",
+            "Netlify"
+          ],
+          "articles": [
+            "CI/CD Best Practices",
+            "GitHub Actions Guide",
+            "Deployment Automation"
+          ],
+          "practice_links": [
+            "Setup CI/CD Pipeline",
+            "Automate Deployment",
+            "Docker Tutorial"
+          ]
+        }
+      ]
+    }
+  ]
+}

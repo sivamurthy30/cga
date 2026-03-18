@@ -5,7 +5,9 @@
     "url": "/roadmap/frontend-developer",
     "category": "Role-Based Roadmap",
     "thumbnail": "/images/frontend.png",
-    "short_description": "Step by step guide to becoming a modern frontend developer"
+    "short_description": "Step by step guide to becoming a modern frontend developer",
+    "difficulty": "Beginner Friendly",
+    "duration": "6-12 months"
   },
   {
     "title": "Backend Developer",
@@ -13,7 +15,9 @@
     "url": "/roadmap/backend-developer",
     "category": "Role-Based Roadmap",
     "thumbnail": "/images/backend.png",
-    "short_description": "Step by step guide to becoming a modern backend developer"
+    "short_description": "Step by step guide to becoming a modern backend developer",
+    "difficulty": "Intermediate",
+    "duration": "8-14 months"
   },
   {
     "title": "Full Stack Developer",
@@ -21,7 +25,9 @@
     "url": "/roadmap/full-stack-developer",
     "category": "Role-Based Roadmap",
     "thumbnail": "/images/fullstack.png",
-    "short_description": "Step by step guide to becoming a modern full stack developer"
+    "short_description": "Step by step guide to becoming a modern full stack developer",
+    "difficulty": "Advanced",
+    "duration": "12-18 months"
   },
   {
     "title": "DevOps Engineer",
@@ -29,7 +35,9 @@
     "url": "/roadmap/devops-engineer",
     "category": "Role-Based Roadmap",
     "thumbnail": "/images/devops.png",
-    "short_description": "Step by step guide to becoming a modern DevOps engineer"
+    "short_description": "Step by step guide to becoming a modern DevOps engineer",
+    "difficulty": "Advanced",
+    "duration": "10-16 months"
   },
   {
     "title": "Data Scientist",
@@ -37,7 +45,59 @@
     "url": "/roadmap/data-scientist",
     "category": "Role-Based Roadmap",
     "thumbnail": "/images/data-science.png",
-    "short_description": "Step by step guide to becoming a data scientist"
+    "short_description": "Step by step guide to becoming a data scientist",
+    "difficulty": "Advanced",
+    "duration": "12-18 months"
+  },
+  {
+    "title": "Mobile Developer",
+    "slug": "mobile-developer",
+    "url": "/roadmap/mobile-developer",
+    "category": "Role-Based Roadmap",
+    "thumbnail": "/images/mobile.png",
+    "short_description": "Build native and cross-platform mobile applications",
+    "difficulty": "Intermediate",
+    "duration": "8-12 months"
+  },
+  {
+    "title": "Machine Learning Engineer",
+    "slug": "ml-engineer",
+    "url": "/roadmap/ml-engineer",
+    "category": "Role-Based Roadmap",
+    "thumbnail": "/images/ml.png",
+    "short_description": "Build and deploy machine learning models",
+    "difficulty": "Advanced",
+    "duration": "14-20 months"
+  },
+  {
+    "title": "Cloud Architect",
+    "slug": "cloud-architect",
+    "url": "/roadmap/cloud-architect",
+    "category": "Role-Based Roadmap",
+    "thumbnail": "/images/cloud.png",
+    "short_description": "Design and manage cloud infrastructure",
+    "difficulty": "Advanced",
+    "duration": "12-18 months"
+  },
+  {
+    "title": "Security Engineer",
+    "slug": "security-engineer",
+    "url": "/roadmap/security-engineer",
+    "category": "Role-Based Roadmap",
+    "thumbnail": "/images/security.png",
+    "short_description": "Protect systems and data from cyber threats",
+    "difficulty": "Advanced",
+    "duration": "12-16 months"
+  },
+  {
+    "title": "UI/UX Designer",
+    "slug": "ui-ux-designer",
+    "url": "/roadmap/ui-ux-designer",
+    "category": "Role-Based Roadmap",
+    "thumbnail": "/images/design.png",
+    "short_description": "Design beautiful and user-friendly interfaces",
+    "difficulty": "Beginner Friendly",
+    "duration": "6-10 months"
   },
   {
     "title": "React Developer",
@@ -45,7 +105,9 @@
     "url": "/roadmap/react-developer",
     "category": "Skill-Based Roadmap",
     "thumbnail": "/images/react.png",
-    "short_description": "Everything you need to know to become a React developer"
+    "short_description": "Master React.js and build modern web applications",
+    "difficulty": "Intermediate",
+    "duration": "4-6 months"
   },
   {
     "title": "Python Developer",
@@ -53,6 +115,88 @@
     "url": "/roadmap/python-developer",
     "category": "Skill-Based Roadmap",
     "thumbnail": "/images/python.png",
-    "short_description": "Step by step guide to becoming a Python developer"
+    "short_description": "Learn Python programming from basics to advanced",
+    "difficulty": "Beginner Friendly",
+    "duration": "5-8 months"
+  },
+  {
+    "title": "Node.js Developer",
+    "slug": "nodejs-developer",
+    "url": "/roadmap/nodejs-developer",
+    "category": "Skill-Based Roadmap",
+    "thumbnail": "/images/nodejs.png",
+    "short_description": "Build scalable backend applications with Node.js",
+    "difficulty": "Intermediate",
+    "duration": "4-7 months"
+  },
+  {
+    "title": "Docker & Kubernetes",
+    "slug": "docker-kubernetes",
+    "url": "/roadmap/docker-kubernetes",
+    "category": "Skill-Based Roadmap",
+    "thumbnail": "/images/docker.png",
+    "short_description": "Master containerization and orchestration",
+    "difficulty": "Intermediate",
+    "duration": "3-5 months"
+  },
+  {
+    "title": "AWS Cloud",
+    "slug": "aws-cloud",
+    "url": "/roadmap/aws-cloud",
+    "category": "Skill-Based Roadmap",
+    "thumbnail": "/images/aws.png",
+    "short_description": "Learn Amazon Web Services cloud platform",
+    "difficulty": "Intermediate",
+    "duration": "5-8 months"
+  },
+  {
+    "title": "TypeScript",
+    "slug": "typescript",
+    "url": "/roadmap/typescript",
+    "category": "Skill-Based Roadmap",
+    "thumbnail": "/images/typescript.png",
+    "short_description": "Add type safety to JavaScript applications",
+    "difficulty": "Intermediate",
+    "duration": "2-4 months"
+  },
+  {
+    "title": "GraphQL",
+    "slug": "graphql",
+    "url": "/roadmap/graphql",
+    "category": "Skill-Based Roadmap",
+    "thumbnail": "/images/graphql.png",
+    "short_description": "Build efficient APIs with GraphQL",
+    "difficulty": "Intermediate",
+    "duration": "2-3 months"
+  },
+  {
+    "title": "PostgreSQL",
+    "slug": "postgresql",
+    "url": "/roadmap/postgresql",
+    "category": "Skill-Based Roadmap",
+    "thumbnail": "/images/postgresql.png",
+    "short_description": "Master PostgreSQL database management",
+    "difficulty": "Intermediate",
+    "duration": "3-5 months"
+  },
+  {
+    "title": "MongoDB",
+    "slug": "mongodb",
+    "url": "/roadmap/mongodb",
+    "category": "Skill-Based Roadmap",
+    "thumbnail": "/images/mongodb.png",
+    "short_description": "Learn NoSQL database with MongoDB",
+    "difficulty": "Beginner Friendly",
+    "duration": "2-4 months"
+  },
+  {
+    "title": "Vue.js",
+    "slug": "vuejs",
+    "url": "/roadmap/vuejs",
+    "category": "Skill-Based Roadmap",
+    "thumbnail": "/images/vue.png",
+    "short_description": "Build progressive web applications with Vue.js",
+    "difficulty": "Beginner Friendly",
+    "duration": "3-5 months"
   }
 ]

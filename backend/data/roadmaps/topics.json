@@ -1,31 +1,67 @@
 [
   {
-    "title": "HTML Basics",
+    "title": "How the Internet Works",
+    "slug": "internet-basics",
+    "roadmap": "frontend-developer",
+    "description": "Understand HTTP, DNS, browsers, and how the web works",
+    "learning_objectives": [
+      "Understand How the Internet Works fundamentals",
+      "Apply How the Internet Works in real projects",
+      "Master How the Internet Works best practices"
+    ],
+    "topics_to_learn": [
+      "HTTP/HTTPS Protocol",
+      "DNS and Domain Names",
+      "Browsers and How They Work",
+      "Hosting and Servers"
+    ],
+    "recommended_articles": [
+      "How the Web Works - MDN",
+      "HTTP Protocol Explained"
+    ],
+    "practice_resources": [
+      "HTTP Status Codes Quiz",
+      "DNS Lookup Practice"
+    ],
+    "projects": [
+      "Build a project using How the Internet Works",
+      "Create a portfolio piece with How the Internet Works"
+    ],
+    "next_topics": [
+      "HTML Fundamentals"
+    ]
+  },
+  {
+    "title": "HTML Fundamentals",
     "slug": "html-basics",
     "roadmap": "frontend-developer",
-    "description": "Learn HTML structure, semantic elements, and best practices",
+    "description": "Learn HTML structure, semantic elements, and accessibility",
     "learning_objectives": [
-      "Understand HTML Basics fundamentals",
-      "Apply HTML Basics in real projects",
-      "Master HTML Basics best practices"
+      "Understand HTML Fundamentals fundamentals",
+      "Apply HTML Fundamentals in real projects",
+      "Master HTML Fundamentals best practices"
     ],
     "topics_to_learn": [
       "HTML Document Structure",
-      "Semantic HTML",
-      "Forms and Validation",
-      "Accessibility Basics"
+      "Semantic HTML5 Elements",
+      "Forms and Input Types",
+      "Tables and Lists",
+      "Accessibility (ARIA)",
+      "SEO Basics"
     ],
     "recommended_articles": [
       "MDN HTML Guide",
-      "HTML Best Practices"
+      "Semantic HTML Best Practices",
+      "Web Accessibility Guide"
     ],
     "practice_resources": [
       "FreeCodeCamp HTML Course",
-      "HTML Exercises"
+      "HTML Exercises",
+      "Build a Portfolio Page"
     ],
     "projects": [
-      "Build a project using HTML Basics",
-      "Create a portfolio piece with HTML Basics"
+      "Build a project using HTML Fundamentals",
+      "Create a portfolio piece with HTML Fundamentals"
     ],
     "next_topics": [
       "CSS Fundamentals"
@@ -42,56 +78,67 @@
       "Master CSS Fundamentals best practices"
     ],
     "topics_to_learn": [
-      "CSS Selectors",
+      "CSS Selectors and Specificity",
       "Box Model",
-      "Flexbox",
-      "Grid Layout",
-      "Responsive Design"
+      "Positioning",
+      "Flexbox Layout",
+      "CSS Grid",
+      "Responsive Design",
+      "Media Queries",
+      "CSS Variables"
     ],
     "recommended_articles": [
-      "CSS Tricks Guide",
-      "Modern CSS Layouts"
+      "CSS Tricks Complete Guide",
+      "Modern CSS Layouts",
+      "Responsive Web Design"
     ],
     "practice_resources": [
       "CSS Diner",
-      "Flexbox Froggy"
+      "Flexbox Froggy",
+      "Grid Garden",
+      "Build Responsive Layouts"
     ],
     "projects": [
       "Build a project using CSS Fundamentals",
       "Create a portfolio piece with CSS Fundamentals"
     ],
     "next_topics": [
-      "JavaScript Basics"
+      "JavaScript Fundamentals"
     ]
   },
   {
-    "title": "JavaScript Basics",
+    "title": "JavaScript Fundamentals",
     "slug": "javascript-basics",
     "roadmap": "frontend-developer",
-    "description": "Learn JavaScript fundamentals and DOM manipulation",
+    "description": "Learn JavaScript core concepts and DOM manipulation",
     "learning_objectives": [
-      "Understand JavaScript Basics fundamentals",
-      "Apply JavaScript Basics in real projects",
-      "Master JavaScript Basics best practices"
+      "Understand JavaScript Fundamentals fundamentals",
+      "Apply JavaScript Fundamentals in real projects",
+      "Master JavaScript Fundamentals best practices"
     ],
     "topics_to_learn": [
       "Variables and Data Types",
-      "Functions",
+      "Functions and Scope",
+      "Arrays and Objects",
       "DOM Manipulation",
-      "Events",
-      "ES6+ Features"
+      "Events and Event Handling",
+      "ES6+ Features",
+      "Async JavaScript",
+      "Promises and Async/Await"
     ],
     "recommended_articles": [
       "JavaScript.info",
-      "MDN JavaScript Guide"
+      "MDN JavaScript Guide",
+      "You Don't Know JS"
     ],
     "practice_resources": [
       "JavaScript30",
-      "Exercism JavaScript Track"
+      "Exercism JavaScript Track",
+      "LeetCode Easy Problems"
     ],
     "projects": [
-      "Build a project using JavaScript Basics",
-      "Create a portfolio piece with JavaScript Basics"
+      "Build a project using JavaScript Fundamentals",
+      "Create a portfolio piece with JavaScript Fundamentals"
     ],
     "next_topics": [
       "Version Control (Git)"
@@ -108,22 +155,128 @@
       "Master Version Control (Git) best practices"
     ],
     "topics_to_learn": [
-      "Git Basics",
+      "Git Basics (init, add, commit)",
       "Branching and Merging",
-      "GitHub/GitLab",
-      "Pull Requests"
+      "GitHub/GitLab/Bitbucket",
+      "Pull Requests and Code Review",
+      "Git Workflows",
+      "Resolving Conflicts"
     ],
     "recommended_articles": [
       "Pro Git Book",
-      "Git Workflow Guide"
+      "Git Workflow Guide",
+      "GitHub Flow"
     ],
     "practice_resources": [
       "Learn Git Branching",
-      "GitHub Learning Lab"
+      "GitHub Learning Lab",
+      "Git Exercises"
     ],
     "projects": [
       "Build a project using Version Control (Git)",
       "Create a portfolio piece with Version Control (Git)"
+    ],
+    "next_topics": [
+      "Package Managers"
+    ]
+  },
+  {
+    "title": "Package Managers",
+    "slug": "package-managers",
+    "roadmap": "frontend-developer",
+    "description": "Learn npm, yarn, and package management",
+    "learning_objectives": [
+      "Understand Package Managers fundamentals",
+      "Apply Package Managers in real projects",
+      "Master Package Managers best practices"
+    ],
+    "topics_to_learn": [
+      "npm Basics",
+      "package.json",
+      "Installing Packages",
+      "Yarn",
+      "pnpm",
+      "Semantic Versioning"
+    ],
+    "recommended_articles": [
+      "npm Documentation",
+      "Package Management Guide"
+    ],
+    "practice_resources": [
+      "Create npm Package",
+      "Manage Dependencies"
+    ],
+    "projects": [
+      "Build a project using Package Managers",
+      "Create a portfolio piece with Package Managers"
+    ],
+    "next_topics": [
+      "CSS Preprocessors"
+    ]
+  },
+  {
+    "title": "CSS Preprocessors",
+    "slug": "css-preprocessors",
+    "roadmap": "frontend-developer",
+    "description": "Use Sass/SCSS for advanced CSS",
+    "learning_objectives": [
+      "Understand CSS Preprocessors fundamentals",
+      "Apply CSS Preprocessors in real projects",
+      "Master CSS Preprocessors best practices"
+    ],
+    "topics_to_learn": [
+      "Sass/SCSS Syntax",
+      "Variables and Nesting",
+      "Mixins and Functions",
+      "Partials and Imports",
+      "Less (Alternative)"
+    ],
+    "recommended_articles": [
+      "Sass Guide",
+      "CSS Preprocessors Comparison"
+    ],
+    "practice_resources": [
+      "Sass Exercises",
+      "Build with Sass"
+    ],
+    "projects": [
+      "Build a project using CSS Preprocessors",
+      "Create a portfolio piece with CSS Preprocessors"
+    ],
+    "next_topics": [
+      "Build Tools"
+    ]
+  },
+  {
+    "title": "Build Tools",
+    "slug": "build-tools",
+    "roadmap": "frontend-developer",
+    "description": "Learn Webpack, Vite, and build processes",
+    "learning_objectives": [
+      "Understand Build Tools fundamentals",
+      "Apply Build Tools in real projects",
+      "Master Build Tools best practices"
+    ],
+    "topics_to_learn": [
+      "Module Bundlers",
+      "Webpack Basics",
+      "Vite",
+      "Parcel",
+      "Task Runners",
+      "Code Splitting"
+    ],
+    "recommended_articles": [
+      "Webpack Documentation",
+      "Vite Guide",
+      "Modern Build Tools"
+    ],
+    "practice_resources": [
+      "Configure Webpack",
+      "Build Tool Comparison"
+    ],
+    "projects": [
+      "Build a project using Build Tools",
+      "Create a portfolio piece with Build Tools"
     ],
     "next_topics": [
       "React.js"
@@ -142,17 +295,22 @@
     "topics_to_learn": [
       "Components and Props",
       "State and Lifecycle",
-      "Hooks",
+      "Hooks (useState, useEffect, etc.)",
       "Context API",
-      "React Router"
+      "React Router",
+      "Forms and Validation",
+      "Performance Optimization",
+      "Custom Hooks"
     ],
     "recommended_articles": [
       "React Official Docs",
-      "React Patterns"
+      "React Patterns",
+      "React Best Practices"
     ],
     "practice_resources": [
       "React Tutorial",
-      "Build React Projects"
+      "Build React Projects",
+      "React Challenges"
     ],
     "projects": [
       "Build a project using React.js",
@@ -176,19 +334,98 @@
       "Redux",
       "Redux Toolkit",
       "Zustand",
-      "Recoil"
+      "Recoil",
+      "MobX",
+      "Context API Patterns"
     ],
     "recommended_articles": [
       "Redux Documentation",
-      "State Management Patterns"
+      "State Management Patterns",
+      "When to Use Redux"
     ],
     "practice_resources": [
       "Redux Tutorial",
-      "State Management Examples"
+      "State Management Examples",
+      "Build Todo App with Redux"
     ],
     "projects": [
       "Build a project using State Management",
       "Create a portfolio piece with State Management"
+    ],
+    "next_topics": [
+      "API Integration"
+    ]
+  },
+  {
+    "title": "API Integration",
+    "slug": "api-integration",
+    "roadmap": "frontend-developer",
+    "description": "Fetch and manage data from APIs",
+    "learning_objectives": [
+      "Understand API Integration fundamentals",
+      "Apply API Integration in real projects",
+      "Master API Integration best practices"
+    ],
+    "topics_to_learn": [
+      "REST APIs",
+      "Fetch API",
+      "Axios",
+      "GraphQL",
+      "Apollo Client",
+      "React Query",
+      "SWR",
+      "Error Handling"
+    ],
+    "recommended_articles": [
+      "REST API Best Practices",
+      "GraphQL Guide",
+      "Data Fetching in React"
+    ],
+    "practice_resources": [
+      "Build API Client",
+      "GraphQL Tutorial",
+      "API Integration Projects"
+    ],
+    "projects": [
+      "Build a project using API Integration",
+      "Create a portfolio piece with API Integration"
+    ],
+    "next_topics": [
+      "Modern CSS Solutions"
+    ]
+  },
+  {
+    "title": "Modern CSS Solutions",
+    "slug": "styling-solutions",
+    "roadmap": "frontend-developer",
+    "description": "CSS-in-JS and modern styling approaches",
+    "learning_objectives": [
+      "Understand Modern CSS Solutions fundamentals",
+      "Apply Modern CSS Solutions in real projects",
+      "Master Modern CSS Solutions best practices"
+    ],
+    "topics_to_learn": [
+      "Styled Components",
+      "Emotion",
+      "CSS Modules",
+      "Tailwind CSS",
+      "Material-UI",
+      "Chakra UI",
+      "Theme Management"
+    ],
+    "recommended_articles": [
+      "CSS-in-JS Comparison",
+      "Tailwind CSS Guide",
+      "Component Libraries"
+    ],
+    "practice_resources": [
+      "Style with Tailwind",
+      "Build UI Components",
+      "Theme Switching"
+    ],
+    "projects": [
+      "Build a project using Modern CSS Solutions",
+      "Create a portfolio piece with Modern CSS Solutions"
     ],
     "next_topics": [
       "TypeScript"
@@ -206,17 +443,22 @@
     ],
     "topics_to_learn": [
       "Type Annotations",
-      "Interfaces",
+      "Interfaces and Types",
       "Generics",
-      "Advanced Types"
+      "Advanced Types",
+      "TypeScript with React",
+      "Type Guards",
+      "Utility Types"
     ],
     "recommended_articles": [
       "TypeScript Handbook",
-      "TypeScript Deep Dive"
+      "TypeScript Deep Dive",
+      "React TypeScript Cheatsheet"
     ],
     "practice_resources": [
       "TypeScript Exercises",
-      "Type Challenges"
+      "Type Challenges",
+      "Convert JS to TS"
     ],
     "projects": [
       "Build a project using TypeScript",
@@ -240,15 +482,21 @@
       "Unit Testing",
       "Integration Testing",
       "E2E Testing",
+      "Jest",
+      "React Testing Library",
+      "Cypress",
+      "Playwright",
       "Test-Driven Development"
     ],
     "recommended_articles": [
       "Testing Best Practices",
-      "TDD Guide"
+      "TDD Guide",
+      "Testing React Applications"
     ],
     "practice_resources": [
       "Testing JavaScript",
-      "Cypress Tutorial"
+      "Cypress Tutorial",
+      "Write Test Suites"
     ],
     "projects": [
       "Build a project using Testing",
@@ -272,19 +520,173 @@
       "Code Splitting",
       "Lazy Loading",
       "Memoization",
-      "Web Vitals"
+      "Web Vitals",
+      "Image Optimization",
+      "Bundle Size Optimization",
+      "Caching Strategies",
+      "Performance Monitoring"
     ],
     "recommended_articles": [
       "Web Performance Guide",
-      "React Performance"
+      "React Performance",
+      "Core Web Vitals"
     ],
     "practice_resources": [
       "Performance Optimization Course",
-      "Web Vitals Workshop"
+      "Web Vitals Workshop",
+      "Optimize Real App"
     ],
     "projects": [
       "Build a project using Performance Optimization",
       "Create a portfolio piece with Performance Optimization"
+    ],
+    "next_topics": [
+      "SSR & SSG"
+    ]
+  },
+  {
+    "title": "SSR & SSG",
+    "slug": "ssr-ssg",
+    "roadmap": "frontend-developer",
+    "description": "Server-Side Rendering and Static Site Generation",
+    "learning_objectives": [
+      "Understand SSR & SSG fundamentals",
+      "Apply SSR & SSG in real projects",
+      "Master SSR & SSG best practices"
+    ],
+    "topics_to_learn": [
+      "Next.js",
+      "Server-Side Rendering",
+      "Static Site Generation",
+      "Incremental Static Regeneration",
+      "Gatsby",
+      "Remix",
+      "SEO Optimization"
+    ],
+    "recommended_articles": [
+      "Next.js Documentation",
+      "SSR vs SSG vs CSR",
+      "Modern Rendering Patterns"
+    ],
+    "practice_resources": [
+      "Build with Next.js",
+      "Gatsby Tutorial",
+      "SSR Project"
+    ],
+    "projects": [
+      "Build a project using SSR & SSG",
+      "Create a portfolio piece with SSR & SSG"
+    ],
+    "next_topics": [
+      "Progressive Web Apps"
+    ]
+  },
+  {
+    "title": "Progressive Web Apps",
+    "slug": "pwa",
+    "roadmap": "frontend-developer",
+    "description": "Build installable web applications",
+    "learning_objectives": [
+      "Understand Progressive Web Apps fundamentals",
+      "Apply Progressive Web Apps in real projects",
+      "Master Progressive Web Apps best practices"
+    ],
+    "topics_to_learn": [
+      "Service Workers",
+      "Web App Manifest",
+      "Offline Functionality",
+      "Push Notifications",
+      "App Shell Pattern",
+      "Workbox"
+    ],
+    "recommended_articles": [
+      "PWA Guide",
+      "Service Workers Explained",
+      "Building PWAs"
+    ],
+    "practice_resources": [
+      "Build a PWA",
+      "Service Worker Tutorial",
+      "PWA Checklist"
+    ],
+    "projects": [
+      "Build a project using Progressive Web Apps",
+      "Create a portfolio piece with Progressive Web Apps"
+    ],
+    "next_topics": [
+      "Web Security"
+    ]
+  },
+  {
+    "title": "Web Security",
+    "slug": "web-security",
+    "roadmap": "frontend-developer",
+    "description": "Secure your web applications",
+    "learning_objectives": [
+      "Understand Web Security fundamentals",
+      "Apply Web Security in real projects",
+      "Master Web Security best practices"
+    ],
+    "topics_to_learn": [
+      "HTTPS and SSL",
+      "CORS",
+      "XSS Prevention",
+      "CSRF Protection",
+      "Content Security Policy",
+      "Authentication",
+      "Authorization",
+      "OWASP Top 10"
+    ],
+    "recommended_articles": [
+      "Web Security Guide",
+      "OWASP Top 10",
+      "Secure Coding Practices"
+    ],
+    "practice_resources": [
+      "Security Challenges",
+      "Secure Your App",
+      "Security Audit"
+    ],
+    "projects": [
+      "Build a project using Web Security",
+      "Create a portfolio piece with Web Security"
+    ],
+    "next_topics": [
+      "CI/CD"
+    ]
+  },
+  {
+    "title": "CI/CD",
+    "slug": "ci-cd",
+    "roadmap": "frontend-developer",
+    "description": "Automate deployment and testing",
+    "learning_objectives": [
+      "Understand CI/CD fundamentals",
+      "Apply CI/CD in real projects",
+      "Master CI/CD best practices"
+    ],
+    "topics_to_learn": [
+      "GitHub Actions",
+      "GitLab CI",
+      "Jenkins",
+      "Automated Testing",
+      "Deployment Strategies",
+      "Docker",
+      "Vercel/Netlify"
+    ],
+    "recommended_articles": [
+      "CI/CD Best Practices",
+      "GitHub Actions Guide",
+      "Deployment Automation"
+    ],
+    "practice_resources": [
+      "Setup CI/CD Pipeline",
+      "Automate Deployment",
+      "Docker Tutorial"
+    ],
+    "projects": [
+      "Build a project using CI/CD",
+      "Create a portfolio piece with CI/CD"
     ],
     "next_topics": []
   }

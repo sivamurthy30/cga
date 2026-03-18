@@ -1717,6 +1717,136 @@ def resume_tip_model_status():
     })
 
 
+# ============================================
+# ROADMAP DATA API ENDPOINTS
+# ============================================
+
+@app.route('/api/roadmap/nodes', methods=['GET'])
+def get_roadmap_nodes():
+    """Get all roadmap nodes for visualization"""
+    try:
+        import json
+        nodes_path = os.path.join(PROJECT_ROOT, 'backend/data/roadmaps/roadmap_nodes.json')
+        
+        if not os.path.exists(nodes_path):
+            return jsonify({'error': 'Roadmap nodes not found'}), 404
+        
+        with open(nodes_path, 'r') as f:
+            nodes = json.load(f)
+        
+        return jsonify({
+            'nodes': nodes,
+            'total': len(nodes)
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/roadmap/edges', methods=['GET'])
+def get_roadmap_edges():
+    """Get all roadmap edges for visualization"""
+    try:
+        import json
+        edges_path = os.path.join(PROJECT_ROOT, 'backend/data/roadmaps/roadmap_edges.json')
+        
+        if not os.path.exists(edges_path):
+            return jsonify({'error': 'Roadmap edges not found'}), 404
+        
+        with open(edges_path, 'r') as f:
+            edges = json.load(f)
+        
+        return jsonify({
+            'edges': edges,
+            'total': len(edges)
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/roadmap/topics', methods=['GET'])
+def get_roadmap_topics():
+    """Get all topic details"""
+    try:
+        import json
+        topics_path = os.path.join(PROJECT_ROOT, 'backend/data/roadmaps/topics.json')
+        
+        if not os.path.exists(topics_path):
+            return jsonify({'error': 'Topics not found'}), 404
+        
+        with open(topics_path, 'r') as f:
+            topics = json.load(f)
+        
+        return jsonify({
+            'topics': topics,
+            'total': len(topics)
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/roadmap/topic/<slug>', methods=['GET'])
+def get_topic_detail(slug):
+    """Get detailed information for a specific topic"""
+    try:
+        import json
+        topics_path = os.path.join(PROJECT_ROOT, 'backend/data/roadmaps/topics.json')
+        
+        if not os.path.exists(topics_path):
+            return jsonify({'error': 'Topics not found'}), 404
+        
+        with open(topics_path, 'r') as f:
+            topics = json.load(f)
+        
+        # Find topic by slug
+        topic = next((t for t in topics if t['slug'] == slug), None)
+        
+        if not topic:
+            return jsonify({'error': f'Topic {slug} not found'}), 404
+        
+        return jsonify(topic)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/roadmap/complete', methods=['GET'])
+def get_complete_roadmap():
+    """Get complete roadmap data (nodes + edges + topics)"""
+    try:
+        import json
+        
+        nodes_path = os.path.join(PROJECT_ROOT, 'backend/data/roadmaps/roadmap_nodes.json')
+        edges_path = os.path.join(PROJECT_ROOT, 'backend/data/roadmaps/roadmap_edges.json')
+        topics_path = os.path.join(PROJECT_ROOT, 'backend/data/roadmaps/topics.json')
+        
+        nodes = []
+        edges = []
+        topics = []
+        
+        if os.path.exists(nodes_path):
+            with open(nodes_path, 'r') as f:
+                nodes = json.load(f)
+        
+        if os.path.exists(edges_path):
+            with open(edges_path, 'r') as f:
+                edges = json.load(f)
+        
+        if os.path.exists(topics_path):
+            with open(topics_path, 'r') as f:
+                topics = json.load(f)
+        
+        return jsonify({
+            'nodes': nodes,
+            'edges': edges,
+            'topics': topics,
+            'roadmap': 'frontend-developer',
+            'total_nodes': len(nodes),
+            'total_edges': len(edges),
+            'total_topics': len(topics)
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 if __name__ == '__main__':
     print("\n" + "="*50)
     print("🚀 Career Guidance Backend API")

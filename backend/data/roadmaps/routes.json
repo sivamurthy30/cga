@@ -21,11 +21,67 @@
   },
   {
     "type": "roadmap",
+    "path": "/roadmap/mobile-developer"
+  },
+  {
+    "type": "roadmap",
+    "path": "/roadmap/ml-engineer"
+  },
+  {
+    "type": "roadmap",
+    "path": "/roadmap/cloud-architect"
+  },
+  {
+    "type": "roadmap",
+    "path": "/roadmap/security-engineer"
+  },
+  {
+    "type": "roadmap",
+    "path": "/roadmap/ui-ux-designer"
+  },
+  {
+    "type": "roadmap",
     "path": "/roadmap/react-developer"
   },
   {
     "type": "roadmap",
     "path": "/roadmap/python-developer"
+  },
+  {
+    "type": "roadmap",
+    "path": "/roadmap/nodejs-developer"
+  },
+  {
+    "type": "roadmap",
+    "path": "/roadmap/docker-kubernetes"
+  },
+  {
+    "type": "roadmap",
+    "path": "/roadmap/aws-cloud"
+  },
+  {
+    "type": "roadmap",
+    "path": "/roadmap/typescript"
+  },
+  {
+    "type": "roadmap",
+    "path": "/roadmap/graphql"
+  },
+  {
+    "type": "roadmap",
+    "path": "/roadmap/postgresql"
+  },
+  {
+    "type": "roadmap",
+    "path": "/roadmap/mongodb"
+  },
+  {
+    "type": "roadmap",
+    "path": "/roadmap/vuejs"
+  },
+  {
+    "type": "topic",
+    "path": "/roadmap/frontend-developer/internet-basics"
   },
   {
     "type": "topic",
@@ -45,11 +101,31 @@
   },
   {
     "type": "topic",
+    "path": "/roadmap/frontend-developer/package-managers"
+  },
+  {
+    "type": "topic",
+    "path": "/roadmap/frontend-developer/css-preprocessors"
+  },
+  {
+    "type": "topic",
+    "path": "/roadmap/frontend-developer/build-tools"
+  },
+  {
+    "type": "topic",
     "path": "/roadmap/frontend-developer/react-js"
   },
   {
     "type": "topic",
     "path": "/roadmap/frontend-developer/state-management"
+  },
+  {
+    "type": "topic",
+    "path": "/roadmap/frontend-developer/api-integration"
+  },
+  {
+    "type": "topic",
+    "path": "/roadmap/frontend-developer/styling-solutions"
   },
   {
     "type": "topic",
@@ -62,5 +138,21 @@
   {
     "type": "topic",
     "path": "/roadmap/frontend-developer/performance-optimization"
+  },
+  {
+    "type": "topic",
+    "path": "/roadmap/frontend-developer/ssr-ssg"
+  },
+  {
+    "type": "topic",
+    "path": "/roadmap/frontend-developer/pwa"
+  },
+  {
+    "type": "topic",
+    "path": "/roadmap/frontend-developer/web-security"
+  },
+  {
+    "type": "topic",
+    "path": "/roadmap/frontend-developer/ci-cd"
   }
 ]

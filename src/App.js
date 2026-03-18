@@ -1,10 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './styles/DesignSystem.css';
 import './App.css';
 import Auth from './components/Auth';
 import InteractiveRoadmap from './components/InteractiveRoadmap';
+import LearningRoadmapVisualization from './components/LearningRoadmapVisualization';
 import OnboardingFlow from './components/OnboardingFlow';
 import SkillAssessmentQuiz from './components/SkillAssessmentQuiz';
+import DetailedSkillsAnalysis from './components/DetailedSkillsAnalysis';
+import RoadmapPage from './pages/RoadmapPage';
 import { gsap } from 'gsap';
 import { TextPlugin } from 'gsap/TextPlugin';
 
@@ -16,6 +20,7 @@ function App() {
   const [learnerProfile, setLearnerProfile] = useState(null);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showAssessment, setShowAssessment] = useState(false);
+  const [showSkillsAnalysis, setShowSkillsAnalysis] = useState(false);
   const [showRoadmap, setShowRoadmap] = useState(false);
   const titleRef = useRef(null);
 
@@ -204,12 +209,32 @@ function App() {
           setLearnerProfile(updatedProfile);
           localStorage.setItem('learnerProfile', JSON.stringify(updatedProfile));
           setShowAssessment(false);
-          setShowRoadmap(true);
+          setShowSkillsAnalysis(true);
         }}
         onClose={() => {
           // Skip assessment
           setShowAssessment(false);
+          setShowSkillsAnalysis(true);
+        }}
+      />
+    );
+  }
+
+  // Show detailed skills analysis after assessment
+  if (showSkillsAnalysis && learnerProfile) {
+    const skillsToAnalyze = learnerProfile.knownSkills || ['JavaScript', 'Python', 'React'];
+    
+    return (
+      <DetailedSkillsAnalysis
+        skills={skillsToAnalyze}
+        targetRole={learnerProfile.targetRole}
+        onNext={() => {
+          setShowSkillsAnalysis(false);
           setShowRoadmap(true);
+        }}
+        onBack={() => {
+          setShowSkillsAnalysis(false);
+          setShowAssessment(true);
         }}
       />
     );
@@ -218,27 +243,38 @@ function App() {
   // Show roadmap after assessment
   if (showRoadmap && learnerProfile) {
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1 ref={titleRef}>DEVA</h1>
-          <div className="header-controls">
-            <div className="user-info">
-              <span className="user-name">{currentUser?.name}</span>
-              <button 
-                className="logout-button"
-                onClick={handleLogout}
-                title="Logout"
-              >
-                🚪 Logout
-              </button>
+      <Router>
+        <Routes>
+          <Route path="/" element={<RoadmapPage learnerProfile={learnerProfile} />} />
+          <Route path="/roadmap" element={<RoadmapPage learnerProfile={learnerProfile} />} />
+          <Route path="/resources/:topicId" element={
+            <div className="App">
+              <header className="App-header">
+                <h1 ref={titleRef}>DEVA</h1>
+                <div className="header-controls">
+                  <div className="user-info">
+                    <span className="user-name">{currentUser?.name}</span>
+                    <button 
+                      className="logout-button"
+                      onClick={handleLogout}
+                      title="Logout"
+                    >
+                      🚪 Logout
+                    </button>
+                  </div>
+                </div>
+              </header>
+              <main className="App-main">
+                <div style={{ padding: '2rem', color: '#ffffff' }}>
+                  <h2>Resource Page</h2>
+                  <p>Topic resources will be displayed here</p>
+                </div>
+              </main>
             </div>
-          </div>
-        </header>
-
-        <main className="App-main">
-          <InteractiveRoadmap learnerProfile={learnerProfile} />
-        </main>
-      </div>
+          } />
+          <Route path="*" element={<Navigate to="/roadmap" replace />} />
+        </Routes>
+      </Router>
     );
   }
 

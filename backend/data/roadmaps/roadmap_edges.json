@@ -1,57 +1,127 @@
 [
   {
     "id": "e1",
+    "source": "internet-basics",
+    "target": "html-basics",
+    "type": "dependency",
+    "animated": true
+  },
+  {
+    "id": "e2",
     "source": "html-basics",
     "target": "css-fundamentals",
     "type": "dependency",
     "animated": true
   },
   {
-    "id": "e2",
+    "id": "e3",
     "source": "css-fundamentals",
     "target": "javascript-basics",
     "type": "dependency",
     "animated": true
   },
   {
-    "id": "e3",
+    "id": "e4",
     "source": "javascript-basics",
     "target": "version-control",
     "type": "dependency",
     "animated": true
   },
   {
-    "id": "e4",
+    "id": "e5",
     "source": "version-control",
+    "target": "package-managers",
+    "type": "dependency",
+    "animated": true
+  },
+  {
+    "id": "e6",
+    "source": "package-managers",
+    "target": "css-preprocessors",
+    "type": "dependency",
+    "animated": true
+  },
+  {
+    "id": "e7",
+    "source": "css-preprocessors",
+    "target": "build-tools",
+    "type": "dependency",
+    "animated": true
+  },
+  {
+    "id": "e8",
+    "source": "build-tools",
     "target": "react-js",
     "type": "dependency",
     "animated": true
   },
   {
-    "id": "e5",
+    "id": "e9",
     "source": "react-js",
     "target": "state-management",
     "type": "dependency",
     "animated": true
   },
   {
-    "id": "e6",
+    "id": "e10",
     "source": "state-management",
+    "target": "api-integration",
+    "type": "dependency",
+    "animated": true
+  },
+  {
+    "id": "e11",
+    "source": "api-integration",
+    "target": "styling-solutions",
+    "type": "dependency",
+    "animated": true
+  },
+  {
+    "id": "e12",
+    "source": "styling-solutions",
     "target": "typescript",
     "type": "dependency",
     "animated": true
   },
   {
-    "id": "e7",
+    "id": "e13",
     "source": "typescript",
     "target": "testing",
     "type": "dependency",
     "animated": true
   },
   {
-    "id": "e8",
+    "id": "e14",
     "source": "testing",
     "target": "performance-optimization",
+    "type": "dependency",
+    "animated": true
+  },
+  {
+    "id": "e15",
+    "source": "performance-optimization",
+    "target": "ssr-ssg",
+    "type": "dependency",
+    "animated": true
+  },
+  {
+    "id": "e16",
+    "source": "ssr-ssg",
+    "target": "pwa",
+    "type": "dependency",
+    "animated": true
+  },
+  {
+    "id": "e17",
+    "source": "pwa",
+    "target": "web-security",
+    "type": "dependency",
+    "animated": true
+  },
+  {
+    "id": "e18",
+    "source": "web-security",
+    "target": "ci-cd",
     "type": "dependency",
     "animated": true
   }

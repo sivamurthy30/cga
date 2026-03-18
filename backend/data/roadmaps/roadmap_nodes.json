@@ -1,35 +1,110 @@
 [
   {
-    "id": "html-basics",
-    "title": "HTML Basics",
-    "slug": "html-basics",
+    "id": "internet-basics",
+    "title": "How the Internet Works",
+    "slug": "internet-basics",
     "type": "core",
-    "level": "beginner",
-    "description": "Learn HTML structure, semantic elements, and best practices",
+    "level": "foundation",
+    "description": "Understand HTTP, DNS, browsers, and how the web works",
     "roadmap": "frontend-developer",
-    "link": "/roadmap/frontend-developer/html-basics",
+    "link": "/roadmap/frontend-developer/internet-basics",
     "position": {
-      "x": 200,
-      "y": 80
+      "x": -50.0,
+      "y": 100
     },
     "data": {
-      "title": "HTML Basics",
-      "level": "beginner",
-      "link": "/roadmap/frontend-developer/html-basics"
+      "title": "How the Internet Works",
+      "level": "foundation",
+      "link": "/roadmap/frontend-developer/internet-basics",
+      "subtopics": [
+        "HTTP/HTTPS Protocol",
+        "DNS and Domain Names",
+        "Browsers and How They Work",
+        "Hosting and Servers"
+      ],
+      "tools": [
+        "Chrome DevTools",
+        "Postman"
+      ]
     },
     "animation": {
       "initial": {
         "opacity": 0,
-        "scale": 0.8
+        "scale": 0.8,
+        "y": 20
       },
       "animate": {
         "opacity": 1,
-        "scale": 1
+        "scale": 1,
+        "y": 0
       },
       "transition": {
-        "duration": 0.4,
-        "delay": 0.0
+        "duration": 0.5,
+        "delay": 0.0,
+        "ease": "easeOut"
       }
+    },
+    "style": {
+      "background": "#e3f2fd",
+      "border": "2px solid #2196f3",
+      "borderRadius": "12px",
+      "padding": "16px",
+      "minWidth": "200px"
+    }
+  },
+  {
+    "id": "html-basics",
+    "title": "HTML Fundamentals",
+    "slug": "html-basics",
+    "type": "core",
+    "level": "foundation",
+    "description": "Learn HTML structure, semantic elements, and accessibility",
+    "roadmap": "frontend-developer",
+    "link": "/roadmap/frontend-developer/html-basics",
+    "position": {
+      "x": 250.0,
+      "y": 100
+    },
+    "data": {
+      "title": "HTML Fundamentals",
+      "level": "foundation",
+      "link": "/roadmap/frontend-developer/html-basics",
+      "subtopics": [
+        "HTML Document Structure",
+        "Semantic HTML5 Elements",
+        "Forms and Input Types",
+        "Tables and Lists",
+        "Accessibility (ARIA)",
+        "SEO Basics"
+      ],
+      "tools": [
+        "VS Code",
+        "HTML Validator"
+      ]
+    },
+    "animation": {
+      "initial": {
+        "opacity": 0,
+        "scale": 0.8,
+        "y": 20
+      },
+      "animate": {
+        "opacity": 1,
+        "scale": 1,
+        "y": 0
+      },
+      "transition": {
+        "duration": 0.5,
+        "delay": 0.1,
+        "ease": "easeOut"
+      }
+    },
+    "style": {
+      "background": "#e3f2fd",
+      "border": "2px solid #2196f3",
+      "borderRadius": "12px",
+      "padding": "16px",
+      "minWidth": "200px"
     }
   },
   {
@@ -37,65 +112,115 @@
     "title": "CSS Fundamentals",
     "slug": "css-fundamentals",
     "type": "core",
-    "level": "beginner",
+    "level": "foundation",
     "description": "Master CSS styling, layouts, and responsive design",
     "roadmap": "frontend-developer",
     "link": "/roadmap/frontend-developer/css-fundamentals",
     "position": {
-      "x": 450,
-      "y": 80
+      "x": 550.0,
+      "y": 100
     },
     "data": {
       "title": "CSS Fundamentals",
-      "level": "beginner",
-      "link": "/roadmap/frontend-developer/css-fundamentals"
+      "level": "foundation",
+      "link": "/roadmap/frontend-developer/css-fundamentals",
+      "subtopics": [
+        "CSS Selectors and Specificity",
+        "Box Model",
+        "Positioning",
+        "Flexbox Layout",
+        "CSS Grid",
+        "Responsive Design",
+        "Media Queries",
+        "CSS Variables"
+      ],
+      "tools": [
+        "CSS Grid Generator",
+        "Flexbox Playground",
+        "Can I Use"
+      ]
     },
     "animation": {
       "initial": {
         "opacity": 0,
-        "scale": 0.8
+        "scale": 0.8,
+        "y": 20
       },
       "animate": {
         "opacity": 1,
-        "scale": 1
+        "scale": 1,
+        "y": 0
       },
       "transition": {
-        "duration": 0.4,
-        "delay": 0.1
+        "duration": 0.5,
+        "delay": 0.2,
+        "ease": "easeOut"
       }
+    },
+    "style": {
+      "background": "#e3f2fd",
+      "border": "2px solid #2196f3",
+      "borderRadius": "12px",
+      "padding": "16px",
+      "minWidth": "200px"
     }
   },
   {
     "id": "javascript-basics",
-    "title": "JavaScript Basics",
+    "title": "JavaScript Fundamentals",
     "slug": "javascript-basics",
     "type": "core",
-    "level": "beginner",
-    "description": "Learn JavaScript fundamentals and DOM manipulation",
+    "level": "foundation",
+    "description": "Learn JavaScript core concepts and DOM manipulation",
     "roadmap": "frontend-developer",
     "link": "/roadmap/frontend-developer/javascript-basics",
     "position": {
-      "x": 700,
-      "y": 80
+      "x": 850.0,
+      "y": 100
     },
     "data": {
-      "title": "JavaScript Basics",
-      "level": "beginner",
-      "link": "/roadmap/frontend-developer/javascript-basics"
+      "title": "JavaScript Fundamentals",
+      "level": "foundation",
+      "link": "/roadmap/frontend-developer/javascript-basics",
+      "subtopics": [
+        "Variables and Data Types",
+        "Functions and Scope",
+        "Arrays and Objects",
+        "DOM Manipulation",
+        "Events and Event Handling",
+        "ES6+ Features",
+        "Async JavaScript",
+        "Promises and Async/Await"
+      ],
+      "tools": [
+        "Browser Console",
+        "Node.js",
+        "ESLint"
+      ]
     },
     "animation": {
       "initial": {
         "opacity": 0,
-        "scale": 0.8
+        "scale": 0.8,
+        "y": 20
       },
       "animate": {
         "opacity": 1,
-        "scale": 1
+        "scale": 1,
+        "y": 0
       },
       "transition": {
-        "duration": 0.4,
-        "delay": 0.2
+        "duration": 0.5,
+        "delay": 0.30000000000000004,
+        "ease": "easeOut"
       }
+    },
+    "style": {
+      "background": "#e3f2fd",
+      "border": "2px solid #2196f3",
+      "borderRadius": "12px",
+      "padding": "16px",
+      "minWidth": "200px"
     }
   },
   {
@@ -103,32 +228,224 @@
     "title": "Version Control (Git)",
     "slug": "version-control",
     "type": "core",
-    "level": "intermediate",
+    "level": "beginner",
     "description": "Master Git for code versioning and collaboration",
     "roadmap": "frontend-developer",
     "link": "/roadmap/frontend-developer/version-control",
     "position": {
-      "x": 200,
-      "y": 380
+      "x": -50.0,
+      "y": 450
     },
     "data": {
       "title": "Version Control (Git)",
-      "level": "intermediate",
-      "link": "/roadmap/frontend-developer/version-control"
+      "level": "beginner",
+      "link": "/roadmap/frontend-developer/version-control",
+      "subtopics": [
+        "Git Basics (init, add, commit)",
+        "Branching and Merging",
+        "GitHub/GitLab/Bitbucket",
+        "Pull Requests and Code Review",
+        "Git Workflows",
+        "Resolving Conflicts"
+      ],
+      "tools": [
+        "Git",
+        "GitHub",
+        "GitLab",
+        "GitHub Desktop"
+      ]
     },
     "animation": {
       "initial": {
         "opacity": 0,
-        "scale": 0.8
+        "scale": 0.8,
+        "y": 20
       },
       "animate": {
         "opacity": 1,
-        "scale": 1
+        "scale": 1,
+        "y": 0
       },
       "transition": {
-        "duration": 0.4,
-        "delay": 0.0
+        "duration": 0.5,
+        "delay": 0.3,
+        "ease": "easeOut"
       }
+    },
+    "style": {
+      "background": "#f3e5f5",
+      "border": "2px solid #9c27b0",
+      "borderRadius": "12px",
+      "padding": "16px",
+      "minWidth": "200px"
+    }
+  },
+  {
+    "id": "package-managers",
+    "title": "Package Managers",
+    "slug": "package-managers",
+    "type": "core",
+    "level": "beginner",
+    "description": "Learn npm, yarn, and package management",
+    "roadmap": "frontend-developer",
+    "link": "/roadmap/frontend-developer/package-managers",
+    "position": {
+      "x": 250.0,
+      "y": 450
+    },
+    "data": {
+      "title": "Package Managers",
+      "level": "beginner",
+      "link": "/roadmap/frontend-developer/package-managers",
+      "subtopics": [
+        "npm Basics",
+        "package.json",
+        "Installing Packages",
+        "Yarn",
+        "pnpm",
+        "Semantic Versioning"
+      ],
+      "tools": [
+        "npm",
+        "Yarn",
+        "pnpm"
+      ]
+    },
+    "animation": {
+      "initial": {
+        "opacity": 0,
+        "scale": 0.8,
+        "y": 20
+      },
+      "animate": {
+        "opacity": 1,
+        "scale": 1,
+        "y": 0
+      },
+      "transition": {
+        "duration": 0.5,
+        "delay": 0.4,
+        "ease": "easeOut"
+      }
+    },
+    "style": {
+      "background": "#f3e5f5",
+      "border": "2px solid #9c27b0",
+      "borderRadius": "12px",
+      "padding": "16px",
+      "minWidth": "200px"
+    }
+  },
+  {
+    "id": "css-preprocessors",
+    "title": "CSS Preprocessors",
+    "slug": "css-preprocessors",
+    "type": "core",
+    "level": "beginner",
+    "description": "Use Sass/SCSS for advanced CSS",
+    "roadmap": "frontend-developer",
+    "link": "/roadmap/frontend-developer/css-preprocessors",
+    "position": {
+      "x": 550.0,
+      "y": 450
+    },
+    "data": {
+      "title": "CSS Preprocessors",
+      "level": "beginner",
+      "link": "/roadmap/frontend-developer/css-preprocessors",
+      "subtopics": [
+        "Sass/SCSS Syntax",
+        "Variables and Nesting",
+        "Mixins and Functions",
+        "Partials and Imports",
+        "Less (Alternative)"
+      ],
+      "tools": [
+        "Sass",
+        "Less",
+        "PostCSS"
+      ]
+    },
+    "animation": {
+      "initial": {
+        "opacity": 0,
+        "scale": 0.8,
+        "y": 20
+      },
+      "animate": {
+        "opacity": 1,
+        "scale": 1,
+        "y": 0
+      },
+      "transition": {
+        "duration": 0.5,
+        "delay": 0.5,
+        "ease": "easeOut"
+      }
+    },
+    "style": {
+      "background": "#f3e5f5",
+      "border": "2px solid #9c27b0",
+      "borderRadius": "12px",
+      "padding": "16px",
+      "minWidth": "200px"
+    }
+  },
+  {
+    "id": "build-tools",
+    "title": "Build Tools",
+    "slug": "build-tools",
+    "type": "core",
+    "level": "beginner",
+    "description": "Learn Webpack, Vite, and build processes",
+    "roadmap": "frontend-developer",
+    "link": "/roadmap/frontend-developer/build-tools",
+    "position": {
+      "x": 850.0,
+      "y": 450
+    },
+    "data": {
+      "title": "Build Tools",
+      "level": "beginner",
+      "link": "/roadmap/frontend-developer/build-tools",
+      "subtopics": [
+        "Module Bundlers",
+        "Webpack Basics",
+        "Vite",
+        "Parcel",
+        "Task Runners",
+        "Code Splitting"
+      ],
+      "tools": [
+        "Webpack",
+        "Vite",
+        "Parcel",
+        "Rollup"
+      ]
+    },
+    "animation": {
+      "initial": {
+        "opacity": 0,
+        "scale": 0.8,
+        "y": 20
+      },
+      "animate": {
+        "opacity": 1,
+        "scale": 1,
+        "y": 0
+      },
+      "transition": {
+        "duration": 0.5,
+        "delay": 0.6000000000000001,
+        "ease": "easeOut"
+      }
+    },
+    "style": {
+      "background": "#f3e5f5",
+      "border": "2px solid #9c27b0",
+      "borderRadius": "12px",
+      "padding": "16px",
+      "minWidth": "200px"
     }
   },
   {
@@ -141,27 +458,52 @@
     "roadmap": "frontend-developer",
     "link": "/roadmap/frontend-developer/react-js",
     "position": {
-      "x": 450,
-      "y": 380
+      "x": -50.0,
+      "y": 800
     },
     "data": {
       "title": "React.js",
       "level": "intermediate",
-      "link": "/roadmap/frontend-developer/react-js"
+      "link": "/roadmap/frontend-developer/react-js",
+      "subtopics": [
+        "Components and Props",
+        "State and Lifecycle",
+        "Hooks (useState, useEffect, etc.)",
+        "Context API",
+        "React Router",
+        "Forms and Validation",
+        "Performance Optimization",
+        "Custom Hooks"
+      ],
+      "tools": [
+        "Create React App",
+        "React DevTools",
+        "Vite"
+      ]
     },
     "animation": {
       "initial": {
         "opacity": 0,
-        "scale": 0.8
+        "scale": 0.8,
+        "y": 20
       },
       "animate": {
         "opacity": 1,
-        "scale": 1
+        "scale": 1,
+        "y": 0
       },
       "transition": {
-        "duration": 0.4,
-        "delay": 0.1
+        "duration": 0.5,
+        "delay": 0.6,
+        "ease": "easeOut"
       }
+    },
+    "style": {
+      "background": "#fff3e0",
+      "border": "2px solid #ff9800",
+      "borderRadius": "12px",
+      "padding": "16px",
+      "minWidth": "200px"
     }
   },
   {
@@ -174,27 +516,166 @@
     "roadmap": "frontend-developer",
     "link": "/roadmap/frontend-developer/state-management",
     "position": {
-      "x": 700,
-      "y": 380
+      "x": 250.0,
+      "y": 800
     },
     "data": {
       "title": "State Management",
       "level": "intermediate",
-      "link": "/roadmap/frontend-developer/state-management"
+      "link": "/roadmap/frontend-developer/state-management",
+      "subtopics": [
+        "Redux",
+        "Redux Toolkit",
+        "Zustand",
+        "Recoil",
+        "MobX",
+        "Context API Patterns"
+      ],
+      "tools": [
+        "Redux DevTools",
+        "Zustand",
+        "Recoil"
+      ]
     },
     "animation": {
       "initial": {
         "opacity": 0,
-        "scale": 0.8
+        "scale": 0.8,
+        "y": 20
       },
       "animate": {
         "opacity": 1,
-        "scale": 1
+        "scale": 1,
+        "y": 0
       },
       "transition": {
-        "duration": 0.4,
-        "delay": 0.2
+        "duration": 0.5,
+        "delay": 0.7,
+        "ease": "easeOut"
       }
+    },
+    "style": {
+      "background": "#fff3e0",
+      "border": "2px solid #ff9800",
+      "borderRadius": "12px",
+      "padding": "16px",
+      "minWidth": "200px"
+    }
+  },
+  {
+    "id": "api-integration",
+    "title": "API Integration",
+    "slug": "api-integration",
+    "type": "core",
+    "level": "intermediate",
+    "description": "Fetch and manage data from APIs",
+    "roadmap": "frontend-developer",
+    "link": "/roadmap/frontend-developer/api-integration",
+    "position": {
+      "x": 550.0,
+      "y": 800
+    },
+    "data": {
+      "title": "API Integration",
+      "level": "intermediate",
+      "link": "/roadmap/frontend-developer/api-integration",
+      "subtopics": [
+        "REST APIs",
+        "Fetch API",
+        "Axios",
+        "GraphQL",
+        "Apollo Client",
+        "React Query",
+        "SWR",
+        "Error Handling"
+      ],
+      "tools": [
+        "Axios",
+        "React Query",
+        "Apollo Client",
+        "Postman"
+      ]
+    },
+    "animation": {
+      "initial": {
+        "opacity": 0,
+        "scale": 0.8,
+        "y": 20
+      },
+      "animate": {
+        "opacity": 1,
+        "scale": 1,
+        "y": 0
+      },
+      "transition": {
+        "duration": 0.5,
+        "delay": 0.8,
+        "ease": "easeOut"
+      }
+    },
+    "style": {
+      "background": "#fff3e0",
+      "border": "2px solid #ff9800",
+      "borderRadius": "12px",
+      "padding": "16px",
+      "minWidth": "200px"
+    }
+  },
+  {
+    "id": "styling-solutions",
+    "title": "Modern CSS Solutions",
+    "slug": "styling-solutions",
+    "type": "core",
+    "level": "intermediate",
+    "description": "CSS-in-JS and modern styling approaches",
+    "roadmap": "frontend-developer",
+    "link": "/roadmap/frontend-developer/styling-solutions",
+    "position": {
+      "x": 850.0,
+      "y": 800
+    },
+    "data": {
+      "title": "Modern CSS Solutions",
+      "level": "intermediate",
+      "link": "/roadmap/frontend-developer/styling-solutions",
+      "subtopics": [
+        "Styled Components",
+        "Emotion",
+        "CSS Modules",
+        "Tailwind CSS",
+        "Material-UI",
+        "Chakra UI",
+        "Theme Management"
+      ],
+      "tools": [
+        "Styled Components",
+        "Tailwind CSS",
+        "Material-UI"
+      ]
+    },
+    "animation": {
+      "initial": {
+        "opacity": 0,
+        "scale": 0.8,
+        "y": 20
+      },
+      "animate": {
+        "opacity": 1,
+        "scale": 1,
+        "y": 0
+      },
+      "transition": {
+        "duration": 0.5,
+        "delay": 0.9,
+        "ease": "easeOut"
+      }
+    },
+    "style": {
+      "background": "#fff3e0",
+      "border": "2px solid #ff9800",
+      "borderRadius": "12px",
+      "padding": "16px",
+      "minWidth": "200px"
     }
   },
   {
@@ -207,27 +688,51 @@
     "roadmap": "frontend-developer",
     "link": "/roadmap/frontend-developer/typescript",
     "position": {
-      "x": 200,
-      "y": 680
+      "x": -500.0,
+      "y": 1150
     },
     "data": {
       "title": "TypeScript",
       "level": "advanced",
-      "link": "/roadmap/frontend-developer/typescript"
+      "link": "/roadmap/frontend-developer/typescript",
+      "subtopics": [
+        "Type Annotations",
+        "Interfaces and Types",
+        "Generics",
+        "Advanced Types",
+        "TypeScript with React",
+        "Type Guards",
+        "Utility Types"
+      ],
+      "tools": [
+        "TypeScript Compiler",
+        "TSConfig",
+        "TS-Node"
+      ]
     },
     "animation": {
       "initial": {
         "opacity": 0,
-        "scale": 0.8
+        "scale": 0.8,
+        "y": 20
       },
       "animate": {
         "opacity": 1,
-        "scale": 1
+        "scale": 1,
+        "y": 0
       },
       "transition": {
-        "duration": 0.4,
-        "delay": 0.0
+        "duration": 0.5,
+        "delay": 0.8999999999999999,
+        "ease": "easeOut"
       }
+    },
+    "style": {
+      "background": "#ffebee",
+      "border": "2px solid #f44336",
+      "borderRadius": "12px",
+      "padding": "16px",
+      "minWidth": "200px"
     }
   },
   {
@@ -240,27 +745,53 @@
     "roadmap": "frontend-developer",
     "link": "/roadmap/frontend-developer/testing",
     "position": {
-      "x": 450,
-      "y": 680
+      "x": -200.0,
+      "y": 1150
     },
     "data": {
       "title": "Testing",
       "level": "advanced",
-      "link": "/roadmap/frontend-developer/testing"
+      "link": "/roadmap/frontend-developer/testing",
+      "subtopics": [
+        "Unit Testing",
+        "Integration Testing",
+        "E2E Testing",
+        "Jest",
+        "React Testing Library",
+        "Cypress",
+        "Playwright",
+        "Test-Driven Development"
+      ],
+      "tools": [
+        "Jest",
+        "React Testing Library",
+        "Cypress",
+        "Playwright"
+      ]
     },
     "animation": {
       "initial": {
         "opacity": 0,
-        "scale": 0.8
+        "scale": 0.8,
+        "y": 20
       },
       "animate": {
         "opacity": 1,
-        "scale": 1
+        "scale": 1,
+        "y": 0
       },
       "transition": {
-        "duration": 0.4,
-        "delay": 0.1
+        "duration": 0.5,
+        "delay": 0.9999999999999999,
+        "ease": "easeOut"
       }
+    },
+    "style": {
+      "background": "#ffebee",
+      "border": "2px solid #f44336",
+      "borderRadius": "12px",
+      "padding": "16px",
+      "minWidth": "200px"
     }
   },
   {
@@ -273,27 +804,281 @@
     "roadmap": "frontend-developer",
     "link": "/roadmap/frontend-developer/performance-optimization",
     "position": {
-      "x": 700,
-      "y": 680
+      "x": 100.0,
+      "y": 1150
     },
     "data": {
       "title": "Performance Optimization",
       "level": "advanced",
-      "link": "/roadmap/frontend-developer/performance-optimization"
+      "link": "/roadmap/frontend-developer/performance-optimization",
+      "subtopics": [
+        "Code Splitting",
+        "Lazy Loading",
+        "Memoization",
+        "Web Vitals",
+        "Image Optimization",
+        "Bundle Size Optimization",
+        "Caching Strategies",
+        "Performance Monitoring"
+      ],
+      "tools": [
+        "Lighthouse",
+        "WebPageTest",
+        "Bundle Analyzer"
+      ]
     },
     "animation": {
       "initial": {
         "opacity": 0,
-        "scale": 0.8
+        "scale": 0.8,
+        "y": 20
       },
       "animate": {
         "opacity": 1,
-        "scale": 1
+        "scale": 1,
+        "y": 0
       },
       "transition": {
-        "duration": 0.4,
-        "delay": 0.2
+        "duration": 0.5,
+        "delay": 1.0999999999999999,
+        "ease": "easeOut"
       }
+    },
+    "style": {
+      "background": "#ffebee",
+      "border": "2px solid #f44336",
+      "borderRadius": "12px",
+      "padding": "16px",
+      "minWidth": "200px"
+    }
+  },
+  {
+    "id": "ssr-ssg",
+    "title": "SSR & SSG",
+    "slug": "ssr-ssg",
+    "type": "core",
+    "level": "advanced",
+    "description": "Server-Side Rendering and Static Site Generation",
+    "roadmap": "frontend-developer",
+    "link": "/roadmap/frontend-developer/ssr-ssg",
+    "position": {
+      "x": 400.0,
+      "y": 1150
+    },
+    "data": {
+      "title": "SSR & SSG",
+      "level": "advanced",
+      "link": "/roadmap/frontend-developer/ssr-ssg",
+      "subtopics": [
+        "Next.js",
+        "Server-Side Rendering",
+        "Static Site Generation",
+        "Incremental Static Regeneration",
+        "Gatsby",
+        "Remix",
+        "SEO Optimization"
+      ],
+      "tools": [
+        "Next.js",
+        "Gatsby",
+        "Remix"
+      ]
+    },
+    "animation": {
+      "initial": {
+        "opacity": 0,
+        "scale": 0.8,
+        "y": 20
+      },
+      "animate": {
+        "opacity": 1,
+        "scale": 1,
+        "y": 0
+      },
+      "transition": {
+        "duration": 0.5,
+        "delay": 1.2,
+        "ease": "easeOut"
+      }
+    },
+    "style": {
+      "background": "#ffebee",
+      "border": "2px solid #f44336",
+      "borderRadius": "12px",
+      "padding": "16px",
+      "minWidth": "200px"
+    }
+  },
+  {
+    "id": "pwa",
+    "title": "Progressive Web Apps",
+    "slug": "pwa",
+    "type": "core",
+    "level": "advanced",
+    "description": "Build installable web applications",
+    "roadmap": "frontend-developer",
+    "link": "/roadmap/frontend-developer/pwa",
+    "position": {
+      "x": 700.0,
+      "y": 1150
+    },
+    "data": {
+      "title": "Progressive Web Apps",
+      "level": "advanced",
+      "link": "/roadmap/frontend-developer/pwa",
+      "subtopics": [
+        "Service Workers",
+        "Web App Manifest",
+        "Offline Functionality",
+        "Push Notifications",
+        "App Shell Pattern",
+        "Workbox"
+      ],
+      "tools": [
+        "Workbox",
+        "Lighthouse",
+        "PWA Builder"
+      ]
+    },
+    "animation": {
+      "initial": {
+        "opacity": 0,
+        "scale": 0.8,
+        "y": 20
+      },
+      "animate": {
+        "opacity": 1,
+        "scale": 1,
+        "y": 0
+      },
+      "transition": {
+        "duration": 0.5,
+        "delay": 1.2999999999999998,
+        "ease": "easeOut"
+      }
+    },
+    "style": {
+      "background": "#ffebee",
+      "border": "2px solid #f44336",
+      "borderRadius": "12px",
+      "padding": "16px",
+      "minWidth": "200px"
+    }
+  },
+  {
+    "id": "web-security",
+    "title": "Web Security",
+    "slug": "web-security",
+    "type": "core",
+    "level": "advanced",
+    "description": "Secure your web applications",
+    "roadmap": "frontend-developer",
+    "link": "/roadmap/frontend-developer/web-security",
+    "position": {
+      "x": 1000.0,
+      "y": 1150
+    },
+    "data": {
+      "title": "Web Security",
+      "level": "advanced",
+      "link": "/roadmap/frontend-developer/web-security",
+      "subtopics": [
+        "HTTPS and SSL",
+        "CORS",
+        "XSS Prevention",
+        "CSRF Protection",
+        "Content Security Policy",
+        "Authentication",
+        "Authorization",
+        "OWASP Top 10"
+      ],
+      "tools": [
+        "OWASP ZAP",
+        "Snyk",
+        "npm audit"
+      ]
+    },
+    "animation": {
+      "initial": {
+        "opacity": 0,
+        "scale": 0.8,
+        "y": 20
+      },
+      "animate": {
+        "opacity": 1,
+        "scale": 1,
+        "y": 0
+      },
+      "transition": {
+        "duration": 0.5,
+        "delay": 1.4,
+        "ease": "easeOut"
+      }
+    },
+    "style": {
+      "background": "#ffebee",
+      "border": "2px solid #f44336",
+      "borderRadius": "12px",
+      "padding": "16px",
+      "minWidth": "200px"
+    }
+  },
+  {
+    "id": "ci-cd",
+    "title": "CI/CD",
+    "slug": "ci-cd",
+    "type": "core",
+    "level": "advanced",
+    "description": "Automate deployment and testing",
+    "roadmap": "frontend-developer",
+    "link": "/roadmap/frontend-developer/ci-cd",
+    "position": {
+      "x": 1300.0,
+      "y": 1150
+    },
+    "data": {
+      "title": "CI/CD",
+      "level": "advanced",
+      "link": "/roadmap/frontend-developer/ci-cd",
+      "subtopics": [
+        "GitHub Actions",
+        "GitLab CI",
+        "Jenkins",
+        "Automated Testing",
+        "Deployment Strategies",
+        "Docker",
+        "Vercel/Netlify"
+      ],
+      "tools": [
+        "GitHub Actions",
+        "Docker",
+        "Vercel",
+        "Netlify"
+      ]
+    },
+    "animation": {
+      "initial": {
+        "opacity": 0,
+        "scale": 0.8,
+        "y": 20
+      },
+      "animate": {
+        "opacity": 1,
+        "scale": 1,
+        "y": 0
+      },
+      "transition": {
+        "duration": 0.5,
+        "delay": 1.5,
+        "ease": "easeOut"
+      }
+    },
+    "style": {
+      "background": "#ffebee",
+      "border": "2px solid #f44336",
+      "borderRadius": "12px",
+      "padding": "16px",
+      "minWidth": "200px"
     }
   }
 ]
