@@ -138,11 +138,34 @@ class SQLiteDB:
                     FOREIGN KEY (learner_id) REFERENCES learners(id) ON DELETE CASCADE
                 );
                 
+                -- Roadmap node completion (one row per node per user)
+                CREATE TABLE IF NOT EXISTS roadmap_progress (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    learner_id INTEGER NOT NULL,
+                    roadmap_id TEXT NOT NULL DEFAULT 'frontend-developer',
+                    node_id TEXT NOT NULL,
+                    completed BOOLEAN DEFAULT 1,
+                    completed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (learner_id) REFERENCES learners(id) ON DELETE CASCADE,
+                    UNIQUE(learner_id, roadmap_id, node_id)
+                );
+
+                -- Per-user XP, badges, streak (one row per user)
+                CREATE TABLE IF NOT EXISTS user_stats (
+                    learner_id INTEGER PRIMARY KEY,
+                    total_xp INTEGER DEFAULT 0,
+                    badges TEXT DEFAULT '[]',
+                    streak INTEGER DEFAULT 0,
+                    last_completed_date TEXT,
+                    FOREIGN KEY (learner_id) REFERENCES learners(id) ON DELETE CASCADE
+                );
+
                 -- Indexes for fast queries
                 CREATE INDEX IF NOT EXISTS idx_learner_skills ON learner_skills(learner_id);
                 CREATE INDEX IF NOT EXISTS idx_recommendations ON recommendations(learner_id, recommended_at);
                 CREATE INDEX IF NOT EXISTS idx_progress ON learning_progress(learner_id, status);
                 CREATE INDEX IF NOT EXISTS idx_quiz_results ON quiz_results(learner_id, quiz_type);
+                CREATE INDEX IF NOT EXISTS idx_roadmap_progress ON roadmap_progress(learner_id, roadmap_id);
             ''')
     
     # ==================== LEARNER OPERATIONS ====================
@@ -384,7 +407,69 @@ class SQLiteDB:
                 ORDER BY started_at DESC
             ''', (learner_id,))
             return [dict(row) for row in cursor.fetchall()]
-    
+
+    # ==================== ROADMAP PROGRESS ====================
+
+    def upsert_roadmap_node(self, learner_id, roadmap_id, node_id, completed):
+        """Mark a roadmap node as completed or not"""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            if completed:
+                cursor.execute('''
+                    INSERT INTO roadmap_progress (learner_id, roadmap_id, node_id, completed)
+                    VALUES (?, ?, ?, 1)
+                    ON CONFLICT(learner_id, roadmap_id, node_id)
+                    DO UPDATE SET completed=1, completed_at=CURRENT_TIMESTAMP
+                ''', (learner_id, roadmap_id, node_id))
+            else:
+                cursor.execute('''
+                    DELETE FROM roadmap_progress
+                    WHERE learner_id=? AND roadmap_id=? AND node_id=?
+                ''', (learner_id, roadmap_id, node_id))
+
+    def get_roadmap_progress(self, learner_id, roadmap_id):
+        """Return list of completed node IDs for a roadmap"""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute('''
+                SELECT node_id FROM roadmap_progress
+                WHERE learner_id=? AND roadmap_id=? AND completed=1
+            ''', (learner_id, roadmap_id))
+            return [row['node_id'] for row in cursor.fetchall()]
+
+    # ==================== USER STATS ====================
+
+    def get_user_stats(self, learner_id):
+        """Get XP, badges, streak for a user"""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT * FROM user_stats WHERE learner_id=?', (learner_id,))
+            row = cursor.fetchone()
+            if row:
+                result = dict(row)
+                try:
+                    result['badges'] = json.loads(result['badges'])
+                except Exception:
+                    result['badges'] = []
+                return result
+            return {'learner_id': learner_id, 'total_xp': 0, 'badges': [],
+                    'streak': 0, 'last_completed_date': None}
+
+    def upsert_user_stats(self, learner_id, total_xp, badges, streak, last_completed_date):
+        """Save/update user XP, badges, streak"""
+        badges_json = json.dumps(badges) if isinstance(badges, list) else badges
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute('''
+                INSERT INTO user_stats (learner_id, total_xp, badges, streak, last_completed_date)
+                VALUES (?, ?, ?, ?, ?)
+                ON CONFLICT(learner_id)
+                DO UPDATE SET total_xp=excluded.total_xp,
+                              badges=excluded.badges,
+                              streak=excluded.streak,
+                              last_completed_date=excluded.last_completed_date
+            ''', (learner_id, total_xp, badges_json, streak, last_completed_date))
+
     # ==================== ANALYTICS ====================
     
     def get_learner_stats(self, learner_id):

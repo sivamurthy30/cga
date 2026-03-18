@@ -7,10 +7,32 @@ import OnboardingFlow from './components/OnboardingFlow';
 import SkillAssessmentQuiz from './components/SkillAssessmentQuiz';
 import DetailedSkillsAnalysis from './components/DetailedSkillsAnalysis';
 import RoadmapPage from './pages/RoadmapPage';
+import useRoadmapStore from './store/roadmapStore';
 import { gsap } from 'gsap';
 import { TextPlugin } from 'gsap/TextPlugin';
 
 gsap.registerPlugin(TextPlugin);
+
+async function fetchFullProfile(authToken) {
+  const res = await fetch('/api/user/profile', {
+    headers: { 'Authorization': `Bearer ${authToken}` }
+  });
+  if (!res.ok) return null;
+  const data = await res.json();
+  return data.profile || null;
+}
+
+function buildLearnerProfile(dbProfile) {
+  return {
+    targetRole: dbProfile.target_role || '',
+    knownSkills: (dbProfile.skills || []).map(s => s.skill),
+    learningSpeed: dbProfile.learning_speed || 'medium',
+    onboarding_complete: dbProfile.onboarding_complete === 1,
+    assessmentResults: dbProfile.latest_quiz || null,
+    assessmentComplete: !!dbProfile.latest_quiz,
+    timestamp: dbProfile.created_at
+  };
+}
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -20,45 +42,74 @@ function App() {
   const [showAssessment, setShowAssessment] = useState(false);
   const [showSkillsAnalysis, setShowSkillsAnalysis] = useState(false);
   const [showRoadmap, setShowRoadmap] = useState(false);
+  const [appLoading, setAppLoading] = useState(true);
   const titleRef = useRef(null);
+
+  const { loadFromDB } = useRoadmapStore();
+
+  const restoreSessionFromDB = async (authToken, baseUser) => {
+    try {
+      const dbProfile = await fetchFullProfile(authToken);
+      if (!dbProfile) throw new Error('No profile returned');
+
+      const profile = buildLearnerProfile(dbProfile);
+
+      localStorage.setItem('learnerProfile', JSON.stringify(profile));
+      if (dbProfile.onboarding_complete === 1) {
+        localStorage.setItem('onboardingComplete', 'true');
+      }
+
+      loadFromDB(
+        dbProfile.roadmap_id || 'frontend-developer',
+        dbProfile.completed_nodes || [],
+        dbProfile.stats || {}
+      );
+
+      setCurrentUser({ ...baseUser, target_role: dbProfile.target_role });
+      setLearnerProfile(profile);
+
+      if (dbProfile.onboarding_complete === 1) {
+        setShowRoadmap(true);
+      } else {
+        setShowOnboarding(true);
+      }
+    } catch (err) {
+      const savedProfile = localStorage.getItem('learnerProfile');
+      const onboardingComplete = localStorage.getItem('onboardingComplete');
+      if (onboardingComplete === 'true' && savedProfile) {
+        try {
+          setLearnerProfile(JSON.parse(savedProfile));
+          setShowRoadmap(true);
+          return;
+        } catch { }
+      }
+      setShowOnboarding(true);
+    }
+  };
 
   useEffect(() => {
     const authToken = localStorage.getItem('authToken');
     const userId = localStorage.getItem('userId');
 
-    if (authToken && userId) {
-      fetch('/api/auth/verify', {
-        headers: { 'Authorization': `Bearer ${authToken}` }
-      })
-        .then(res => res.json())
-        .then(data => {
-          if (data.user) {
-            setCurrentUser(data.user);
-            setIsAuthenticated(true);
-
-            const onboardingComplete = localStorage.getItem('onboardingComplete');
-            const savedProfile = localStorage.getItem('learnerProfile');
-
-            if (onboardingComplete === 'true' && savedProfile) {
-              try {
-                const profile = JSON.parse(savedProfile);
-                setLearnerProfile(profile);
-                setShowRoadmap(true);
-              } catch {
-                localStorage.removeItem('learnerProfile');
-                setShowOnboarding(true);
-              }
-            } else {
-              setShowOnboarding(true);
-            }
-          } else {
-            handleLogout();
-          }
-        })
-        .catch(() => {
-          handleLogout();
-        });
+    if (!authToken || !userId) {
+      setAppLoading(false);
+      return;
     }
+
+    fetch('/api/auth/verify', {
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    })
+      .then(res => res.json())
+      .then(async data => {
+        if (data.user) {
+          setIsAuthenticated(true);
+          await restoreSessionFromDB(authToken, data.user);
+        } else {
+          handleLogout();
+        }
+      })
+      .catch(() => handleLogout())
+      .finally(() => setAppLoading(false));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -67,33 +118,20 @@ function App() {
       const titleElement = titleRef.current;
       titleElement.textContent = 'DEVA';
       titleElement.style.opacity = '1';
-      const tl = gsap.timeline();
-      tl.fromTo('.App-header',
+      gsap.timeline().fromTo('.App-header',
         { opacity: 0, y: -20 },
         { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }
       );
     }
   }, [showRoadmap]);
 
-  const handleAuthSuccess = (user) => {
-    setCurrentUser(user);
+  const handleAuthSuccess = async (user) => {
+    const authToken = localStorage.getItem('authToken');
     setIsAuthenticated(true);
-
-    const onboardingComplete = localStorage.getItem('onboardingComplete');
-    const savedProfile = localStorage.getItem('learnerProfile');
-
-    if (onboardingComplete === 'true' && savedProfile) {
-      try {
-        const profile = JSON.parse(savedProfile);
-        setLearnerProfile(profile);
-        setShowRoadmap(true);
-      } catch {
-        localStorage.removeItem('learnerProfile');
-        setShowOnboarding(true);
-      }
-    } else {
-      setShowOnboarding(true);
-    }
+    setCurrentUser(user);
+    setAppLoading(true);
+    await restoreSessionFromDB(authToken, user);
+    setAppLoading(false);
   };
 
   const handleLogout = () => {
@@ -117,6 +155,7 @@ function App() {
     setShowAssessment(false);
     setShowSkillsAnalysis(false);
     setShowRoadmap(false);
+    setAppLoading(false);
   };
 
   const handleOnboardingComplete = (profile) => {
@@ -124,6 +163,63 @@ function App() {
     setLearnerProfile(profile);
     setShowAssessment(true);
   };
+
+  const handleAssessmentComplete = async (assessmentResults) => {
+    const authToken = localStorage.getItem('authToken');
+    const updatedProfile = {
+      ...learnerProfile,
+      assessmentComplete: true,
+      assessmentResults
+    };
+    setLearnerProfile(updatedProfile);
+    localStorage.setItem('learnerProfile', JSON.stringify(updatedProfile));
+
+    if (authToken) {
+      const skillKeys = Object.keys(assessmentResults || {});
+      const totalQ = skillKeys.reduce((sum, k) => sum + (assessmentResults[k]?.total || 0), 0);
+      const totalCorrect = skillKeys.reduce((sum, k) => sum + (assessmentResults[k]?.correct || 0), 0);
+      try {
+        await fetch('/api/user/quiz/save', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify({
+            quiz_type: 'skill_assessment',
+            score: totalCorrect,
+            total_questions: totalQ,
+            category: updatedProfile.targetRole || '',
+            results_data: assessmentResults
+          })
+        });
+      } catch (err) {
+        console.warn('Could not save quiz results to backend:', err);
+      }
+    }
+
+    setShowAssessment(false);
+    setShowSkillsAnalysis(true);
+  };
+
+  if (appLoading) {
+    return (
+      <div style={{
+        display: 'flex', justifyContent: 'center', alignItems: 'center',
+        height: '100vh', background: '#0f172a', flexDirection: 'column', gap: 16
+      }}>
+        <div style={{
+          width: 48, height: 48, border: '4px solid #334155',
+          borderTop: '4px solid #f59e0b', borderRadius: '50%',
+          animation: 'spin 1s linear infinite'
+        }} />
+        <p style={{ color: '#94a3b8', fontFamily: 'monospace', fontSize: 14 }}>
+          Loading your profile…
+        </p>
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     return <Auth onAuthSuccess={handleAuthSuccess} />;
@@ -141,17 +237,7 @@ function App() {
     return (
       <SkillAssessmentQuiz
         skills={skillsToAssess}
-        onComplete={(assessmentResults) => {
-          const updatedProfile = {
-            ...learnerProfile,
-            assessmentComplete: true,
-            assessmentResults
-          };
-          setLearnerProfile(updatedProfile);
-          localStorage.setItem('learnerProfile', JSON.stringify(updatedProfile));
-          setShowAssessment(false);
-          setShowSkillsAnalysis(true);
-        }}
+        onComplete={handleAssessmentComplete}
         onClose={() => {
           setShowAssessment(false);
           setShowSkillsAnalysis(true);

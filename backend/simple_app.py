@@ -633,6 +633,179 @@ def complete_onboarding():
         return jsonify({'error': str(e)}), 500
 
 
+# ============================================================
+# USER PROFILE — full state restore on login
+# ============================================================
+
+@app.route('/api/user/profile', methods=['GET'])
+def get_user_profile():
+    """Return full user profile: info + skills + quiz + roadmap progress + stats"""
+    try:
+        token = request.headers.get('Authorization', '').replace('Bearer ', '')
+        user_id = verify_token(token)
+        if not user_id:
+            return jsonify({'error': 'Unauthorized'}), 401
+
+        if not DATABASE_AVAILABLE:
+            return jsonify({'error': 'Database not available'}), 503
+
+        user = db.get_learner(user_id)
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
+
+        skills = db.get_learner_skills(user_id)
+        quiz_results = db.get_quiz_results(user_id, limit=5)
+        stats = db.get_user_stats(user_id)
+
+        latest_quiz = None
+        if quiz_results:
+            latest_quiz = quiz_results[0].get('results_data')
+
+        roadmap_id = 'frontend-developer'
+        completed_nodes = db.get_roadmap_progress(user_id, roadmap_id)
+
+        return jsonify({
+            'profile': {
+                'id': user['id'],
+                'email': user['email'],
+                'name': user['name'],
+                'target_role': user.get('target_role', ''),
+                'learning_speed': user.get('learning_speed', 'medium'),
+                'onboarding_complete': user.get('onboarding_complete', 0),
+                'created_at': user.get('created_at'),
+                'skills': skills,
+                'latest_quiz': latest_quiz,
+                'quiz_results': quiz_results,
+                'stats': stats,
+                'completed_nodes': completed_nodes,
+                'roadmap_id': roadmap_id
+            }
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# ============================================================
+# ROADMAP PROGRESS — sync node completions per user
+# ============================================================
+
+@app.route('/api/user/roadmap/progress', methods=['GET'])
+def get_roadmap_progress():
+    """Get all completed roadmap node IDs for the current user"""
+    try:
+        token = request.headers.get('Authorization', '').replace('Bearer ', '')
+        user_id = verify_token(token)
+        if not user_id:
+            return jsonify({'error': 'Unauthorized'}), 401
+
+        roadmap_id = request.args.get('roadmap_id', 'frontend-developer')
+
+        if not DATABASE_AVAILABLE:
+            return jsonify({'completed_nodes': [], 'roadmap_id': roadmap_id}), 200
+
+        completed_nodes = db.get_roadmap_progress(user_id, roadmap_id)
+        stats = db.get_user_stats(user_id)
+
+        return jsonify({
+            'completed_nodes': completed_nodes,
+            'roadmap_id': roadmap_id,
+            'stats': stats
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/user/roadmap/progress', methods=['POST'])
+def update_roadmap_progress():
+    """Mark a roadmap node as complete or incomplete"""
+    try:
+        token = request.headers.get('Authorization', '').replace('Bearer ', '')
+        user_id = verify_token(token)
+        if not user_id:
+            return jsonify({'error': 'Unauthorized'}), 401
+
+        data = request.json or {}
+        roadmap_id = data.get('roadmap_id', 'frontend-developer')
+        node_id = data.get('node_id')
+        completed = data.get('completed', True)
+
+        if not node_id:
+            return jsonify({'error': 'node_id is required'}), 400
+
+        if not DATABASE_AVAILABLE:
+            return jsonify({'message': 'OK (no db)'}), 200
+
+        db.upsert_roadmap_node(user_id, roadmap_id, node_id, completed)
+        return jsonify({'message': 'Progress saved', 'node_id': node_id, 'completed': completed})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# ============================================================
+# USER STATS — XP, badges, streak
+# ============================================================
+
+@app.route('/api/user/stats', methods=['POST'])
+def save_user_stats():
+    """Save user XP, badges, streak to database"""
+    try:
+        token = request.headers.get('Authorization', '').replace('Bearer ', '')
+        user_id = verify_token(token)
+        if not user_id:
+            return jsonify({'error': 'Unauthorized'}), 401
+
+        data = request.json or {}
+        total_xp = data.get('total_xp', 0)
+        badges = data.get('badges', [])
+        streak = data.get('streak', 0)
+        last_completed_date = data.get('last_completed_date')
+
+        if not DATABASE_AVAILABLE:
+            return jsonify({'message': 'OK (no db)'}), 200
+
+        db.upsert_user_stats(user_id, total_xp, badges, streak, last_completed_date)
+        return jsonify({'message': 'Stats saved'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# ============================================================
+# QUIZ RESULTS — save skill assessment to database
+# ============================================================
+
+@app.route('/api/user/quiz/save', methods=['POST'])
+def save_quiz_results():
+    """Save skill assessment quiz results"""
+    try:
+        token = request.headers.get('Authorization', '').replace('Bearer ', '')
+        user_id = verify_token(token)
+        if not user_id:
+            return jsonify({'error': 'Unauthorized'}), 401
+
+        data = request.json or {}
+        quiz_type = data.get('quiz_type', 'skill_assessment')
+        score = data.get('score', 0)
+        total_questions = data.get('total_questions', 0)
+        category = data.get('category', '')
+        results_data = data.get('results_data', {})
+
+        if not DATABASE_AVAILABLE:
+            return jsonify({'message': 'OK (no db)'}), 200
+
+        result_id = db.save_quiz_result(
+            learner_id=user_id,
+            quiz_type=quiz_type,
+            score=score,
+            total_questions=total_questions,
+            category=category,
+            results_data=results_data
+        )
+        db.update_learner(user_id, quiz_score=score, quiz_category=category)
+        return jsonify({'message': 'Quiz results saved', 'id': result_id})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 @app.route("/api/recommend", methods=["POST"])
 def recommend():
     """

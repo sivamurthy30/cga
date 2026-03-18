@@ -30,6 +30,37 @@ DEVA is a full-stack career guidance application that uses ML/AI to provide pers
 - `preprocessing/` — Feature engineering, resume parser, GitHub analyzer
 - `bandit/` — LinUCB bandit implementation
 
+## User Data Persistence
+All user data is persisted to SQLite and restored on every login — no stale localStorage-only state.
+
+### Database Tables
+| Table | Purpose |
+|---|---|
+| `learners` | Core user info: email, name, target_role, onboarding_complete, learning_speed |
+| `learner_skills` | Known skills per user with proficiency level |
+| `quiz_results` | Skill assessment results (score, category, full JSON results) |
+| `roadmap_progress` | Per-user completed roadmap node IDs (roadmap_id + node_id) |
+| `user_stats` | XP, badges, streak, last_completed_date per user |
+
+### Login Flow (database-first)
+1. Token verified via `GET /api/auth/verify`
+2. Full profile fetched from `GET /api/user/profile` (skills + quiz + nodes + stats)
+3. React state and Zustand roadmap store hydrated from DB response
+4. localStorage used only as a fallback cache if DB is unreachable
+
+### Key API Endpoints
+- `GET /api/user/profile` — Full state restore (one call at login)
+- `POST /api/user/complete-onboarding` — Save target role + skills + mark onboarding done
+- `POST /api/user/roadmap/progress` — Mark a roadmap node complete/incomplete
+- `GET /api/user/roadmap/progress` — Get all completed nodes + stats
+- `POST /api/user/stats` — Save XP, badges, streak
+- `POST /api/user/quiz/save` — Save skill assessment results
+
+### Real-time Sync
+- Every roadmap node toggle fires a background `POST /api/user/roadmap/progress` + `POST /api/user/stats`
+- Skill assessment completion fires `POST /api/user/quiz/save`
+- All syncs are fire-and-forget (non-blocking) so UI stays instant
+
 ## Authentication
 - OTP-based signup via SMS (Fast2SMS) or email
 - Password-based login also supported
