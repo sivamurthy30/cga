@@ -603,6 +603,36 @@ def verify():
         return jsonify({'error': str(e)}), 500
 
 
+@app.route('/api/user/complete-onboarding', methods=['POST'])
+def complete_onboarding():
+    """Mark onboarding as complete and save target role / skills"""
+    try:
+        token = request.headers.get('Authorization', '').replace('Bearer ', '')
+        user_id = verify_token(token)
+        if not user_id:
+            return jsonify({'error': 'Unauthorized'}), 401
+
+        data = request.json or {}
+        target_role = data.get('target_role', '')
+        known_skills = data.get('known_skills', [])
+        learning_speed = data.get('learning_speed', 'medium')
+
+        if not DATABASE_AVAILABLE:
+            return jsonify({'message': 'OK (no db)'}), 200
+
+        db.update_learner(user_id,
+                          target_role=target_role,
+                          learning_speed=learning_speed,
+                          onboarding_complete=1)
+
+        if known_skills:
+            db.add_skills_batch(user_id, known_skills)
+
+        return jsonify({'message': 'Onboarding complete', 'target_role': target_role})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 @app.route("/api/recommend", methods=["POST"])
 def recommend():
     """

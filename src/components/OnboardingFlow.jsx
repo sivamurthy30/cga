@@ -349,7 +349,7 @@ const OnboardingFlow = ({ onComplete }) => {
     }
   };
 
-  const completeOnboarding = (role, quizData, skills = []) => {
+  const completeOnboarding = async (role, quizData, skills = []) => {
     const profile = {
       targetRole: role.name,
       quizResults: quizData,
@@ -361,7 +361,30 @@ const OnboardingFlow = ({ onComplete }) => {
 
     localStorage.setItem('learnerProfile', JSON.stringify(profile));
     localStorage.setItem('onboardingComplete', 'true');
-    
+
+    // Update backend with onboarding completion and target role
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const userId = localStorage.getItem('userId');
+      if (authToken && userId) {
+        await fetch('/api/user/complete-onboarding', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify({
+            target_role: role.name,
+            known_skills: skills,
+            learning_speed: 'medium'
+          })
+        });
+      }
+    } catch (err) {
+      // Non-critical — continue even if backend update fails
+      console.warn('Could not update backend onboarding status:', err);
+    }
+
     if (onComplete) {
       onComplete(profile);
     }
