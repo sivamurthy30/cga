@@ -1,8 +1,123 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { gsap } from 'gsap';
 import '../styles/Auth.css';
+import ScrambleText from './ScrambleText';
+import ThemeToggle from './ThemeToggle';
 
-const Auth = ({ onAuthSuccess }) => {
+// Cinematic GSAP entrance animations for the login page
+const useGSAPAnimations = (containerRef, logoRef, formRef, taglineRef, featuresRef) => {
+  useEffect(() => {
+    if (!containerRef.current || !logoRef.current || !formRef.current) return;
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+
+      // Stage 1: Background sweeps in with a gradient reveal
+      tl.fromTo(containerRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.4 }
+      );
+
+      // Stage 2: Logo drops in with elastic bounce + glow pulse
+      tl.fromTo(logoRef.current,
+        { y: -80, opacity: 0, scale: 0.3, rotationX: 90 },
+        { y: 0, opacity: 1, scale: 1, rotationX: 0, duration: 1.2, ease: 'elastic.out(1, 0.5)' },
+        '-=0.1'
+      );
+
+      // Stage 3: Tagline fades in with a smooth slide
+      if (taglineRef?.current) {
+        tl.fromTo(taglineRef.current,
+          { opacity: 0, y: 15, letterSpacing: '8px' },
+          { opacity: 1, y: 0, letterSpacing: '1px', duration: 0.8, ease: 'power3.out' },
+          '-=0.6'
+        );
+      }
+
+      // Stage 4: Form card flies up with a blur-to-sharp effect
+      tl.fromTo(formRef.current,
+        { y: 60, opacity: 0, scale: 0.95, filter: 'blur(8px)' },
+        { y: 0, opacity: 1, scale: 1, filter: 'blur(0px)', duration: 0.9, ease: 'power3.out' },
+        '-=0.5'
+      );
+
+      // Stage 5: Form groups stagger in from alternating sides
+      const formGroups = formRef.current.querySelectorAll('.form-group');
+      if (formGroups.length) {
+        tl.fromTo(formGroups,
+          { x: (i) => (i % 2 === 0 ? -40 : 40), opacity: 0 },
+          { x: 0, opacity: 1, duration: 0.5, stagger: 0.1, ease: 'back.out(1.4)' },
+          '-=0.4'
+        );
+      }
+
+      // Stage 6: Buttons cascade in with a scale pop
+      const buttons = formRef.current.querySelectorAll('button');
+      if (buttons.length) {
+        tl.fromTo(buttons,
+          { opacity: 0, scale: 0.8, y: 20 },
+          { opacity: 1, scale: 1, y: 0, duration: 0.4, stagger: 0.08, ease: 'back.out(2)' },
+          '-=0.3'
+        );
+      }
+
+      // Stage 7: Dividers slide in from the center
+      const dividers = formRef.current.querySelectorAll('.auth-divider');
+      if (dividers.length) {
+        tl.fromTo(dividers,
+          { scaleX: 0, opacity: 0 },
+          { scaleX: 1, opacity: 1, duration: 0.4, stagger: 0.05, ease: 'power2.out' },
+          '-=0.5'
+        );
+      }
+
+      // Stage 8: Feature icons bounce in one by one
+      if (featuresRef?.current) {
+        const featureItems = featuresRef.current.querySelectorAll('.feature-item');
+        if (featureItems.length) {
+          tl.fromTo(featureItems,
+            { y: 30, opacity: 0, scale: 0.5, rotation: -10 },
+            { y: 0, opacity: 1, scale: 1, rotation: 0, duration: 0.5, stagger: 0.12, ease: 'back.out(2.5)' },
+            '-=0.3'
+          );
+        }
+      }
+
+      // Stage 9: Footer text fades in last
+      const footer = containerRef.current.querySelector('.auth-footer');
+      if (footer) {
+        tl.fromTo(footer,
+          { opacity: 0, y: 10 },
+          { opacity: 1, y: 0, duration: 0.5 },
+          '-=0.2'
+        );
+      }
+
+      // Stage 10: Subtle floating animation on the logo (continuous)
+      gsap.to(logoRef.current, {
+        y: -5,
+        duration: 2.5,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1,
+        delay: tl.duration()
+      });
+
+    });
+
+    return () => ctx.revert();
+  }, []);
+};
+
+const Auth = ({ onAuthSuccess, theme, toggleTheme }) => {
+  const containerRef = useRef(null);
+  const logoRef = useRef(null);
+  const formRef = useRef(null);
+  const taglineRef = useRef(null);
+  const featuresRef = useRef(null);
+
+  useGSAPAnimations(containerRef, logoRef, formRef, taglineRef, featuresRef);
+
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     email: '',
@@ -26,76 +141,86 @@ const Auth = ({ onAuthSuccess }) => {
     return re.test(email);
   };
 
+  // GSAP-powered mode toggle with a smooth flip
+  const toggleMode = useCallback(() => {
+    if (!formRef.current) {
+      setIsLogin(!isLogin);
+      return;
+    }
+    const tl = gsap.timeline();
+    tl.to(formRef.current, {
+      rotationY: 90,
+      opacity: 0,
+      scale: 0.9,
+      duration: 0.25,
+      ease: 'power2.in',
+      onComplete: () => {
+        setIsLogin(prev => !prev);
+        setError('');
+        setFormData({ email: '', name: '', password: '', confirmPassword: '' });
+      }
+    })
+    .fromTo(formRef.current,
+      { rotationY: -90, opacity: 0, scale: 0.9 },
+      { rotationY: 0, opacity: 1, scale: 1, duration: 0.4, ease: 'power3.out', delay: 0.05 }
+    );
+  }, [isLogin]);
+
   const handleDemoLogin = async () => {
     setError('');
     setIsLoading(true);
 
     try {
-      // Try to login with demo account
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: 'demo@deva.ai',
-          password: 'demo123'
-        })
-      });
+      // Simulate network delay for realistic feel
+      await new Promise(resolve => setTimeout(resolve, 800));
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        // If demo account doesn't exist, create it
-        if (response.status === 401) {
-          const signupResponse = await fetch('/api/auth/signup', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              email: 'demo@deva.ai',
-              password: 'demo123',
-              name: 'Demo User'
-            })
-          });
-
-          const signupData = await signupResponse.json();
-
-          if (!signupResponse.ok) {
-            throw new Error(signupData.error || 'Failed to create demo account');
-          }
-
-          // Store auth data
-          localStorage.setItem('authToken', signupData.token);
-          localStorage.setItem('userId', signupData.user.id);
-          localStorage.setItem('userEmail', signupData.user.email);
-          localStorage.setItem('userName', signupData.user.name);
-
-          // Animate and redirect
-          gsap.to('.auth-form', {
-            scale: 0.95,
-            opacity: 0,
-            duration: 0.3,
-            onComplete: () => onAuthSuccess(signupData.user)
-          });
-          return;
-        }
-        throw new Error(data.error || 'Demo login failed');
-      }
+      // Create demo user data (offline mode)
+      const demoUser = {
+        id: 'demo-user-001',
+        email: 'demo@deva.ai',
+        name: 'Demo User'
+      };
 
       // Store auth data
-      localStorage.setItem('authToken', data.token);
-      localStorage.setItem('userId', data.user.id);
-      localStorage.setItem('userEmail', data.user.email);
-      localStorage.setItem('userName', data.user.name);
+      localStorage.setItem('authToken', 'demo-token-' + Date.now());
+      localStorage.setItem('userId', demoUser.id);
+      localStorage.setItem('userEmail', demoUser.email);
+      localStorage.setItem('userName', demoUser.name);
+
+      // Create demo learner profile with onboarding complete
+      const demoProfile = {
+        userId: demoUser.id,
+        targetRole: 'Full Stack Developer',
+        skills: ['JavaScript', 'React', 'Python', 'Machine Learning'],
+        knownSkills: ['JavaScript', 'React', 'Python', 'Node.js', 'SQL'],
+        interests: ['Web Development', 'AI/ML', 'Data Science'],
+        experience_level: 'intermediate',
+        learning_goals: ['Master React', 'Learn FastAPI', 'Build ML Projects'],
+        completed_topics: ['HTML', 'CSS', 'JavaScript Basics'],
+        current_roadmap: 'Full Stack Developer',
+        onboarding_complete: true,
+        assessmentComplete: true,
+        assessmentResults: {
+          'JavaScript': { correct: 3, total: 4, weightedPercentage: 75, level: 'intermediate' },
+          'React': { correct: 2, total: 4, weightedPercentage: 50, level: 'beginner' },
+          'Python': { correct: 3, total: 4, weightedPercentage: 75, level: 'intermediate' },
+          'Node.js': { correct: 2, total: 4, weightedPercentage: 50, level: 'beginner' },
+          'SQL': { correct: 3, total: 4, weightedPercentage: 75, level: 'intermediate' }
+        }
+      };
+      localStorage.setItem('learnerProfile', JSON.stringify(demoProfile));
+      localStorage.setItem('onboardingComplete', 'true');
 
       // Animate and redirect
       gsap.to('.auth-form', {
         scale: 0.95,
         opacity: 0,
         duration: 0.3,
-        onComplete: () => onAuthSuccess(data.user)
+        onComplete: () => onAuthSuccess(demoUser)
       });
 
     } catch (err) {
-      setError(err.message);
+      setError('Demo login failed. Please try again.');
       gsap.fromTo('.auth-form',
         { x: -10 },
         { x: 10, duration: 0.1, repeat: 5, yoyo: true }
@@ -117,8 +242,8 @@ const Auth = ({ onAuthSuccess }) => {
       return;
     }
 
-    if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters');
+    if (formData.password.length < 8) {
+      setError('Password must be at least 8 characters');
       setIsLoading(false);
       return;
     }
@@ -138,20 +263,93 @@ const Auth = ({ onAuthSuccess }) => {
 
     try {
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/signup';
-      const response = await fetch(`${endpoint}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      
+      let response, data;
+      try {
+        response = await fetch(`${endpoint}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+            name: formData.name || formData.email.split('@')[0]
+          })
+        });
+        data = await response.json();
+      } catch (fetchError) {
+        // Network error - backend not available, use offline mode
+        console.log('Backend not available, creating account locally...');
+        
+        const localUser = {
+          id: 'local-user-' + Date.now(),
           email: formData.email,
-          password: formData.password,
-          name: formData.name
-        })
-      });
+          name: formData.name || formData.email.split('@')[0]
+        };
 
-      const data = await response.json();
+        localStorage.setItem('authToken', 'local-token-' + Date.now());
+        localStorage.setItem('userId', localUser.id);
+        localStorage.setItem('userEmail', localUser.email);
+        localStorage.setItem('userName', localUser.name);
+
+        gsap.to('.auth-form', {
+          scale: 0.95,
+          opacity: 0,
+          duration: 0.3,
+          onComplete: () => onAuthSuccess(localUser)
+        });
+        return;
+      }
 
       if (!response.ok) {
-        throw new Error(data.error || 'Authentication failed');
+        // Display the actual error message from backend
+        const errorMessage = data.detail || data.error || 'Authentication failed';
+        
+        // Check if email already exists
+        if (!isLogin && errorMessage.includes('already registered')) {
+          setError('This email is already registered. Please sign in instead.');
+          setTimeout(() => {
+            if (window.confirm('This email is already registered. Would you like to go to the login page?')) {
+              toggleMode();
+            }
+          }, 100);
+          setIsLoading(false);
+          return;
+        }
+        
+        if (isLogin && response.status === 401) {
+          // Auto-signup fallback (Magic Auth) like Demo Login
+          const signupResponse = await fetch('/api/auth/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: formData.email,
+              password: formData.password,
+              name: formData.email.split('@')[0]
+            })
+          });
+
+          const signupData = await signupResponse.json();
+
+          if (signupResponse.ok) {
+            localStorage.setItem('authToken', signupData.token);
+            localStorage.setItem('userId', signupData.user.id);
+            localStorage.setItem('userEmail', signupData.user.email);
+            localStorage.setItem('userName', signupData.user.name);
+
+            gsap.to('.auth-form', {
+              scale: 0.95,
+              opacity: 0,
+              duration: 0.3,
+              onComplete: () => onAuthSuccess(signupData.user)
+            });
+            return;
+          }
+        }
+        
+        // Set the actual error message from backend
+        setError(errorMessage);
+        setIsLoading(false);
+        return;
       }
 
       // Store auth data
@@ -169,11 +367,11 @@ const Auth = ({ onAuthSuccess }) => {
       });
 
     } catch (err) {
-      const errorMessage = err.message;
-      setError(errorMessage);
+      console.error('Auth error:', err);
+      setError(err.message || 'Authentication failed');
       
       // If user already exists during signup, suggest login
-      if (!isLogin && errorMessage.includes('already registered')) {
+      if (!isLogin && err.message && err.message.includes('already registered')) {
         setTimeout(() => {
           if (window.confirm('This email is already registered. Would you like to go to the login page?')) {
             toggleMode();
@@ -190,28 +388,25 @@ const Auth = ({ onAuthSuccess }) => {
     }
   };
 
-  const toggleMode = () => {
-    setIsLogin(!isLogin);
-    setError('');
-    setFormData({
-      email: '',
-      name: '',
-      password: '',
-      confirmPassword: ''
-    });
-  };
-
   return (
-    <div className="auth-container">
+    <div className="auth-container" ref={containerRef}>
       <div className="auth-background"></div>
+
+      {/* Theme Toggle - Top Right */}
+      <div style={{ position: 'absolute', top: '2rem', right: '2rem', zIndex: 1000 }}>
+        <ThemeToggle theme={theme} onToggle={toggleTheme} />
+      </div>
 
       <div className="auth-content">
         <div className="auth-header">
-          <h1 className="auth-logo">DEV<sup>A</sup></h1>
-          <p className="auth-tagline">Intelligent Career Development Platform</p>
+          <h1 className="auth-logo" ref={logoRef}>
+            <ScrambleText text="DEV" duration={2000} />
+            <sup>A</sup>
+          </h1>
+          <p className="auth-tagline" ref={taglineRef}>Intelligent Career Development Platform</p>
         </div>
 
-        <div className="auth-form-container">
+        <div className="auth-form-container" ref={formRef}>
           <form className="auth-form" onSubmit={handleSubmit}>
             <h2>{isLogin ? 'Welcome Back' : 'Create Your Account'}</h2>
             <p className="auth-subtitle">
@@ -273,6 +468,14 @@ const Auth = ({ onAuthSuccess }) => {
                 disabled={isLoading}
                 required
               />
+              <span style={{ 
+                fontSize: '0.75rem', 
+                color: 'var(--text-muted)', 
+                marginTop: '0.25rem',
+                display: 'block'
+              }}>
+                Must be at least 8 characters
+              </span>
             </div>
 
             {!isLogin && (
@@ -312,19 +515,6 @@ const Auth = ({ onAuthSuccess }) => {
 
             <button 
               type="button" 
-              className="demo-login-btn"
-              onClick={handleDemoLogin}
-              disabled={isLoading}
-            >
-              Try Demo Account
-            </button>
-
-            <div className="auth-divider">
-              <span>or</span>
-            </div>
-
-            <button 
-              type="button" 
               className="auth-toggle-btn"
               onClick={toggleMode}
               disabled={isLoading}
@@ -335,7 +525,7 @@ const Auth = ({ onAuthSuccess }) => {
             </button>
           </form>
 
-          <div className="auth-features">
+          <div className="auth-features" ref={featuresRef}>
             <div className="feature-item">
               <div className="feature-icon-box">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { gsap } from 'gsap';
+import { motion } from 'framer-motion';
+import BlogReaderModal from './BlogReaderModal';
 import '../styles/SkillAssessment.css';
-
 const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
   const [currentSkillIndex, setCurrentSkillIndex] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -11,12 +12,21 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [showResults, setShowResults] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
+  const [selectedBlogResource, setSelectedBlogResource] = useState(null);
+  const [resourceCompletion, setResourceCompletion] = useState(() => {
+    const saved = localStorage.getItem('deva_resource_completion');
+    return saved ? JSON.parse(saved) : {};
+  }); // { skill: [resourceName, ...] }
 
   useEffect(() => {
     // Generate questions for all skills
     generateQuestionsForSkills();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('deva_resource_completion', JSON.stringify(resourceCompletion));
+  }, [resourceCompletion]);
 
   const generateQuestionsForSkills = async () => {
     setIsLoading(true);
@@ -33,7 +43,14 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
         
         if (response.ok) {
           const data = await response.json();
-          questionsMap[skill] = data.questions;
+          const fetchedQuestions = data.questions || [];
+          const hasOnlyGenericSelfAssessment = fetchedQuestions.length > 0 &&
+            fetchedQuestions.every(q => q.correct === -1);
+
+          // If backend returns only generic placeholders, use richer local bank.
+          questionsMap[skill] = hasOnlyGenericSelfAssessment
+            ? getDefaultQuestions(skill)
+            : fetchedQuestions;
         } else {
           // Fallback to default questions
           questionsMap[skill] = getDefaultQuestions(skill);
@@ -1044,7 +1061,7 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
       // Generic questions for unknown skills
       default: [
         {
-          question: `What is your experience level with ${skill}?`,
+          question: "How would you rate your overall expertise with this skill?",
           options: ["Beginner", "Intermediate", "Advanced", "Expert"],
           correct: -1, // No correct answer
           difficulty: "easy",
@@ -1252,9 +1269,9 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
         title: '📚 Start Learning',
         message: `You're just getting started with ${skill}. Focus on fundamentals first.`,
         resources: [
-          { type: 'course', name: `${skill} Basics`, platform: 'freeCodeCamp', link: `https://www.freecodecamp.org/learn` },
-          { type: 'video', name: `${skill} Tutorial`, platform: 'YouTube', link: `https://www.youtube.com/results?search_query=${skill}+tutorial` },
-          { type: 'article', name: `${skill} Guide`, platform: 'GeeksforGeeks', link: `https://www.geeksforgeeks.org/${skill.toLowerCase()}-tutorial/` }
+          { type: 'course', name: `${skill} Basics`, platform: 'DEVA Content', link: '#', skill: skill },
+          { type: 'video', name: `${skill} Tutorial`, platform: 'YouTube', link: `https://www.youtube.com/results?search_query=${skill}+tutorial`, skill: skill },
+          { type: 'article', name: `${skill} Guide`, platform: 'DEVA Content', link: '#', skill: skill }
         ],
         tracker: {
           phase: 'Foundation',
@@ -1271,9 +1288,9 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
         title: '📈 Keep Improving',
         message: `You have a good foundation in ${skill}. Time to level up!`,
         resources: [
-          { type: 'course', name: `Advanced ${skill}`, platform: 'Udemy', link: `https://www.udemy.com/courses/search/?q=${skill}+advanced` },
-          { type: 'video', name: `${skill} Best Practices`, platform: 'YouTube', link: `https://www.youtube.com/results?search_query=${skill}+best+practices` },
-          { type: 'article', name: `${skill} Design Patterns`, platform: 'Medium', link: `https://medium.com/search?q=${skill}+design+patterns` }
+          { type: 'course', name: `Advanced ${skill}`, platform: 'DEVA Content', link: '#', skill: skill },
+          { type: 'video', name: `${skill} Best Practices`, platform: 'YouTube', link: `https://www.youtube.com/results?search_query=${skill}+best+practices`, skill: skill },
+          { type: 'article', name: `${skill} Design Patterns`, platform: 'DEVA Content', link: '#', skill: skill }
         ],
         tracker: {
           phase: 'Intermediate',
@@ -1290,9 +1307,9 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
         title: '🎯 Almost There!',
         message: `You're proficient in ${skill}. Polish your skills for interviews!`,
         resources: [
-          { type: 'practice', name: `${skill} Interview Questions`, platform: 'LeetCode', link: `https://leetcode.com/problemset/` },
-          { type: 'video', name: `${skill} Interview Prep`, platform: 'YouTube', link: `https://www.youtube.com/results?search_query=${skill}+interview+questions` },
-          { type: 'article', name: `${skill} Interview Guide`, platform: 'InterviewBit', link: `https://www.interviewbit.com/` }
+          { type: 'practice', name: `${skill} Interview Questions`, platform: 'DEVA Content', link: '#', skill: skill },
+          { type: 'video', name: `${skill} Interview Prep`, platform: 'YouTube', link: `https://www.youtube.com/results?search_query=${skill}+interview+questions`, skill: skill },
+          { type: 'article', name: `${skill} Interview Guide`, platform: 'DEVA Content', link: '#', skill: skill }
         ],
         tracker: {
           phase: 'Interview Prep',
@@ -1316,9 +1333,9 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
           `✓ Real-world experience demonstrated`
         ],
         resources: [
-          { type: 'practice', name: 'Mock Interviews', platform: 'Pramp', link: 'https://www.pramp.com/' },
-          { type: 'questions', name: 'Top Interview Questions', platform: 'GitHub', link: `https://github.com/search?q=${skill}+interview+questions` },
-          { type: 'article', name: 'Interview Tips', platform: 'Medium', link: `https://medium.com/search?q=${skill}+interview+tips` }
+          { type: 'practice', name: 'Mock Interviews', platform: 'DEVA Content', link: '#', skill: skill },
+          { type: 'questions', name: 'Top Interview Questions', platform: 'DEVA Content', link: '#', skill: skill },
+          { type: 'article', name: 'Interview Tips', platform: 'DEVA Content', link: '#', skill: skill }
         ],
         tracker: {
           phase: 'Expert',
@@ -1333,6 +1350,22 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
     }
   };
 
+  const handleResourceComplete = (completedResource) => {
+    setResourceCompletion(prev => {
+      const skillName = completedResource.skill;
+      const resourceName = completedResource.name;
+      const currentCompleted = prev[skillName] || [];
+      if (!currentCompleted.includes(resourceName)) {
+        return {
+          ...prev,
+          [skillName]: [...currentCompleted, resourceName]
+        };
+      }
+      return prev;
+    });
+    setSelectedBlogResource(null); // Close the modal
+  };
+
   if (isLoading) {
     return (
       <div className="skill-assessment-container">
@@ -1345,19 +1378,26 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
   }
 
   if (showResults) {
-    const totalSteps = 4; // Overview, Skills, Roadmap, Action Plan
+    const totalSteps = 3; // Overview, Skills, Action Plan
 
     return (
       <div className="skill-assessment-container">
         <div className="assessment-results">
           {/* Progress Stepper */}
           <div className="results-stepper">
-            <div className="stepper-line" style={{ width: `${(currentStep / (totalSteps - 1)) * 100}%` }} />
-            {['Overview', 'Skills Analysis', 'Learning Roadmap', 'Action Plan'].map((step, index) => (
+            <div className="stepper-line">
+              <div className="stepper-line-fill" style={{ width: `${(currentStep / (totalSteps - 1)) * 100}%` }} />
+            </div>
+            {['Overview', 'Skills Analysis', 'Action Plan'].map((step, index) => (
               <div 
                 key={index}
-                className={`stepper-step ${index <= currentStep ? 'active' : ''} ${index < currentStep ? 'completed' : ''}`}
-                onClick={() => setCurrentStep(index)}
+                className={`stepper-step ${index <= currentStep ? 'active' : ''} ${index < currentStep ? 'completed' : ''} ${index > currentStep ? 'locked' : ''}`}
+                onClick={() => {
+                  if (index <= currentStep) {
+                    setCurrentStep(index);
+                  }
+                }}
+                style={{ cursor: index <= currentStep ? 'pointer' : 'not-allowed', opacity: index > currentStep ? 0.6 : 1 }}
               >
                 <div className="step-circle">
                   {index < currentStep ? '✓' : index + 1}
@@ -1427,19 +1467,19 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
                         <div className="skill-summary-score">
                           <div className="score-circle">
                             <svg width="60" height="60">
-                              <circle cx="30" cy="30" r="25" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="5"/>
+                              <circle cx="30" cy="30" r="25" fill="none" stroke="var(--border-primary)" strokeWidth="5"/>
                               <circle 
                                 cx="30" 
                                 cy="30" 
                                 r="25" 
                                 fill="none" 
-                                stroke="#f59e0b" 
+                                stroke="var(--accent-primary)" 
                                 strokeWidth="5"
                                 strokeDasharray={`${2 * Math.PI * 25}`}
                                 strokeDashoffset={`${2 * Math.PI * 25 * (1 - score.weightedPercentage / 100)}`}
                                 transform="rotate(-90 30 30)"
                               />
-                              <text x="30" y="35" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#fff">
+                              <text x="30" y="35" textAnchor="middle" fontSize="14" fontWeight="bold" fill="var(--text-primary)">
                                 {score.weightedPercentage}%
                               </text>
                             </svg>
@@ -1455,6 +1495,16 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
               </div>
 
               <div className="step-navigation">
+                <button 
+                  className="btn btn-secondary" 
+                  onClick={() => {
+                    if (window.confirm('Are you sure you want to exit the assessment results?')) {
+                      window.location.reload();
+                    }
+                  }}
+                >
+                  ← Exit Results
+                </button>
                 <button className="btn btn-primary" onClick={() => setCurrentStep(1)}>
                   Next: Skills Analysis →
                 </button>
@@ -1491,12 +1541,29 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
                           data-level={score.level}
                         />
                       </div>
-
-                      <div className="skill-stats">
-                        <span>Correct: {score.correct}/{score.total}</span>
-                        <span className="skill-level-badge" data-level={score.level}>
-                          {score.level.toUpperCase()}
-                        </span>
+                      <div className="skill-stats" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', margin: '0.5rem 0 1rem' }}>
+                        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                          <span style={{ fontWeight: '500', color: 'var(--rich-black)'}}>Assessment Score: {score.correct}/{score.total}</span>
+                          <span className="skill-level-badge" data-level={score.level}>
+                            {score.level.toUpperCase()}
+                          </span>
+                        </div>
+                        
+                        <div className="learning-progress-mini" style={{ marginTop: '0.5rem' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                            <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 'bold' }}>LEARNING PROGRESS</span>
+                            <span style={{ fontSize: '0.75rem', color: 'var(--primary)', fontWeight: 'bold' }}>
+                              {Math.round(((resourceCompletion[skill] || []).length / (recommendation.resources.length || 1)) * 100)}%
+                            </span>
+                          </div>
+                          <div style={{ height: '6px', background: 'rgba(0,0,0,0.05)', borderRadius: '3px', overflow: 'hidden' }}>
+                            <motion.div 
+                              initial={{ width: 0 }}
+                              animate={{ width: `${((resourceCompletion[skill] || []).length / (recommendation.resources.length || 1)) * 100}%` }}
+                              style={{ height: '100%', background: 'linear-gradient(90deg, #f59e0b, #fbbf24)', borderRadius: '3px' }}
+                            />
+                          </div>
+                        </div>
                       </div>
 
                       <div className="skill-recommendation">
@@ -1516,19 +1583,111 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
 
                         <div className="recommended-resources">
                           <h5>Recommended Resources:</h5>
-                          {recommendation.resources.map((resource, i) => (
-                            <a 
-                              key={i}
-                              href={resource.link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="resource-link"
-                            >
-                              <span className="resource-type">{resource.type}</span>
-                              <span className="resource-name">{resource.name}</span>
-                              <span className="resource-platform">{resource.platform}</span>
-                            </a>
-                          ))}
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                            {recommendation.resources.map((resource, i) => (
+                              <a 
+                                key={i}
+                                href={resource.type === 'video' ? resource.link : '#'}
+                                target={resource.type === 'video' ? "_blank" : undefined}
+                                rel="noopener noreferrer"
+                                className="resource-link"
+                                onMouseOver={(e) => {
+                                  e.currentTarget.style.transform = 'translateY(-2px)';
+                                  e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1)';
+                                  e.currentTarget.style.backgroundColor = '#f8fafc';
+                                  e.currentTarget.style.borderColor = 'var(--primary)';
+                                }}
+                                onMouseOut={(e) => {
+                                  e.currentTarget.style.transform = 'none';
+                                  e.currentTarget.style.boxShadow = 'none';
+                                  e.currentTarget.style.backgroundColor = 'transparent';
+                                  e.currentTarget.style.borderColor = 'var(--platinum)';
+                                }}
+                                onClick={(e) => {
+                                  if (resource.type !== 'video') {
+                                    e.preventDefault();
+                                    setSelectedBlogResource(resource);
+                                  }
+                                }}
+                                style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  padding: '1.25rem',
+                                  border: '1px solid var(--platinum)',
+                                  borderRadius: '12px',
+                                  textDecoration: 'none',
+                                  transition: 'all 0.3s ease',
+                                  gap: '1rem',
+                                  position: 'relative',
+                                  overflow: 'hidden'
+                                }}
+                              >
+                                <div className="link-icon" style={{ 
+                                  fontSize: '1.5rem', 
+                                  background: 'white', 
+                                  padding: '0.75rem', 
+                                  borderRadius: '10px', 
+                                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  border: '1px solid #f1f5f9'
+                                }}>
+                                  {resource.type === 'video' ? '📺' : resource.type === 'course' ? '🎓' : '📄'}
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                    <span className="resource-name" style={{ color: 'var(--rich-black)', fontWeight: '700', fontSize: '1.05rem' }}>
+                                      {resource.name}
+                                    </span>
+                                    {(resourceCompletion[skill] || []).includes(resource.name) && (
+                                      <motion.span 
+                                        initial={{ scale: 0 }}
+                                        animate={{ scale: 1 }}
+                                        style={{ color: '#10b981', background: '#ecfdf5', borderRadius: '50%', padding: '2px', fontSize: '0.8rem', display: 'flex' }}
+                                      >
+                                        ✓
+                                      </motion.span>
+                                    )}
+                                  </div>
+                                  <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginTop: '0.35rem' }}>
+                                    <span className="resource-type" style={{ fontSize: '0.65rem', background: resource.type === 'video' ? '#fee2e2' : '#e0f2fe', padding: '3px 10px', borderRadius: '20px', color: resource.type === 'video' ? '#991b1b' : '#075985', textTransform: 'uppercase', letterSpacing: '0.8px', fontWeight: '800' }}>
+                                      {resource.type}
+                                    </span>
+                                    <span className="resource-platform" style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '500' }}>{resource.platform}</span>
+                                  </div>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                  {resource.type === 'video' && !(resourceCompletion[skill] || []).includes(resource.name) && (
+                                    <button
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        setSelectedBlogResource({ ...resource, type: 'video-quiz', name: `${resource.name} Quiz` });
+                                      }}
+                                      style={{
+                                        fontSize: '0.75rem',
+                                        background: '#fef3c7',
+                                        color: '#b45309',
+                                        border: '1px solid #fcd34d',
+                                        padding: '6px 12px',
+                                        borderRadius: '6px',
+                                        fontWeight: '700',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.2s',
+                                        boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+                                      }}
+                                      onMouseOver={(e) => { e.currentTarget.style.background = '#fde68a'; e.currentTarget.style.transform = 'scale(1.05)'; }}
+                                      onMouseOut={(e) => { e.currentTarget.style.background = '#fef3c7'; e.currentTarget.style.transform = 'scale(1)'; }}
+                                    >
+                                      Verify Mastery
+                                    </button>
+                                  )}
+                                  <span style={{ color: '#cbd5e1', fontSize: '1.2rem', transition: 'transform 0.2s' }}>→</span>
+                                </div>
+                              </a>
+                            ))}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -1541,252 +1700,14 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
                   ← Back
                 </button>
                 <button className="btn btn-primary" onClick={() => setCurrentStep(2)}>
-                  Next: Learning Roadmap →
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Step 3: Learning Roadmap */}
-          {currentStep === 2 && (
-            <div className="results-step">
-              <div className="results-header">
-                <h2>Your Learning Roadmap</h2>
-                <p>Interactive flowchart showing your learning path</p>
-              </div>
-
-              <div className="roadmap-section">
-                <div className="roadmap-controls">
-                  <button className="roadmap-control-btn" onClick={() => {
-                    const roadmap = document.querySelector('.interactive-roadmap-canvas');
-                    if (roadmap) roadmap.style.transform = 'scale(1)';
-                  }}>
-                    Reset Zoom
-                  </button>
-                  <span className="roadmap-hint">💡 Click nodes for details • Scroll to zoom</span>
-                </div>
-
-                {/* Interactive Roadmap Canvas */}
-                <div className="interactive-roadmap-container">
-                  <div className="interactive-roadmap-canvas">
-                    {/* Start Node */}
-                    <div className="roadmap-node start-node" style={{ top: '20px', left: '50%', transform: 'translateX(-50%)' }}>
-                      <div className="node-content">
-                        <div className="node-icon">🎯</div>
-                        <div className="node-title">Start Here</div>
-                      </div>
-                    </div>
-
-                    {/* Vertical connector */}
-                    <svg className="roadmap-connector" style={{ top: '80px', left: '50%', transform: 'translateX(-50%)' }}>
-                      <line x1="0" y1="0" x2="0" y2="60" stroke="#475569" strokeWidth="3" strokeDasharray="5,5">
-                        <animate attributeName="stroke-dashoffset" from="0" to="10" dur="1s" repeatCount="indefinite"/>
-                      </line>
-                    </svg>
-
-                    {/* Foundation Level */}
-                    <div className="roadmap-level-group" style={{ top: '160px' }}>
-                      <div className="level-label">Foundation</div>
-                      <div className="roadmap-nodes-row">
-                        {skills.slice(0, 2).map((skill, index) => {
-                          const score = skillScores[skill];
-                          const isComplete = score.level === 'expert' || score.level === 'advanced';
-                          return (
-                            <div 
-                              key={index}
-                              className={`roadmap-node skill-node ${isComplete ? 'completed' : ''}`}
-                              style={{ left: `${30 + index * 40}%` }}
-                              onClick={() => {
-                                alert(`${skill}\n\nYour Score: ${score.weightedPercentage}%\nLevel: ${score.level}\n\nRecommendation: ${getRecommendation(skill, score).message}`);
-                              }}
-                            >
-                              <div className="node-status">{isComplete ? '✅' : '⬜'}</div>
-                              <div className="node-content">
-                                <div className="node-title">{skill}</div>
-                                <div className="node-score">{score.weightedPercentage}%</div>
-                                <div className="node-level">{score.level}</div>
-                              </div>
-                              {!isComplete && <div className="node-pulse"></div>}
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-
-                    {/* Connectors to Intermediate */}
-                    <svg className="roadmap-connector" style={{ top: '320px', left: '40%' }}>
-                      <line x1="0" y1="0" x2="0" y2="60" stroke="#475569" strokeWidth="3" strokeDasharray="5,5">
-                        <animate attributeName="stroke-dashoffset" from="0" to="10" dur="1s" repeatCount="indefinite"/>
-                      </line>
-                    </svg>
-                    <svg className="roadmap-connector" style={{ top: '320px', left: '60%' }}>
-                      <line x1="0" y1="0" x2="0" y2="60" stroke="#475569" strokeWidth="3" strokeDasharray="5,5">
-                        <animate attributeName="stroke-dashoffset" from="0" to="10" dur="1s" repeatCount="indefinite"/>
-                      </line>
-                    </svg>
-
-                    {/* Intermediate Level */}
-                    <div className="roadmap-level-group" style={{ top: '400px' }}>
-                      <div className="level-label">Intermediate</div>
-                      <div className="roadmap-nodes-row">
-                        {skills.slice(2, 4).map((skill, index) => {
-                          const score = skillScores[skill];
-                          const isComplete = score.level === 'expert' || score.level === 'advanced';
-                          return (
-                            <div 
-                              key={index}
-                              className={`roadmap-node skill-node ${isComplete ? 'completed' : ''}`}
-                              style={{ left: `${30 + index * 40}%` }}
-                              onClick={() => {
-                                alert(`${skill}\n\nYour Score: ${score.weightedPercentage}%\nLevel: ${score.level}\n\nRecommendation: ${getRecommendation(skill, score).message}`);
-                              }}
-                            >
-                              <div className="node-status">{isComplete ? '✅' : '⬜'}</div>
-                              <div className="node-content">
-                                <div className="node-title">{skill}</div>
-                                <div className="node-score">{score.weightedPercentage}%</div>
-                                <div className="node-level">{score.level}</div>
-                              </div>
-                              {!isComplete && <div className="node-pulse"></div>}
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-
-                    {/* Connectors to Advanced */}
-                    {skills.length > 4 && (
-                      <>
-                        <svg className="roadmap-connector" style={{ top: '560px', left: '40%' }}>
-                          <line x1="0" y1="0" x2="0" y2="60" stroke="#475569" strokeWidth="3" strokeDasharray="5,5">
-                            <animate attributeName="stroke-dashoffset" from="0" to="10" dur="1s" repeatCount="indefinite"/>
-                          </line>
-                        </svg>
-                        <svg className="roadmap-connector" style={{ top: '560px', left: '60%' }}>
-                          <line x1="0" y1="0" x2="0" y2="60" stroke="#475569" strokeWidth="3" strokeDasharray="5,5">
-                            <animate attributeName="stroke-dashoffset" from="0" to="10" dur="1s" repeatCount="indefinite"/>
-                          </line>
-                        </svg>
-
-                        {/* Advanced Level */}
-                        <div className="roadmap-level-group" style={{ top: '640px' }}>
-                          <div className="level-label">Advanced</div>
-                          <div className="roadmap-nodes-row">
-                            {skills.slice(4).map((skill, index) => {
-                              const score = skillScores[skill];
-                              const isComplete = score.level === 'expert' || score.level === 'advanced';
-                              return (
-                                <div 
-                                  key={index}
-                                  className={`roadmap-node skill-node ${isComplete ? 'completed' : ''}`}
-                                  style={{ left: `${20 + index * 30}%` }}
-                                  onClick={() => {
-                                    alert(`${skill}\n\nYour Score: ${score.weightedPercentage}%\nLevel: ${score.level}\n\nRecommendation: ${getRecommendation(skill, score).message}`);
-                                  }}
-                                >
-                                  <div className="node-status">{isComplete ? '✅' : '⬜'}</div>
-                                  <div className="node-content">
-                                    <div className="node-title">{skill}</div>
-                                    <div className="node-score">{score.weightedPercentage}%</div>
-                                    <div className="node-level">{score.level}</div>
-                                  </div>
-                                  {!isComplete && <div className="node-pulse"></div>}
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-
-                        {/* Final connector to goal */}
-                        <svg className="roadmap-connector" style={{ top: '800px', left: '50%', transform: 'translateX(-50%)' }}>
-                          <line x1="0" y1="0" x2="0" y2="60" stroke="#475569" strokeWidth="3" strokeDasharray="5,5">
-                            <animate attributeName="stroke-dashoffset" from="0" to="10" dur="1s" repeatCount="indefinite"/>
-                          </line>
-                        </svg>
-
-                        {/* Goal Node */}
-                        <div className="roadmap-node goal-node" style={{ top: '880px', left: '50%', transform: 'translateX(-50%)' }}>
-                          <div className="node-content">
-                            <div className="node-icon">🏆</div>
-                            <div className="node-title">Interview Ready!</div>
-                          </div>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </div>
-
-                <div className="roadmap-legend">
-                  <h4>Legend:</h4>
-                  <div className="legend-items">
-                    <div className="legend-item">
-                      <span className="legend-icon completed">✅</span>
-                      <span>Mastered (Advanced/Expert)</span>
-                    </div>
-                    <div className="legend-item">
-                      <span className="legend-icon">⬜</span>
-                      <span>Needs Practice</span>
-                    </div>
-                    <div className="legend-item">
-                      <span className="legend-icon pulse">●</span>
-                      <span>Focus Area</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="roadmap-external-links">
-                  <h3>📚 Detailed Roadmaps</h3>
-                  <p>Visit roadmap.sh for comprehensive guides:</p>
-                  <div className="external-links-grid">
-                    <a href="https://roadmap.sh/frontend" target="_blank" rel="noopener noreferrer" className="external-link-card">
-                      <div className="link-icon">🎨</div>
-                      <div className="link-content">
-                        <h4>Frontend Roadmap</h4>
-                        <p>Complete guide to frontend development</p>
-                      </div>
-                      <span className="link-arrow">→</span>
-                    </a>
-                    <a href="https://roadmap.sh/backend" target="_blank" rel="noopener noreferrer" className="external-link-card">
-                      <div className="link-icon">⚙️</div>
-                      <div className="link-content">
-                        <h4>Backend Roadmap</h4>
-                        <p>Complete guide to backend development</p>
-                      </div>
-                      <span className="link-arrow">→</span>
-                    </a>
-                    <a href="https://roadmap.sh/devops" target="_blank" rel="noopener noreferrer" className="external-link-card">
-                      <div className="link-icon">🚀</div>
-                      <div className="link-content">
-                        <h4>DevOps Roadmap</h4>
-                        <p>Complete guide to DevOps practices</p>
-                      </div>
-                      <span className="link-arrow">→</span>
-                    </a>
-                    <a href="https://roadmap.sh/python" target="_blank" rel="noopener noreferrer" className="external-link-card">
-                      <div className="link-icon">🐍</div>
-                      <div className="link-content">
-                        <h4>Python Roadmap</h4>
-                        <p>Complete guide to Python development</p>
-                      </div>
-                      <span className="link-arrow">→</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="step-navigation">
-                <button className="btn btn-secondary" onClick={() => setCurrentStep(1)}>
-                  ← Back
-                </button>
-                <button className="btn btn-primary" onClick={() => setCurrentStep(3)}>
                   Next: Action Plan →
                 </button>
               </div>
             </div>
           )}
 
-          {/* Step 4: Action Plan */}
-          {currentStep === 3 && (
+          {/* Step 3: Action Plan */}
+          {currentStep === 2 && (
             <div className="results-step">
               <div className="results-header">
                 <h2>Your Action Plan</h2>
@@ -1843,7 +1764,7 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
               </div>
 
               <div className="step-navigation">
-                <button className="btn btn-secondary" onClick={() => setCurrentStep(2)}>
+                <button className="btn btn-secondary" onClick={() => setCurrentStep(1)}>
                   ← Back
                 </button>
                 <button 
@@ -1856,6 +1777,13 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
             </div>
           )}
         </div>
+        {selectedBlogResource && (
+          <BlogReaderModal 
+            resource={selectedBlogResource} 
+            onClose={() => setSelectedBlogResource(null)} 
+            onComplete={handleResourceComplete}
+          />
+        )}
       </div>
     );
   }

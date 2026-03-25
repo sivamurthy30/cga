@@ -4,7 +4,7 @@ const InfoPanel = () => {
   return (
     <div className="info-panel">
       <div className="info-header">
-        <h3>About DEVA</h3>
+        <h3>About DEV<sup>A</sup></h3>
         <p className="info-subtitle">Advanced Career Gap Analyzer</p>
       </div>
 

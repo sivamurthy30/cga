@@ -1,0 +1,107 @@
+{
+  "roadmaps": {
+    "frontend-developer": {
+      "id": "frontend-developer",
+      "name": "Frontend Developer",
+      "icon": "🎨",
+      "totalNodes": 10
+    },
+    "backend-developer": {
+      "id": "backend-developer",
+      "name": "Backend Developer",
+      "icon": "⚙️",
+      "totalNodes": 10
+    },
+    "devops-engineer": {
+      "id": "devops-engineer",
+      "name": "DevOps Engineer",
+      "icon": "🔧",
+      "totalNodes": 10
+    },
+    "fullstack-developer": {
+      "id": "fullstack-developer",
+      "name": "Full Stack Developer",
+      "icon": "🚀",
+      "totalNodes": 10
+    },
+    "ai-ml-engineer": {
+      "id": "ai-ml-engineer",
+      "name": "AI/ML Engineer",
+      "icon": "🤖",
+      "totalNodes": 10
+    },
+    "data-engineer": {
+      "id": "data-engineer",
+      "name": "Data Engineer",
+      "icon": "📊",
+      "totalNodes": 10
+    },
+    "mobile-developer": {
+      "id": "mobile-developer",
+      "name": "Mobile Developer (Android)",
+      "icon": "📱",
+      "totalNodes": 10
+    },
+    "system-design": {
+      "id": "system-design",
+      "name": "System Design",
+      "icon": "🏗️",
+      "totalNodes": 10
+    },
+    "react-developer": {
+      "id": "react-developer",
+      "name": "React Developer",
+      "icon": "⚛️",
+      "totalNodes": 10
+    },
+    "nodejs-developer": {
+      "id": "nodejs-developer",
+      "name": "Node.js Developer",
+      "icon": "🟢",
+      "totalNodes": 10
+    },
+    "python-developer": {
+      "id": "python-developer",
+      "name": "Python Developer",
+      "icon": "🐍",
+      "totalNodes": 10
+    },
+    "java-developer": {
+      "id": "java-developer",
+      "name": "Java Developer",
+      "icon": "☕",
+      "totalNodes": 10
+    },
+    "go-developer": {
+      "id": "go-developer",
+      "name": "Go Developer",
+      "icon": "🔵",
+      "totalNodes": 10
+    },
+    "docker": {
+      "id": "docker",
+      "name": "Docker",
+      "icon": "🐳",
+      "totalNodes": 10
+    },
+    "kubernetes": {
+      "id": "kubernetes",
+      "name": "Kubernetes",
+      "icon": "☸️",
+      "totalNodes": 10
+    },
+    "postgresql": {
+      "id": "postgresql",
+      "name": "PostgreSQL",
+      "icon": "🐘",
+      "totalNodes": 10
+    },
+    "security-engineer": {
+      "id": "security-engineer",
+      "name": "Security Engineer",
+      "icon": "🔒",
+      "totalNodes": 10
+    }
+  },
+  "lastUpdated": "2024-01-01"
+}

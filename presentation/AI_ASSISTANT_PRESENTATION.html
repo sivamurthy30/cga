@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Website Assistant - Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .presentation {
+            width: 100%;
+            max-width: 1200px;
+            aspect-ratio: 16 / 9;
+            background: #0f0f23;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .slides {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            background: linear-gradient(135deg, rgba(15, 15, 35, 0.95), rgba(26, 26, 62, 0.95));
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 900px;
+            color: #e0e0e0;
+        }
+
+        /* ===== SLIDE 1: Title ===== */
+        .slide-1 {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, rgba(255, 215, 0, 0.05) 100%);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .title-content {
+            text-align: center;
+        }
+
+        .project-icon {
+            font-size: 80px;
+            margin-bottom: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        h1 {
+            font-size: 72px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffd700, #ffed4e, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .tagline {
+            font-size: 28px;
+            color: #a0d8f0;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #888;
+            margin-top: 40px;
+            font-style: italic;
+        }
+
+        /* ===== SLIDE COMMON ===== */
+        h2 {
+            font-size: 48px;
+            color: #ffd700;
+            margin-bottom: 40px;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #ffd700, #ffed4e);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .content-block {
+            background: rgba(255, 215, 0, 0.03);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .content-block:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+
+        .icon-text {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .icon {
+            font-size: 32px;
+            flex-shrink: 0;
+            color: #ffd700;
+            margin-top: 5px;
+        }
+
+        .icon-content h3 {
+            color: #ffd700;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .icon-content p {
+            color: #b0b0b0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        ul li {
+            color: #d0d0d0;
+            font-size: 16px;
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        ul li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #ffd700;
+            font-size: 20px;
+        }
+
+        /* ===== FLOW DIAGRAM ===== */
+        .flow-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .flow-step {
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 12px;
+            padding: 20px 25px;
+            text-align: center;
+            min-width: 140px;
+            font-size: 13px;
+            color: #d0d0d0;
+            position: relative;
+        }
+
+        .flow-step .number {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .flow-arrow {
+            font-size: 24px;
+            color: #ffd700;
+            margin: 0 10px;
+        }
+
+        /* ===== TECH STACK ===== */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .tech-item {
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .tech-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .tech-label {
+            color: #ffd700;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .tech-name {
+            color: #d0d0d0;
+            font-size: 16px;
+        }
+
+        /* ===== BENEFITS ===== */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .benefit-card {
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .benefit-icon {
+            font-size: 32px;
+            flex-shrink: 0;
+            color: #ffd700;
+        }
+
+        .benefit-text h3 {
+            color: #ffd700;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .benefit-text p {
+            color: #b0b0b0;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* ===== CONTROLS ===== */
+        .controls {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            z-index: 100;
+        }
+
+        button {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            color: #ffd700;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        button:hover {
+            background: rgba(255, 215, 0, 0.2);
+            border-color: rgba(255, 215, 0, 0.5);
+            transform: scale(1.05);
+        }
+
+        .slide-counter {
+            color: #888;
+            font-size: 14px;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        /* ===== USE CASES ===== */
+        .use-cases-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .use-case-box {
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .use-case-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+
+        .use-case-title {
+            color: #ffd700;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .use-case-desc {
+            color: #b0b0b0;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* ===== FUTURE SCOPE ===== */
+        .future-items {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .future-item {
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .future-icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+            color: #ffd700;
+        }
+
+        .future-text {
+            color: #d0d0d0;
+            font-size: 14px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <div class="slides">
+            <!-- SLIDE 1: TITLE -->
+            <div class="slide slide-1 active">
+                <div class="slide-content">
+                    <div class="title-content">
+                        <div class="project-icon">🤖</div>
+                        <h1>AI Assistant Pro</h1>
+                        <p class="tagline">An AI that understands users and helps them in real-time</p>
+                        <p class="subtitle">Intelligent Website Assistance Platform</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 2: PROBLEM STATEMENT -->
+            <div class="slide slide-2">
+                <div class="slide-content">
+                    <h2>The Problem</h2>
+                    <div class="content-grid">
+                        <div class="content-block">
+                            <div class="icon-text">
+                                <span class="icon">😕</span>
+                                <div class="icon-content">
+                                    <h3>User Confusion</h3>
+                                    <p>Users struggle to navigate websites and get lost in complex interfaces</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-block">
+                            <div class="icon-text">
+                                <span class="icon">🆘</span>
+                                <div class="icon-content">
+                                    <h3>No Real-Time Help</h3>
+                                    <p>Lack of instant assistance when users are stuck or confused</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-block">
+                            <div class="icon-text">
+                                <span class="icon">📉</span>
+                                <div class="icon-content">
+                                    <h3>High Drop-Off Rates</h3>
+                                    <p>Users abandon websites due to poor engagement and support</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-block">
+                            <div class="icon-text">
+                                <span class="icon">🤖</span>
+                                <div class="icon-content">
+                                    <h3>Generic Chatbots</h3>
+                                    <p>Traditional bots don't understand user behavior or context</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 3: SOLUTION OVERVIEW -->
+            <div class="slide slide-3">
+                <div class="slide-content">
+                    <h2>Our Solution</h2>
+                    <div class="content-grid" style="grid-template-columns: 1fr;">
+                        <div>
+                            <ul>
+                                <li><strong>Smart Behavior Tracking</strong> - Observes user interactions in real-time</li>
+                                <li><strong>Intelligent Detection</strong> - Identifies when users are confused or stuck</li>
+                                <li><strong>Instant Assistance</strong> - Provides contextual help automatically</li>
+                                <li><strong>Personalized Guidance</strong> - Tailored recommendations based on user behavior</li>
+                                <li><strong>Seamless Integration</strong> - Works with any website without complex setup</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 4: KEY FEATURES -->
+            <div class="slide slide-4">
+                <div class="slide-content">
+                    <h2>Key Features</h2>
+                    <div class="benefits-grid" style="grid-template-columns: 1fr;">
+                        <div class="benefit-card">
+                            <div class="benefit-icon">📍</div>
+                            <div class="benefit-text">
+                                <h3>Real-Time Behavior Tracking</h3>
+                                <p>Monitors user clicks, scrolling, inactivity patterns, and engagement metrics</p>
+                            </div>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">🎯</div>
+                            <div class="benefit-text">
+                                <h3>Smart Intervention System</h3>
+                                <p>Detects confusion patterns and triggers assistance at optimal moments</p>
+                            </div>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">🧠</div>
+                            <div class="benefit-text">
+                                <h3>Context-Aware Responses</h3>
+                                <p>Understands page context, user journey, and provides relevant suggestions</p>
+                            </div>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">✨</div>
+                            <div class="benefit-text">
+                                <h3>Personalized Guidance</h3>
+                                <p>Learns from each user interaction to improve recommendations over time</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 5: HOW IT WORKS -->
+            <div class="slide slide-5">
+                <div class="slide-content">
+                    <h2>How It Works</h2>
+                    <div class="flow-container">
+                        <div class="flow-step">
+                            <div class="number">1</div>
+                            <div>Track User Actions</div>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-step">
+                            <div class="number">2</div>
+                            <div>Detect Confusion</div>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-step">
+                            <div class="number">3</div>
+                            <div>Trigger AI</div>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-step">
+                            <div class="number">4</div>
+                            <div>Provide Help</div>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-step">
+                            <div class="number">5</div>
+                            <div>Improve Flow</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 40px; text-align: center; color: #b0b0b0; font-size: 14px;">
+                        <p>🔄 Continuous loop of observation, analysis, and optimization</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 6: TECHNOLOGY STACK -->
+            <div class="slide slide-6">
+                <div class="slide-content">
+                    <h2>Technology Stack</h2>
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <div class="tech-icon">⚛️</div>
+                            <div class="tech-label">Frontend</div>
+                            <div class="tech-name">React / Next.js</div>
+                        </div>
+                        <div class="tech-item">
+                            <div class="tech-icon">🟢</div>
+                            <div class="tech-label">Backend</div>
+                            <div class="tech-name">Node.js / Express</div>
+                        </div>
+                        <div class="tech-item">
+                            <div class="tech-icon">🧠</div>
+                            <div class="tech-label">AI Model</div>
+                            <div class="tech-name">LLM (Llama / OpenAI)</div>
+                        </div>
+                        <div class="tech-item">
+                            <div class="tech-icon">🔌</div>
+                            <div class="tech-label">Integration</div>
+                            <div class="tech-name">REST APIs & Webhooks</div>
+                        </div>
+                        <div class="tech-item">
+                            <div class="tech-icon">📊</div>
+                            <div class="tech-label">Analytics</div>
+                            <div class="tech-name">Real-time Tracking</div>
+                        </div>
+                        <div class="tech-item">
+                            <div class="tech-icon">☁️</div>
+                            <div class="tech-label">Hosting</div>
+                            <div class="tech-name">AWS / GCP / Azure</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 7: USE CASES -->
+            <div class="slide slide-7">
+                <div class="slide-content">
+                    <h2>Use Cases</h2>
+                    <div class="use-cases-container">
+                        <div class="use-case-box">
+                            <div class="use-case-icon">🎓</div>
+                            <div class="use-case-title">E-Learning Platforms</div>
+                            <div class="use-case-desc">Help students understand topics, guide through lessons, provide instant tutoring</div>
+                        </div>
+                        <div class="use-case-box">
+                            <div class="use-case-icon">🛍️</div>
+                            <div class="use-case-title">E-Commerce</div>
+                            <div class="use-case-desc">Guide users to products, improve product discovery, reduce cart abandonment</div>
+                        </div>
+                        <div class="use-case-box">
+                            <div class="use-case-icon">⚙️</div>
+                            <div class="use-case-title">SaaS Platforms</div>
+                            <div class="use-case-desc">Streamline onboarding, reduce support tickets, improve feature adoption</div>
+                        </div>
+                        <div class="use-case-box">
+                            <div class="use-case-icon">🎨</div>
+                            <div class="use-case-title">Portfolio Websites</div>
+                            <div class="use-case-desc">Interactive guidance, showcase projects, engage visitors, capture leads</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 8: BENEFITS -->
+            <div class="slide slide-8">
+                <div class="slide-content">
+                    <h2>Key Benefits</h2>
+                    <div class="benefits-grid">
+                        <div class="benefit-card">
+                            <div class="benefit-icon">📈</div>
+                            <div class="benefit-text">
+                                <h3>Increased Engagement</h3>
+                                <p>Users stay longer and interact more with your website</p>
+                            </div>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">⬇️</div>
+                            <div class="benefit-text">
+                                <h3>Reduced Bounce Rate</h3>
+                                <p>Smart assistance prevents users from leaving frustrated</p>
+                            </div>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">👥</div>
+                            <div class="benefit-text">
+                                <h3>Better User Understanding</h3>
+                                <p>Detailed analytics on how users behave and what they need</p>
+                            </div>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">🤖</div>
+                            <div class="benefit-text">
+                                <h3>Smart Automation</h3>
+                                <p>Reduces support burden with intelligent self-service</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 9: FUTURE SCOPE -->
+            <div class="slide slide-9">
+                <div class="slide-content">
+                    <h2>Future Vision</h2>
+                    <div class="future-items">
+                        <div class="future-item">
+                            <div class="future-icon">🎙️</div>
+                            <div class="future-text">Voice-Enabled Assistant</div>
+                        </div>
+                        <div class="future-item">
+                            <div class="future-icon">🔮</div>
+                            <div class="future-text">Predictive Assistance</div>
+                        </div>
+                        <div class="future-item">
+                            <div class="future-icon">🧬</div>
+                            <div class="future-text">Deeper Personalization</div>
+                        </div>
+                        <div class="future-item">
+                            <div class="future-icon">📊</div>
+                            <div class="future-text">Analytics Dashboard</div>
+                        </div>
+                        <div class="future-item">
+                            <div class="future-icon">🌍</div>
+                            <div class="future-text">Multi-Language Support</div>
+                        </div>
+                        <div class="future-item">
+                            <div class="future-icon">🔗</div>
+                            <div class="future-text">Third-Party Integrations</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTROLS -->
+        <div class="controls">
+            <button onclick="previousSlide()">← Previous</button>
+            <span class="slide-counter"><span id="current">1</span> / <span id="total">9</span></span>
+            <button onclick="nextSlide()">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 9;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            if (n > totalSlides) currentSlide = 1;
+            if (n < 1) currentSlide = totalSlides;
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentSlide - 1].classList.add('active');
+            
+            document.getElementById('current').textContent = currentSlide;
+        }
+
+        function nextSlide() {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+
+        function previousSlide() {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+        });
+
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>

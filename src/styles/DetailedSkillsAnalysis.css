@@ -2,9 +2,9 @@
 
 .detailed-skills-analysis {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  background: var(--white);
   padding: 2rem;
-  color: #ffffff;
+  color: var(--rich-black);
 }
 
 /* Progress Steps */
@@ -56,13 +56,13 @@
 }
 
 .step.completed .step-number {
-  background: #10b981;
-  border-color: #10b981;
+  background: var(--accent-emerald);
+  border-color: var(--accent-emerald);
 }
 
 .step.active .step-number {
-  background: #f59e0b;
-  border-color: #f59e0b;
+  background: var(--accent-amber);
+  border-color: var(--accent-amber);
   box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
 }
 
@@ -72,7 +72,7 @@
 }
 
 .step.active span {
-  color: #ffffff;
+  color: var(--rich-black);
   font-weight: 600;
 }
 
@@ -106,7 +106,7 @@
 
 .skill-card-detailed {
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid var(--platinum);
   border-radius: 20px;
   padding: 2rem;
   cursor: pointer;
@@ -149,7 +149,7 @@
   border-radius: 12px;
   font-weight: 700;
   font-size: 1.125rem;
-  color: #ffffff;
+  color: var(--rich-black);
 }
 
 /* Progress Bar */
@@ -181,7 +181,7 @@
   border-radius: 20px;
   font-size: 0.875rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--rich-black);
 }
 
 .skill-level {
@@ -215,7 +215,7 @@
 
 .skill-achievements li::before {
   content: '✓ ';
-  color: #10b981;
+  color: var(--accent-emerald);
   font-weight: 700;
   margin-right: 0.5rem;
 }
@@ -247,7 +247,7 @@
 .stat-value {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--rich-black);
 }
 
 /* View Details Button */
@@ -257,7 +257,7 @@
   background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   border: none;
   border-radius: 12px;
-  color: #ffffff;
+  color: var(--rich-black);
   font-weight: 600;
   font-size: 0.9375rem;
   cursor: pointer;
@@ -286,8 +286,8 @@
 }
 
 .skill-modal-content {
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--white);
+  border: 2px solid var(--platinum);
   border-radius: 24px;
   max-width: 900px;
   width: 100%;
@@ -306,7 +306,7 @@
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #ffffff;
+  color: var(--rich-black);
   font-size: 1.5rem;
   cursor: pointer;
   display: flex;
@@ -327,7 +327,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 3rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid var(--platinum);
 }
 
 .modal-title-section {
@@ -343,7 +343,7 @@
 .modal-header h2 {
   font-size: 2rem;
   margin: 0;
-  color: #ffffff;
+  color: var(--rich-black);
 }
 
 .modal-subtitle {
@@ -371,7 +371,7 @@
   display: block;
   font-size: 1.5rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--rich-black);
 }
 
 .progress-label {
@@ -392,7 +392,7 @@
 .modal-section h3 {
   font-size: 1.25rem;
   margin-bottom: 1.5rem;
-  color: #ffffff;
+  color: var(--rich-black);
 }
 
 /* Checklist */
@@ -409,7 +409,7 @@
   padding: 1rem;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid var(--platinum);
   transition: all 0.3s ease;
 }
 
@@ -430,8 +430,8 @@
 }
 
 .checklist-item.checked .checkbox {
-  background: #10b981;
-  color: #ffffff;
+  background: var(--accent-emerald);
+  color: var(--rich-black);
 }
 
 /* Resources */
@@ -448,7 +448,7 @@
   padding: 1.5rem;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid var(--platinum);
   transition: all 0.3s ease;
 }
 
@@ -474,7 +474,7 @@
 .resource-info h4 {
   font-size: 1rem;
   margin: 0 0 0.25rem 0;
-  color: #ffffff;
+  color: var(--rich-black);
 }
 
 .resource-info p {
@@ -493,12 +493,12 @@
 
 .difficulty-badge.beginner {
   background: rgba(16, 185, 129, 0.2);
-  color: #10b981;
+  color: var(--accent-emerald);
 }
 
 .difficulty-badge.intermediate {
   background: rgba(245, 158, 11, 0.2);
-  color: #f59e0b;
+  color: var(--accent-amber);
 }
 
 .difficulty-badge.advanced {
@@ -528,7 +528,7 @@
   height: 32px;
   border-radius: 50%;
   background: #3b82f6;
-  color: #ffffff;
+  color: var(--rich-black);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -550,7 +550,7 @@
   padding: 1.5rem;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid var(--platinum);
 }
 
 .info-icon {
@@ -566,7 +566,7 @@
 .info-value {
   font-size: 1rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--rich-black);
   margin: 0;
 }
 
@@ -593,7 +593,7 @@
 
 .nav-btn.secondary {
   background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  color: var(--rich-black);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -603,7 +603,7 @@
 
 .nav-btn.primary {
   background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  color: #ffffff;
+  color: var(--rich-black);
 }
 
 .nav-btn.primary:hover {
@@ -618,8 +618,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  color: #ffffff;
+  background: var(--white);
+  color: var(--rich-black);
 }
 
 .loading-spinner {

@@ -270,27 +270,27 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
     return (
       <div className="interactive-roadmap" style={{ padding: '40px', maxWidth: '1200px', margin: '0 auto' }}>
         <div className="roadmap-header" style={{
-          background: '#1e293b',
+          background: 'var(--white)',
           border: '2px solid #334155',
           borderRadius: '12px',
           padding: '20px',
           marginBottom: '24px'
         }}>
-          <h3 style={{ color: '#f59e0b', fontSize: '1.75rem', fontWeight: 700 }}>🗺️ Interactive Learning Roadmap</h3>
-          <p className="roadmap-subtitle" style={{ color: '#94a3b8', marginTop: '8px' }}>
+          <h3 style={{ color: 'var(--accent-amber)', fontSize: '1.75rem', fontWeight: 700 }}>🗺️ Interactive Learning Roadmap</h3>
+          <p className="roadmap-subtitle" style={{ color: 'var(--medium-gray)', marginTop: '8px' }}>
             Visual guide to master your target role
           </p>
         </div>
         <div className="roadmap-empty" style={{
-          background: '#1e293b',
+          background: 'var(--white)',
           border: '2px solid #334155',
           borderRadius: '12px',
           padding: '60px 40px',
           textAlign: 'center'
         }}>
           <div className="empty-icon" style={{ fontSize: '4rem', marginBottom: '16px' }}>🗺️</div>
-          <h4 style={{ color: '#ffffff', fontSize: '1.5rem', marginBottom: '12px' }}>Select Your Target Role</h4>
-          <p style={{ color: '#94a3b8', fontSize: '1rem' }}>
+          <h4 style={{ color: 'var(--rich-black)', fontSize: '1.5rem', marginBottom: '12px' }}>Select Your Target Role</h4>
+          <p style={{ color: 'var(--medium-gray)', fontSize: '1rem' }}>
             Choose a role in your Learning Profile to see the complete learning roadmap.
           </p>
         </div>
@@ -302,16 +302,16 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
     return (
       <div className="interactive-roadmap" style={{ padding: '40px', maxWidth: '1200px', margin: '0 auto' }}>
         <div className="roadmap-header" style={{
-          background: '#1e293b',
+          background: 'var(--white)',
           border: '2px solid #334155',
           borderRadius: '12px',
           padding: '20px',
           marginBottom: '24px'
         }}>
-          <h3 style={{ color: '#f59e0b', fontSize: '1.75rem', fontWeight: 700 }}>🗺️ Interactive Learning Roadmap</h3>
+          <h3 style={{ color: 'var(--accent-amber)', fontSize: '1.75rem', fontWeight: 700 }}>🗺️ Interactive Learning Roadmap</h3>
         </div>
         <div className="roadmap-loading" style={{
-          background: '#1e293b',
+          background: 'var(--white)',
           border: '2px solid #334155',
           borderRadius: '12px',
           padding: '60px 40px',
@@ -321,12 +321,12 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
             width: '48px',
             height: '48px',
             border: '4px solid #334155',
-            borderTop: '4px solid #f59e0b',
+            borderTop: '4px solid var(--accent-amber)',
             borderRadius: '50%',
             animation: 'spin 1s linear infinite',
             margin: '0 auto 16px'
           }}></div>
-          <p style={{ color: '#94a3b8', fontSize: '1rem' }}>
+          <p style={{ color: 'var(--medium-gray)', fontSize: '1rem' }}>
             Loading roadmap for {learnerProfile.targetRole}...
           </p>
         </div>
@@ -338,24 +338,24 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
     return (
       <div className="interactive-roadmap" style={{ padding: '40px', maxWidth: '1200px', margin: '0 auto' }}>
         <div className="roadmap-header" style={{
-          background: '#1e293b',
+          background: 'var(--white)',
           border: '2px solid #334155',
           borderRadius: '12px',
           padding: '20px',
           marginBottom: '24px'
         }}>
-          <h3 style={{ color: '#f59e0b', fontSize: '1.75rem', fontWeight: 700 }}>🗺️ Interactive Learning Roadmap</h3>
+          <h3 style={{ color: 'var(--accent-amber)', fontSize: '1.75rem', fontWeight: 700 }}>🗺️ Interactive Learning Roadmap</h3>
         </div>
         <div className="roadmap-error" style={{
-          background: '#1e293b',
+          background: 'var(--white)',
           border: '2px solid #334155',
           borderRadius: '12px',
           padding: '60px 40px',
           textAlign: 'center'
         }}>
           <div className="error-icon" style={{ fontSize: '4rem', marginBottom: '16px' }}>⚠️</div>
-          <h4 style={{ color: '#ffffff', fontSize: '1.5rem', marginBottom: '12px' }}>Roadmap Not Available</h4>
-          <p style={{ color: '#94a3b8', fontSize: '1rem' }}>
+          <h4 style={{ color: 'var(--rich-black)', fontSize: '1.5rem', marginBottom: '12px' }}>Roadmap Not Available</h4>
+          <p style={{ color: 'var(--medium-gray)', fontSize: '1rem' }}>
             Could not load roadmap for {learnerProfile.targetRole}.
           </p>
         </div>
@@ -369,7 +369,7 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
       maxWidth: '1200px',
       margin: '0 auto',
       minHeight: '100vh',
-      background: '#0f172a'
+      background: 'var(--white)'
     }}>
       <div className="roadmap-header" style={{
         display: 'flex',
@@ -377,15 +377,15 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
         alignItems: 'center',
         marginBottom: '24px',
         padding: '20px',
-        background: '#1e293b',
+        background: 'var(--white)',
         border: '2px solid #334155',
         borderRadius: '12px'
       }}>
         <div className="header-content">
-          <h3 style={{ color: '#f59e0b', fontSize: '1.75rem', fontWeight: 700, marginBottom: '8px' }}>
+          <h3 style={{ color: 'var(--accent-amber)', fontSize: '1.75rem', fontWeight: 700, marginBottom: '8px' }}>
             🗺️ Interactive Learning Roadmap
           </h3>
-          <p className="roadmap-subtitle" style={{ color: '#94a3b8', fontSize: '1rem' }}>
+          <p className="roadmap-subtitle" style={{ color: 'var(--medium-gray)', fontSize: '1rem' }}>
             {roadmapData.role} - {roadmapData.total_skills} skills to master
           </p>
         </div>
@@ -393,7 +393,7 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
           <div className="view-toggle" style={{ 
             display: 'flex',
             gap: '8px',
-            background: '#0f172a',
+            background: 'var(--white)',
             padding: '4px',
             borderRadius: '8px'
           }}>
@@ -402,10 +402,10 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
               onClick={() => setViewMode('tree')}
               style={{
                 padding: '8px 16px',
-                background: viewMode === 'tree' ? '#f59e0b' : 'transparent',
+                background: viewMode === 'tree' ? 'var(--accent-amber)' : 'transparent',
                 border: 'none',
                 borderRadius: '6px',
-                color: viewMode === 'tree' ? '#0f172a' : '#94a3b8',
+                color: viewMode === 'tree' ? 'var(--white)' : 'var(--medium-gray)',
                 fontWeight: 600,
                 cursor: 'pointer',
                 transition: 'all 0.2s'
@@ -418,10 +418,10 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
               onClick={() => setViewMode('list')}
               style={{
                 padding: '8px 16px',
-                background: viewMode === 'list' ? '#f59e0b' : 'transparent',
+                background: viewMode === 'list' ? 'var(--accent-amber)' : 'transparent',
                 border: 'none',
                 borderRadius: '6px',
-                color: viewMode === 'list' ? '#0f172a' : '#94a3b8',
+                color: viewMode === 'list' ? 'var(--white)' : 'var(--medium-gray)',
                 fontWeight: 600,
                 cursor: 'pointer',
                 transition: 'all 0.2s'
@@ -437,21 +437,21 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
             className="btn btn-secondary roadmap-link"
             style={{
               padding: '8px 16px',
-              background: '#334155',
+              background: 'var(--pearl)',
               border: '2px solid #475569',
               borderRadius: '8px',
-              color: '#ffffff',
+              color: 'var(--rich-black)',
               textDecoration: 'none',
               fontWeight: 600,
               transition: 'all 0.2s'
             }}
             onMouseEnter={(e) => {
-              e.target.style.borderColor = '#f59e0b';
-              e.target.style.background = '#1e293b';
+              e.target.style.borderColor = 'var(--accent-amber)';
+              e.target.style.background = 'var(--white)';
             }}
             onMouseLeave={(e) => {
-              e.target.style.borderColor = '#475569';
-              e.target.style.background = '#334155';
+              e.target.style.borderColor = 'var(--platinum)';
+              e.target.style.background = 'var(--pearl)';
             }}
           >
             🔗 View on Roadmap.sh
@@ -461,7 +461,7 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
 
       {/* Progress Bar */}
       <div className="roadmap-progress" style={{
-        background: '#1e293b',
+        background: 'var(--white)',
         border: '2px solid #334155',
         borderRadius: '12px',
         padding: '20px',
@@ -472,15 +472,15 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
           justifyContent: 'space-between',
           marginBottom: '12px'
         }}>
-          <span className="progress-label" style={{ color: '#ffffff', fontWeight: 600 }}>Your Progress</span>
-          <span className="progress-percentage" style={{ color: '#f59e0b', fontWeight: 700, fontSize: '1.25rem' }}>
+          <span className="progress-label" style={{ color: 'var(--rich-black)', fontWeight: 600 }}>Your Progress</span>
+          <span className="progress-percentage" style={{ color: 'var(--accent-amber)', fontWeight: 700, fontSize: '1.25rem' }}>
             {getCompletionPercentage()}%
           </span>
         </div>
         <div className="progress-bar" style={{
           width: '100%',
           height: '12px',
-          background: '#0f172a',
+          background: 'var(--white)',
           borderRadius: '6px',
           overflow: 'hidden',
           marginBottom: '12px'
@@ -490,7 +490,7 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
             style={{ 
               width: `${getCompletionPercentage()}%`,
               height: '100%',
-              background: 'linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%)',
+              background: 'linear-gradient(90deg, var(--accent-amber) 0%, #fbbf24 100%)',
               transition: 'width 0.5s ease',
               borderRadius: '6px'
             }}
@@ -499,22 +499,22 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
         <div className="progress-stats" style={{
           display: 'flex',
           gap: '12px',
-          color: '#94a3b8',
+          color: 'var(--medium-gray)',
           fontSize: '0.875rem',
           marginBottom: '8px'
         }}>
-          <span style={{ color: '#10b981' }}>✅ {completedSkills.size} completed (from your profile)</span>
+          <span style={{ color: 'var(--accent-emerald)' }}>✅ {completedSkills.size} completed (from your profile)</span>
           <span>•</span>
           <span style={{ color: '#64748b' }}>📚 {roadmapData.total_skills - completedSkills.size} to learn</span>
         </div>
         {learnerProfile?.knownSkills && learnerProfile.knownSkills.length > 0 && (
           <div className="progress-note" style={{
             padding: '12px',
-            background: '#0f172a',
+            background: 'var(--white)',
             borderRadius: '8px',
             marginTop: '12px'
           }}>
-            <p style={{ color: '#cbd5e1', fontSize: '0.875rem', margin: 0 }}>
+            <p style={{ color: 'var(--dark-gray)', fontSize: '0.875rem', margin: 0 }}>
               💡 Skills marked as completed are based on your profile. 
               {completedSkills.size === 0 && ' No matches found - try adding more skills or check the console for details.'}
             </p>
@@ -540,10 +540,10 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
             {Object.entries(roadmapData.categories).map(([category, skills], catIndex) => (
               <div key={category} className="roadmap-category" style={{ position: 'relative', zIndex: 1 }}>
                 <div className="category-header">
-                  <h4 style={{ color: '#f59e0b', fontWeight: 600 }}>{category}</h4>
+                  <h4 style={{ color: 'var(--accent-amber)', fontWeight: 600 }}>{category}</h4>
                   <span className="category-count" style={{ 
-                    color: '#94a3b8',
-                    background: '#1e293b',
+                    color: 'var(--medium-gray)',
+                    background: 'var(--white)',
                     padding: '4px 12px',
                     borderRadius: '12px',
                     fontSize: '0.875rem'
@@ -563,20 +563,20 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
                         onClick={() => handleSkillClick(skill)}
                         style={{ 
                           animationDelay: `${index * 0.05}s`,
-                          background: isCompleted ? '#10b981' : '#1e293b',
-                          border: `2px solid ${isSelected ? '#f59e0b' : isCompleted ? '#10b981' : '#334155'}`,
-                          color: '#ffffff',
+                          background: isCompleted ? 'var(--accent-emerald)' : 'var(--white)',
+                          border: `2px solid ${isSelected ? 'var(--accent-amber)' : isCompleted ? 'var(--accent-emerald)' : 'var(--pearl)'}`,
+                          color: 'var(--rich-black)',
                           position: 'relative'
                         }}
                       >
                         <div className="node-icon" style={{ fontSize: '1.5rem' }}>{getSkillIcon(skill)}</div>
                         <div className="node-content">
                           <span className="node-title" style={{ 
-                            color: '#ffffff',
+                            color: 'var(--rich-black)',
                             fontWeight: 500,
                             fontSize: '0.95rem'
                           }}>{skill}</span>
-                          {isCompleted && <span className="node-check" style={{ color: '#ffffff' }}>✓</span>}
+                          {isCompleted && <span className="node-check" style={{ color: 'var(--rich-black)' }}>✓</span>}
                         </div>
                         <button
                           className="node-toggle"
@@ -586,9 +586,9 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
                           }}
                           title={isCompleted ? 'Mark as incomplete' : 'Mark as complete'}
                           style={{
-                            background: isCompleted ? '#10b981' : 'transparent',
-                            border: `2px solid ${isCompleted ? '#10b981' : '#64748b'}`,
-                            color: isCompleted ? '#ffffff' : '#64748b',
+                            background: isCompleted ? 'var(--accent-emerald)' : 'transparent',
+                            border: `2px solid ${isCompleted ? 'var(--accent-emerald)' : '#64748b'}`,
+                            color: isCompleted ? 'var(--rich-black)' : '#64748b',
                             width: '28px',
                             height: '28px',
                             borderRadius: '50%',
@@ -646,9 +646,9 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
                   className={`roadmap-list-item ${isCompleted ? 'completed' : ''} ${isSelected ? 'selected' : ''}`}
                   onClick={() => handleSkillClick(skill)}
                   style={{
-                    background: isCompleted ? '#10b981' : '#1e293b',
-                    border: `2px solid ${isSelected ? '#f59e0b' : isCompleted ? '#10b981' : '#334155'}`,
-                    color: '#ffffff',
+                    background: isCompleted ? 'var(--accent-emerald)' : 'var(--white)',
+                    border: `2px solid ${isSelected ? 'var(--accent-amber)' : isCompleted ? 'var(--accent-emerald)' : 'var(--pearl)'}`,
+                    color: 'var(--rich-black)',
                     padding: '16px',
                     borderRadius: '12px',
                     marginBottom: '12px',
@@ -660,17 +660,17 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
                   }}
                 >
                   <span className="item-number" style={{ 
-                    color: '#94a3b8',
+                    color: 'var(--medium-gray)',
                     fontWeight: 600,
                     minWidth: '32px'
                   }}>{index + 1}</span>
                   <span className="item-icon" style={{ fontSize: '1.5rem' }}>{getSkillIcon(skill)}</span>
                   <span className="item-title" style={{ 
                     flex: 1,
-                    color: '#ffffff',
+                    color: 'var(--rich-black)',
                     fontWeight: 500
                   }}>{skill}</span>
-                  {isCompleted && <span className="item-check" style={{ color: '#ffffff' }}>✓</span>}
+                  {isCompleted && <span className="item-check" style={{ color: 'var(--rich-black)' }}>✓</span>}
                   <button
                     className="item-toggle"
                     onClick={(e) => {
@@ -678,9 +678,9 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
                       toggleSkillCompletion(skill);
                     }}
                     style={{
-                      background: isCompleted ? '#10b981' : 'transparent',
-                      border: `2px solid ${isCompleted ? '#10b981' : '#64748b'}`,
-                      color: isCompleted ? '#ffffff' : '#64748b',
+                      background: isCompleted ? 'var(--accent-emerald)' : 'transparent',
+                      border: `2px solid ${isCompleted ? 'var(--accent-emerald)' : '#64748b'}`,
+                      color: isCompleted ? 'var(--rich-black)' : '#64748b',
                       width: '28px',
                       height: '28px',
                       borderRadius: '50%',
@@ -714,7 +714,7 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
             backdropFilter: 'blur(4px)'
           }}>
             <div className="resource-panel" onClick={(e) => e.stopPropagation()} style={{
-              background: '#0f172a',
+              background: 'var(--white)',
               border: '2px solid #334155',
               borderRadius: '16px',
               padding: '32px',
@@ -733,7 +733,7 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
                   right: '16px',
                   background: 'transparent',
                   border: 'none',
-                  color: '#94a3b8',
+                  color: 'var(--medium-gray)',
                   fontSize: '2rem',
                   cursor: 'pointer',
                   width: '40px',
@@ -745,12 +745,12 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
                   transition: 'all 0.2s'
                 }}
                 onMouseEnter={(e) => {
-                  e.target.style.background = '#1e293b';
-                  e.target.style.color = '#ffffff';
+                  e.target.style.background = 'var(--white)';
+                  e.target.style.color = 'var(--rich-black)';
                 }}
                 onMouseLeave={(e) => {
                   e.target.style.background = 'transparent';
-                  e.target.style.color = '#94a3b8';
+                  e.target.style.color = 'var(--medium-gray)';
                 }}
               >
                 ×
@@ -760,7 +760,7 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
                 <span className="panel-icon" style={{ fontSize: '3rem', display: 'block', marginBottom: '12px' }}>
                   {getSkillIcon(selectedSkill)}
                 </span>
-                <h3 style={{ color: '#f59e0b', fontSize: '1.75rem', fontWeight: 600, marginBottom: '8px' }}>
+                <h3 style={{ color: 'var(--accent-amber)', fontSize: '1.75rem', fontWeight: 600, marginBottom: '8px' }}>
                   {selectedSkill}
                 </h3>
                 <span className={`status-badge ${completedSkills.has(selectedSkill) ? 'completed' : 'pending'}`} style={{
@@ -769,8 +769,8 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
                   borderRadius: '20px',
                   fontSize: '0.875rem',
                   fontWeight: 500,
-                  background: completedSkills.has(selectedSkill) ? '#10b981' : '#334155',
-                  color: '#ffffff'
+                  background: completedSkills.has(selectedSkill) ? 'var(--accent-emerald)' : 'var(--pearl)',
+                  color: 'var(--rich-black)'
                 }}>
                   {completedSkills.has(selectedSkill) ? '✓ Completed' : '○ Not Started'}
                 </span>
@@ -778,16 +778,16 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
               
               <div className="panel-content">
                 <div className="panel-info" style={{ marginBottom: '24px' }}>
-                  <p style={{ color: '#cbd5e1', lineHeight: 1.6, marginBottom: '12px' }}>
-                    <strong style={{ color: '#f59e0b' }}>What to learn:</strong> Master the fundamentals and best practices of {selectedSkill}.
+                  <p style={{ color: 'var(--dark-gray)', lineHeight: 1.6, marginBottom: '12px' }}>
+                    <strong style={{ color: 'var(--accent-amber)' }}>What to learn:</strong> Master the fundamentals and best practices of {selectedSkill}.
                   </p>
-                  <p style={{ color: '#cbd5e1', lineHeight: 1.6 }}>
-                    <strong style={{ color: '#f59e0b' }}>Why it matters:</strong> This skill is essential for {roadmapData.role} roles.
+                  <p style={{ color: 'var(--dark-gray)', lineHeight: 1.6 }}>
+                    <strong style={{ color: 'var(--accent-amber)' }}>Why it matters:</strong> This skill is essential for {roadmapData.role} roles.
                   </p>
                 </div>
 
                 <div className="resource-links" style={{ marginBottom: '24px' }}>
-                  <h4 style={{ color: '#ffffff', fontSize: '1.125rem', marginBottom: '16px', fontWeight: 600 }}>
+                  <h4 style={{ color: 'var(--rich-black)', fontSize: '1.125rem', marginBottom: '16px', fontWeight: 600 }}>
                     📚 Learning Resources
                   </h4>
                   {Object.entries(getSkillResources(selectedSkill)).map(([type, url]) => (
@@ -799,21 +799,21 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
                       style={{
                         display: 'block',
                         padding: '12px 16px',
-                        background: '#1e293b',
+                        background: 'var(--white)',
                         border: '2px solid #334155',
                         borderRadius: '8px',
-                        color: '#ffffff',
+                        color: 'var(--rich-black)',
                         textDecoration: 'none',
                         marginBottom: '8px',
                         transition: 'all 0.2s',
                         fontWeight: 500
                       }}
                       onMouseEnter={(e) => {
-                        e.target.style.borderColor = '#f59e0b';
+                        e.target.style.borderColor = 'var(--accent-amber)';
                         e.target.style.transform = 'translateX(4px)';
                       }}
                       onMouseLeave={(e) => {
-                        e.target.style.borderColor = '#334155';
+                        e.target.style.borderColor = 'var(--pearl)';
                         e.target.style.transform = 'translateX(0)';
                       }}
                     >
@@ -835,10 +835,10 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
                     style={{
                       flex: 1,
                       padding: '12px 24px',
-                      background: completedSkills.has(selectedSkill) ? '#334155' : '#f59e0b',
+                      background: completedSkills.has(selectedSkill) ? 'var(--pearl)' : 'var(--accent-amber)',
                       border: 'none',
                       borderRadius: '8px',
-                      color: '#ffffff',
+                      color: 'var(--rich-black)',
                       fontWeight: 600,
                       cursor: 'pointer',
                       transition: 'all 0.2s'
@@ -865,18 +865,18 @@ const InteractiveRoadmap = ({ learnerProfile }) => {
       <div className="roadmap-footer" style={{
         marginTop: '24px',
         padding: '16px',
-        background: '#1e293b',
+        background: 'var(--white)',
         border: '2px solid #334155',
         borderRadius: '12px',
         textAlign: 'center'
       }}>
-        <p style={{ color: '#94a3b8', margin: 0, fontSize: '0.875rem' }}>
+        <p style={{ color: 'var(--medium-gray)', margin: 0, fontSize: '0.875rem' }}>
           Roadmap data from{' '}
           <a 
             href="https://roadmap.sh" 
             target="_blank" 
             rel="noopener noreferrer"
-            style={{ color: '#f59e0b', textDecoration: 'none', fontWeight: 600 }}
+            style={{ color: 'var(--accent-amber)', textDecoration: 'none', fontWeight: 600 }}
             onMouseEnter={(e) => e.target.style.textDecoration = 'underline'}
             onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
           >

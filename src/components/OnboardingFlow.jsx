@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { gsap } from 'gsap';
+import ThemeToggle from './ThemeToggle';
 import '../styles/Onboarding.css';
 
-const OnboardingFlow = ({ onComplete }) => {
+const OnboardingFlow = ({ onComplete, currentUser, onLogout, theme, toggleTheme }) => {
   const [currentStep, setCurrentStep] = useState(0); // Start at welcome screen
   const [quizAnswers, setQuizAnswers] = useState([]);
   const [quizResults, setQuizResults] = useState(null);
@@ -15,61 +16,114 @@ const OnboardingFlow = ({ onComplete }) => {
   const [githubData, setGithubData] = useState(null);
   const [aiSuggestedRole, setAiSuggestedRole] = useState(null);
   const [aiConfidence, setAiConfidence] = useState(0);
+  const [aiMatchPercentage, setAiMatchPercentage] = useState(0);
   const [aiReasoning, setAiReasoning] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [githubUsername, setGithubUsername] = useState('');
+  const [showAllSkills, setShowAllSkills] = useState(false);
+  const [showAllProjects, setShowAllProjects] = useState(false);
 
-  // Interest Quiz Questions
+  // Interest Quiz Questions - More challenging and insightful
   const interestQuestions = [
     {
       id: 1,
-      question: "What excites you the most?",
+      question: "You're starting a new project. What excites you the most?",
       options: [
-        { text: "Building beautiful user interfaces", category: "frontend" },
-        { text: "Working with data and algorithms", category: "data" },
-        { text: "Creating server-side logic", category: "backend" },
-        { text: "Automating and deploying systems", category: "devops" }
+        { text: "Designing pixel-perfect interfaces that users love", category: "frontend" },
+        { text: "Building scalable APIs and optimizing database queries", category: "backend" },
+        { text: "Training ML models to predict patterns from data", category: "data" },
+        { text: "Setting up CI/CD pipelines and automating deployments", category: "devops" }
       ]
     },
     {
       id: 2,
-      question: "Which activity sounds most interesting?",
+      question: "A critical bug appears in production. What's your first instinct?",
       options: [
-        { text: "Designing responsive layouts", category: "frontend" },
-        { text: "Analyzing patterns in data", category: "data" },
-        { text: "Building APIs and databases", category: "backend" },
-        { text: "Managing cloud infrastructure", category: "devops" }
+        { text: "Check the browser console and inspect UI components", category: "frontend" },
+        { text: "Review server logs and check API response codes", category: "backend" },
+        { text: "Analyze data anomalies and model predictions", category: "data" },
+        { text: "Check monitoring dashboards and system metrics", category: "devops" }
       ]
     },
     {
       id: 3,
-      question: "What would you prefer to learn?",
+      question: "Which technical challenge sounds most interesting to solve?",
       options: [
-        { text: "React, Vue, or Angular", category: "frontend" },
-        { text: "Machine Learning & Statistics", category: "data" },
-        { text: "Node.js, Python, or Java", category: "backend" },
-        { text: "Docker, Kubernetes, CI/CD", category: "devops" }
+        { text: "Making a website load in under 1 second with smooth animations", category: "frontend" },
+        { text: "Handling 10,000 concurrent API requests without crashing", category: "backend" },
+        { text: "Building a recommendation system that learns user preferences", category: "data" },
+        { text: "Deploying updates to 100 servers with zero downtime", category: "devops" }
       ]
     },
     {
       id: 4,
-      question: "Which problem would you enjoy solving?",
+      question: "You have 3 months to master a new skill. What would you choose?",
       options: [
-        { text: "Making websites look amazing", category: "frontend" },
-        { text: "Predicting trends from data", category: "data" },
-        { text: "Optimizing database queries", category: "backend" },
-        { text: "Scaling applications", category: "devops" }
+        { text: "Advanced React patterns, TypeScript, and modern CSS", category: "frontend" },
+        { text: "Microservices architecture, GraphQL, and database optimization", category: "backend" },
+        { text: "Deep learning, neural networks, and statistical analysis", category: "data" },
+        { text: "Kubernetes, Terraform, and cloud infrastructure", category: "devops" }
       ]
     },
     {
       id: 5,
-      question: "What's your ideal work environment?",
+      question: "What type of problem-solving do you enjoy most?",
       options: [
-        { text: "Creative and visual", category: "frontend" },
-        { text: "Analytical and research-focused", category: "data" },
-        { text: "Logical and structured", category: "backend" },
-        { text: "Fast-paced and automated", category: "devops" }
+        { text: "Visual problems - layout, spacing, colors, and user interactions", category: "frontend" },
+        { text: "Logical problems - data flow, business logic, and system design", category: "backend" },
+        { text: "Analytical problems - patterns, predictions, and insights from data", category: "data" },
+        { text: "Infrastructure problems - scaling, reliability, and automation", category: "devops" }
+      ]
+    },
+    {
+      id: 6,
+      question: "Your team is building a new feature. What role do you naturally take?",
+      options: [
+        { text: "I prototype the UI and ensure it's intuitive and beautiful", category: "frontend" },
+        { text: "I design the API endpoints and database schema", category: "backend" },
+        { text: "I analyze user behavior data to inform feature decisions", category: "data" },
+        { text: "I plan how to deploy and monitor the feature in production", category: "devops" }
+      ]
+    },
+    {
+      id: 7,
+      question: "Which tech blog post would you most likely read?",
+      options: [
+        { text: "Building a Design System: Components, Tokens, and Best Practices", category: "frontend" },
+        { text: "Scaling to 1 Million Users: Database Sharding and Caching Strategies", category: "backend" },
+        { text: "From Zero to Production: Building and Deploying ML Models", category: "data" },
+        { text: "Zero-Downtime Deployments with Blue-Green and Canary Releases", category: "devops" }
+      ]
+    },
+    {
+      id: 8,
+      question: "What would make you feel most accomplished at the end of a workday?",
+      options: [
+        { text: "Users praising how smooth and beautiful the interface is", category: "frontend" },
+        { text: "API response times improved from 500ms to 50ms", category: "backend" },
+        { text: "ML model accuracy increased from 85% to 95%", category: "data" },
+        { text: "Deployment time reduced from 2 hours to 5 minutes", category: "devops" }
+      ]
+    },
+    {
+      id: 9,
+      question: "You're debugging an issue. Which tool do you reach for first?",
+      options: [
+        { text: "Chrome DevTools, React DevTools, or browser inspector", category: "frontend" },
+        { text: "Postman, database query tool, or server logs", category: "backend" },
+        { text: "Jupyter Notebook, pandas, or data visualization tools", category: "data" },
+        { text: "kubectl, Docker logs, or monitoring dashboards", category: "devops" }
+      ]
+    },
+    {
+      id: 10,
+      question: "What's your ideal work environment and focus?",
+      options: [
+        { text: "Creative space with design tools, focusing on user experience", category: "frontend" },
+        { text: "Quiet space with multiple monitors, focusing on system architecture", category: "backend" },
+        { text: "Research-oriented space with data, focusing on insights and patterns", category: "data" },
+        { text: "Command-line heavy environment, focusing on automation and reliability", category: "devops" }
       ]
     }
   ];
@@ -215,17 +269,39 @@ const OnboardingFlow = ({ onComplete }) => {
       const formData = new FormData();
       formData.append('file', file);
       
-      const uploadResponse = await fetch('/resume/upload', {
-        method: 'POST',
-        body: formData
-      });
+      let uploadResponse;
+      try {
+        uploadResponse = await fetch('/resume/upload', {
+          method: 'POST',
+          body: formData
+        });
+      } catch (fetchError) {
+        // Backend not available - use fallback
+        console.log('Resume upload endpoint not available, using fallback');
+        setError('Resume analysis is currently unavailable. Please skip this step and select your role manually.');
+        setIsLoading(false);
+        return;
+      }
       
       if (!uploadResponse.ok) {
-        throw new Error('Failed to upload resume');
+        const errorData = await uploadResponse.json();
+        
+        // Check if it's a dependency issue
+        if (errorData.hint && errorData.hint.includes('pip install')) {
+          setError('Resume analysis requires additional setup. Please skip this step for now and continue with manual role selection.');
+        } else {
+          setError(errorData.error || 'Failed to upload resume');
+        }
+        setIsLoading(false);
+        return;
       }
       
       const resumeData = await uploadResponse.json();
       setResumeData(resumeData);
+      
+      // Extract match percentage from resume data (if available)
+      const matchPercentage = resumeData.match_percentage || Math.round((resumeData.confidence || 0.7) * 100);
+      setAiMatchPercentage(matchPercentage);
       
       // Step 2: Get AI role suggestion (with fallback)
       try {
@@ -243,26 +319,26 @@ const OnboardingFlow = ({ onComplete }) => {
         
         if (suggestionResponse.ok) {
           const aiSuggestion = await suggestionResponse.json();
-          setAiSuggestedRole(aiSuggestion.suggestedRole);
+          setAiSuggestedRole(aiSuggestion.suggestedRole || resumeData.suggested_role);
           setAiConfidence(aiSuggestion.confidence);
           setAiReasoning(aiSuggestion.reasoning);
         } else {
-          // Fallback: Use quiz results to suggest role
-          const fallbackRole = quizResults?.suggestedRole || 'Full Stack Developer';
+          // Fallback: Use resume data directly
+          const fallbackRole = resumeData.suggested_role || quizResults?.suggestedRole || 'Full Stack Developer';
           setAiSuggestedRole(fallbackRole);
-          setAiConfidence(0.7);
-          setAiReasoning([
+          setAiConfidence(resumeData.confidence || 0.7);
+          setAiReasoning(resumeData.reasoning || [
             `Based on your resume with ${resumeData.total_skills} skills`,
             'Suggested role based on your profile'
           ]);
         }
       } catch (aiError) {
         console.warn('AI suggestion failed, using fallback:', aiError);
-        // Fallback: Use quiz results
-        const fallbackRole = quizResults?.suggestedRole || 'Full Stack Developer';
+        // Fallback: Use resume data directly
+        const fallbackRole = resumeData.suggested_role || quizResults?.suggestedRole || 'Full Stack Developer';
         setAiSuggestedRole(fallbackRole);
-        setAiConfidence(0.7);
-        setAiReasoning([
+        setAiConfidence(resumeData.confidence || 0.7);
+        setAiReasoning(resumeData.reasoning || [
           `Based on your resume with ${resumeData.total_skills} skills`,
           'Suggested role based on your profile'
         ]);
@@ -270,7 +346,7 @@ const OnboardingFlow = ({ onComplete }) => {
       
     } catch (error) {
       console.error('Error analyzing resume:', error);
-      setError('Failed to analyze resume. Please try again or select a role manually.');
+      setError('Failed to analyze resume. Please try again or skip this step to select your role manually.');
     } finally {
       setIsLoading(false);
     }
@@ -286,13 +362,22 @@ const OnboardingFlow = ({ onComplete }) => {
     setError(null);
     
     try {
-      const response = await fetch('/github/analyze', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          github_username: githubUsername.trim()
-        })
-      });
+      let response;
+      try {
+        response = await fetch('/github/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            github_username: githubUsername.trim()
+          })
+        });
+      } catch (fetchError) {
+        // Backend not available - use fallback
+        console.log('GitHub analysis endpoint not available, using fallback');
+        setError('GitHub analysis is currently unavailable. Please skip this step and select your role manually.');
+        setIsLoading(false);
+        return;
+      }
       
       if (!response.ok) {
         const errorData = await response.json();
@@ -301,6 +386,10 @@ const OnboardingFlow = ({ onComplete }) => {
       
       const data = await response.json();
       setGithubData(data);
+      
+      // Calculate match percentage (GitHub data doesn't have it, so calculate from confidence)
+      const matchPercentage = Math.round((data.confidence || 0.7) * 100);
+      setAiMatchPercentage(matchPercentage);
       
       // Get AI role suggestion based on GitHub skills
       try {
@@ -394,9 +483,10 @@ const OnboardingFlow = ({ onComplete }) => {
   if (currentStep === 0) {
     return (
       <div className="onboarding-container">
+        
         <div className="onboarding-content welcome-screen">
           <div className="welcome-hero">
-            <h1>Welcome to DEVA</h1>
+            <h1>Welcome to DEV<sup>A</sup></h1>
             <p className="welcome-subtitle">Your AI-Powered Career Guidance Platform</p>
           </div>
           
@@ -433,6 +523,7 @@ const OnboardingFlow = ({ onComplete }) => {
 
     return (
       <div className="onboarding-container">
+        
         <div className="onboarding-content quiz-screen">
           <div className="quiz-header">
             <h2>Discover Your Interest</h2>
@@ -472,6 +563,7 @@ const OnboardingFlow = ({ onComplete }) => {
   if (currentStep === 2 && quizResults) {
     return (
       <div className="onboarding-container">
+        
         <div className="onboarding-content results-screen">
           <div className="results-hero">
             <h2>Your Results Are In</h2>
@@ -530,6 +622,7 @@ const OnboardingFlow = ({ onComplete }) => {
   if (currentStep === 3) {
     return (
       <div className="onboarding-container">
+        
         <div className="onboarding-content role-selection-screen">
           <div className="role-header">
             <h2>Select Your Target Role</h2>
@@ -570,6 +663,7 @@ const OnboardingFlow = ({ onComplete }) => {
   if (currentStep === 4) {
     return (
       <div className="onboarding-container">
+        
         <div className="onboarding-content help-screen">
           <div className="help-header">
             <h2>Let AI Help You Decide</h2>
@@ -652,7 +746,7 @@ const OnboardingFlow = ({ onComplete }) => {
               <div className="ai-suggestion-header">
                 <h3>AI Recommendation</h3>
                 <span className="confidence-badge">
-                  {Math.round(aiConfidence * 100)}% confidence
+                  {aiMatchPercentage}% match
                 </span>
               </div>
               
@@ -707,6 +801,7 @@ const OnboardingFlow = ({ onComplete }) => {
     if (resumeData && resumeData.skills_found && resumeData.skills_found.length > 0) {
       return (
         <div className="onboarding-container">
+          
           <div className="onboarding-content resume-analysis-screen">
             <div className="analysis-header">
               <h2>Resume Analysis Complete</h2>
@@ -726,7 +821,7 @@ const OnboardingFlow = ({ onComplete }) => {
                 <div className="summary-card highlight">
                   <div className="summary-icon">🎯</div>
                   <div className="summary-content">
-                    <h3>{Math.round(aiConfidence * 100)}% Match</h3>
+                    <h3>{aiMatchPercentage}% Match</h3>
                     <p>For {aiSuggestedRole}</p>
                   </div>
                 </div>
@@ -736,15 +831,28 @@ const OnboardingFlow = ({ onComplete }) => {
             <div className="skills-display">
               <h3>Your Skills</h3>
               <div className="skills-grid">
-                {resumeData.skills_found.slice(0, 12).map((skill, index) => (
+                {(showAllSkills ? resumeData.skills_found : resumeData.skills_found.slice(0, 12)).map((skill, index) => (
                   <div key={index} className="skill-badge">
                     {skill}
                   </div>
                 ))}
-                {resumeData.skills_found.length > 12 && (
-                  <div className="skill-badge more">
+                {resumeData.skills_found.length > 12 && !showAllSkills && (
+                  <button 
+                    className="skill-badge more"
+                    onClick={() => setShowAllSkills(true)}
+                    style={{ cursor: 'pointer' }}
+                  >
                     +{resumeData.skills_found.length - 12} more
-                  </div>
+                  </button>
+                )}
+                {showAllSkills && resumeData.skills_found.length > 12 && (
+                  <button 
+                    className="skill-badge more"
+                    onClick={() => setShowAllSkills(false)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    Show less
+                  </button>
                 )}
               </div>
             </div>
@@ -927,7 +1035,7 @@ const OnboardingFlow = ({ onComplete }) => {
               <div className="projects-display">
                 <h3>Your Projects ({resumeData.total_projects})</h3>
                 <div className="projects-list">
-                  {resumeData.projects.slice(0, 3).map((project, index) => (
+                  {(showAllProjects ? resumeData.projects : resumeData.projects.slice(0, 3)).map((project, index) => (
                     <div key={index} className="project-card">
                       <h4>{project.name}</h4>
                       <p>{project.description}</p>
@@ -940,8 +1048,49 @@ const OnboardingFlow = ({ onComplete }) => {
                       )}
                     </div>
                   ))}
-                  {resumeData.projects.length > 3 && (
-                    <p className="more-projects">+{resumeData.projects.length - 3} more projects</p>
+                  {resumeData.projects.length > 3 && !showAllProjects && (
+                    <button 
+                      className="more-projects-btn"
+                      onClick={() => setShowAllProjects(true)}
+                      style={{
+                        background: 'var(--accent-primary)',
+                        color: 'white',
+                        border: 'none',
+                        padding: '0.75rem 1.5rem',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        fontWeight: '600',
+                        marginTop: '1rem',
+                        width: '100%',
+                        transition: 'all 0.3s ease'
+                      }}
+                      onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
+                      onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
+                    >
+                      Show +{resumeData.projects.length - 3} more projects
+                    </button>
+                  )}
+                  {showAllProjects && resumeData.projects.length > 3 && (
+                    <button 
+                      className="more-projects-btn"
+                      onClick={() => setShowAllProjects(false)}
+                      style={{
+                        background: 'var(--bg-secondary)',
+                        color: 'var(--text-primary)',
+                        border: '2px solid var(--border-primary)',
+                        padding: '0.75rem 1.5rem',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        fontWeight: '600',
+                        marginTop: '1rem',
+                        width: '100%',
+                        transition: 'all 0.3s ease'
+                      }}
+                      onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
+                      onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
+                    >
+                      Show less
+                    </button>
                   )}
                 </div>
               </div>
@@ -987,6 +1136,7 @@ const OnboardingFlow = ({ onComplete }) => {
     // If no resume uploaded yet, show upload options
     return (
       <div className="onboarding-container">
+        
         <div className="onboarding-content skills-input-screen">
           <div className="skills-header">
             <h2>Add Your Current Skills</h2>

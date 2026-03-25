@@ -1,4 +1,3 @@
-// This file generates comprehensive roadmap datasets
 // Run: node src/data/roadmaps/generateRoadmaps.js
 
 const fs = require('fs');

@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import RoadmapCanvas from '../components/RoadmapCanvas';
 import useRoadmapStore from '../store/roadmapStore';
+import Navigation from '../components/Navigation';
 import '../styles/RoadmapPage.css';
 
-const RoadmapPage = ({ learnerProfile, currentUser, onLogout }) => {
+const RoadmapPage = ({ learnerProfile, currentUser, onLogout, theme, toggleTheme, fontSize, cycleFontSize }) => {
   const [roadmapData, setRoadmapData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [difficultyFilter, setDifficultyFilter] = useState('all');
+  const [availableRoadmaps, setAvailableRoadmaps] = useState([]);
 
   const {
     currentRoadmap,
@@ -19,7 +21,8 @@ const RoadmapPage = ({ learnerProfile, currentUser, onLogout }) => {
     badges
   } = useRoadmapStore();
 
-  const roadmaps = [
+  // Default roadmaps (fallback if API fails)
+  const defaultRoadmaps = [
     { id: 'frontend-developer', name: 'Frontend Developer', icon: '🎨' },
     { id: 'backend-developer', name: 'Backend Developer', icon: '⚙️' },
     { id: 'fullstack-developer', name: 'Full Stack Developer', icon: '🚀' },
@@ -27,8 +30,41 @@ const RoadmapPage = ({ learnerProfile, currentUser, onLogout }) => {
     { id: 'ai-ml-engineer', name: 'AI/ML Engineer', icon: '🤖' },
     { id: 'data-engineer', name: 'Data Engineer', icon: '📊' },
     { id: 'mobile-developer', name: 'Mobile Developer', icon: '📱' },
-    { id: 'system-design', name: 'System Design', icon: '🏗️' }
+    { id: 'system-design', name: 'System Design', icon: '🏗️' },
+    { id: 'react-developer', name: 'React Developer', icon: '⚛️' },
+    { id: 'nodejs-developer', name: 'Node.js Developer', icon: '🟢' },
+    { id: 'python-developer', name: 'Python Developer', icon: '🐍' },
+    { id: 'java-developer', name: 'Java Developer', icon: '☕' },
+    { id: 'go-developer', name: 'Go Developer', icon: '🔵' },
+    { id: 'docker', name: 'Docker', icon: '🐳' },
+    { id: 'kubernetes', name: 'Kubernetes', icon: '☸️' },
+    { id: 'postgresql', name: 'PostgreSQL', icon: '🐘' },
+    { id: 'security-engineer', name: 'Security Engineer', icon: '🔒' }
   ];
+
+  // Fetch available roadmaps on mount
+  useEffect(() => {
+    const fetchAvailableRoadmaps = async () => {
+      try {
+        const response = await fetch('/api/roadmap/list');
+        if (response.ok) {
+          const data = await response.json();
+          if (data.roadmaps && data.roadmaps.length > 0) {
+            setAvailableRoadmaps(data.roadmaps);
+          } else {
+            setAvailableRoadmaps(defaultRoadmaps);
+          }
+        } else {
+          setAvailableRoadmaps(defaultRoadmaps);
+        }
+      } catch (error) {
+        console.error('Error fetching roadmap list:', error);
+        setAvailableRoadmaps(defaultRoadmaps);
+      }
+    };
+
+    fetchAvailableRoadmaps();
+  }, []);
 
   useEffect(() => {
     fetchRoadmapData(currentRoadmap);
@@ -38,20 +74,26 @@ const RoadmapPage = ({ learnerProfile, currentUser, onLogout }) => {
   const fetchRoadmapData = async (roadmapId) => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/roadmap/complete`);
+      // Fetch specific roadmap by ID
+      const response = await fetch(`/api/roadmap/${roadmapId}`);
+      
+      if (!response.ok) {
+        throw new Error(`Roadmap not found: ${roadmapId}`);
+      }
+      
       const data = await response.json();
-
-      if (!data.error) {
+      
+      if (!data.error && data.nodes) {
         const transformedNodes = (data.nodes || []).map(node => ({
           id: node.id,
           type: 'custom',
           position: node.position || { x: 0, y: 0 },
           data: {
-            title: node.title || node.data?.title || 'Untitled',
-            description: node.description || node.data?.description || 'No description',
+            title: node.data?.title || node.title || 'Untitled',
+            description: node.data?.description || node.description || 'No description',
             learningTime: node.data?.learningTime || '2-3 hours',
-            level: node.level || node.data?.level || 'beginner',
-            resources: node.link || node.data?.link || `/resources/${node.id}`,
+            level: node.data?.level || node.level || 'beginner',
+            resources: node.data?.resources || node.link || `/resources/${node.id}`,
             subtopics: node.data?.subtopics || [],
             tools: node.data?.tools || [],
             isCompleted: false,
@@ -59,10 +101,14 @@ const RoadmapPage = ({ learnerProfile, currentUser, onLogout }) => {
           }
         }));
 
+        const roadmapInfo = availableRoadmaps.find(r => r.id === roadmapId) || 
+                           defaultRoadmaps.find(r => r.id === roadmapId) ||
+                           { name: 'Learning Roadmap', icon: '🗺️' };
+
         setRoadmapData({
-          title: roadmaps.find(r => r.id === roadmapId)?.name || 'Learning Roadmap',
+          title: data.name || roadmapInfo.name,
           slug: roadmapId,
-          description: 'Complete roadmap for modern development',
+          description: data.description || `Complete roadmap for ${roadmapInfo.name}`,
           nodes: transformedNodes,
           edges: data.edges || [],
           totalNodes: transformedNodes.length
@@ -70,6 +116,20 @@ const RoadmapPage = ({ learnerProfile, currentUser, onLogout }) => {
       }
     } catch (error) {
       console.error('Error fetching roadmap:', error);
+      
+      const roadmapInfo = availableRoadmaps.find(r => r.id === roadmapId) || 
+                         defaultRoadmaps.find(r => r.id === roadmapId) ||
+                         { name: 'Learning Roadmap', icon: '🗺️' };
+      
+      // Show message that roadmap is not available
+      setRoadmapData({
+        title: roadmapInfo.name,
+        slug: roadmapId,
+        description: `Roadmap for ${roadmapInfo.name} - Coming Soon`,
+        nodes: [],
+        edges: [],
+        totalNodes: 0
+      });
     } finally {
       setLoading(false);
     }
@@ -103,17 +163,24 @@ const RoadmapPage = ({ learnerProfile, currentUser, onLogout }) => {
 
   return (
     <div className="roadmap-page">
-      {/* Top Navigation Bar */}
-      <div className="roadmap-navbar">
-        <div className="navbar-left">
-          <h1 className="navbar-title">DEV<sup>A</sup></h1>
+      {/* Navigation */}
+      <Navigation
+        currentUser={currentUser}
+        onLogout={onLogout}
+        theme={theme}
+        toggleTheme={toggleTheme}
+        currentPage="roadmap"
+      />
 
+      {/* Roadmap Controls Bar */}
+      <div className="roadmap-controls-bar">
+        <div className="controls-left">
           <select
             className="roadmap-selector"
             value={currentRoadmap}
             onChange={(e) => setCurrentRoadmap(e.target.value)}
           >
-            {roadmaps.map(rm => (
+            {(availableRoadmaps.length > 0 ? availableRoadmaps : defaultRoadmaps).map(rm => (
               <option key={rm.id} value={rm.id}>
                 {rm.icon} {rm.name}
               </option>
@@ -121,7 +188,7 @@ const RoadmapPage = ({ learnerProfile, currentUser, onLogout }) => {
           </select>
         </div>
 
-        <div className="navbar-center">
+        <div className="controls-center">
           <input
             type="text"
             className="search-input"
@@ -143,7 +210,7 @@ const RoadmapPage = ({ learnerProfile, currentUser, onLogout }) => {
           </div>
         </div>
 
-        <div className="navbar-right">
+        <div className="controls-right">
           <div className="user-stats">
             <div className="stat-item">
               <span className="stat-icon">⚡</span>
@@ -151,11 +218,7 @@ const RoadmapPage = ({ learnerProfile, currentUser, onLogout }) => {
             </div>
             <div className="stat-item">
               <span className="stat-icon">🔥</span>
-              <span className="stat-value">{streak} day streak</span>
-            </div>
-            <div className="stat-item">
-              <span className="stat-icon">🏆</span>
-              <span className="stat-value">{badges.length} badges</span>
+              <span className="stat-value">{streak} d</span>
             </div>
           </div>
 
@@ -164,19 +227,6 @@ const RoadmapPage = ({ learnerProfile, currentUser, onLogout }) => {
               🎯 {learnerProfile.targetRole}
             </div>
           )}
-
-          <div className="user-menu">
-            {currentUser && (
-              <span className="user-name-label">
-                {currentUser.name || currentUser.email}
-              </span>
-            )}
-            {onLogout && (
-              <button className="logout-btn" onClick={onLogout} title="Logout">
-                Sign Out
-              </button>
-            )}
-          </div>
         </div>
       </div>
 

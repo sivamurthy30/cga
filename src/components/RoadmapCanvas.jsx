@@ -69,10 +69,10 @@ const RoadmapCanvas = ({ roadmapData }) => {
         ...edge,
         type: 'smoothstep',
         animated: true,
-        style: { stroke: '#475569', strokeWidth: 2 },
+        style: { stroke: '#94a3b8', strokeWidth: 2 },
         markerEnd: {
           type: MarkerType.ArrowClosed,
-          color: '#475569'
+          color: '#94a3b8'
         }
       }));
       
@@ -103,26 +103,26 @@ const RoadmapCanvas = ({ roadmapData }) => {
           gap={20}
           size={1}
           color="#334155"
-          style={{ backgroundColor: '#0f172a' }}
+          style={{ backgroundColor: 'var(--white)' }}
         />
         <Controls
           style={{
             button: {
-              backgroundColor: '#1e293b',
-              color: '#ffffff',
-              borderColor: '#334155'
+              backgroundColor: 'var(--white)',
+              color: 'var(--rich-black)',
+              borderColor: 'var(--pearl)'
             }
           }}
         />
         <MiniMap
           nodeColor={(node) => {
-            if (node.data.isCompleted) return '#10b981';
-            if (node.data.isRecommended) return '#f59e0b';
-            return '#475569';
+            if (node.data.isCompleted) return 'var(--accent-emerald)';
+            if (node.data.isRecommended) return 'var(--accent-amber)';
+            return 'var(--platinum)';
           }}
           maskColor="rgba(15, 23, 42, 0.8)"
           style={{
-            backgroundColor: '#1e293b',
+            backgroundColor: 'var(--white)',
             border: '2px solid #334155'
           }}
         />

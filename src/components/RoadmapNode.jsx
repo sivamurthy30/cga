@@ -1,13 +1,10 @@
-import React, { memo, useState } from 'react';
+import React, { memo } from 'react';
 import { Handle, Position } from 'reactflow';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
 import useRoadmapStore from '../store/roadmapStore';
 import '../styles/RoadmapNode.css';
 
 const RoadmapNode = ({ data, id }) => {
-  const [showTooltip, setShowTooltip] = useState(false);
-  const navigate = useNavigate();
   const { completeNode, uncompleteNode, currentRoadmap } = useRoadmapStore();
 
   const getLevelColor = (level) => {
@@ -26,12 +23,8 @@ const RoadmapNode = ({ data, id }) => {
   const handleClick = (e) => {
     e.stopPropagation();
     if (data.resources) {
-      try {
-        navigate(data.resources);
-      } catch (err) {
-        console.log('Navigation not available, opening in new tab');
-        window.open(data.resources, '_blank');
-      }
+      // Open resources in new tab
+      window.open(data.resources, '_blank');
     }
   };
 
@@ -50,8 +43,7 @@ const RoadmapNode = ({ data, id }) => {
       
       <motion.div
         className={`roadmap-node ${data.isCompleted ? 'completed' : ''} ${data.isRecommended ? 'recommended' : ''}`}
-        onMouseEnter={() => setShowTooltip(true)}
-        onMouseLeave={() => setShowTooltip(false)}
+
         onClick={handleClick}
         whileHover={{ scale: 1.05, y: -5 }}
         transition={{ duration: 0.2 }}
@@ -67,7 +59,7 @@ const RoadmapNode = ({ data, id }) => {
         )}
         
         {data.isRecommended && !data.isCompleted && (
-          <div className="recommended-badge">
+          <div className="node-recommended-badge">
             ⭐
           </div>
         )}
@@ -94,24 +86,7 @@ const RoadmapNode = ({ data, id }) => {
         </div>
       </motion.div>
 
-      {showTooltip && (
-        <motion.div
-          className="node-tooltip"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0 }}
-        >
-          <h4>{data.title}</h4>
-          <p>{data.description}</p>
-          <div className="tooltip-meta">
-            <span>⏱️ {data.learningTime}</span>
-            <span>📚 {data.level}</span>
-          </div>
-          <div className="tooltip-action">
-            Click to view resources →
-          </div>
-        </motion.div>
-      )}
+
       
       <Handle type="source" position={Position.Bottom} />
     </>

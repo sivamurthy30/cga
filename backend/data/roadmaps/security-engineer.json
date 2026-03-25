@@ -1,0 +1,235 @@
+{
+  "id": "security-engineer",
+  "name": "Security Engineer",
+  "icon": "🔒",
+  "description": "Complete roadmap for Security Engineer",
+  "nodes": [
+    {
+      "id": "node-0",
+      "type": "custom",
+      "position": {
+        "x": 100,
+        "y": 100
+      },
+      "data": {
+        "title": "Fundamentals",
+        "description": "Learn Fundamentals for Security Engineer",
+        "learningTime": "2-4 hours",
+        "level": "beginner",
+        "resources": "/resources/node-0",
+        "subtopics": [],
+        "tools": []
+      }
+    },
+    {
+      "id": "node-1",
+      "type": "custom",
+      "position": {
+        "x": 350,
+        "y": 100
+      },
+      "data": {
+        "title": "Core Concepts",
+        "description": "Learn Core Concepts for Security Engineer",
+        "learningTime": "2-4 hours",
+        "level": "beginner",
+        "resources": "/resources/node-1",
+        "subtopics": [],
+        "tools": []
+      }
+    },
+    {
+      "id": "node-2",
+      "type": "custom",
+      "position": {
+        "x": 600,
+        "y": 100
+      },
+      "data": {
+        "title": "Advanced Topics",
+        "description": "Learn Advanced Topics for Security Engineer",
+        "learningTime": "2-4 hours",
+        "level": "beginner",
+        "resources": "/resources/node-2",
+        "subtopics": [],
+        "tools": []
+      }
+    },
+    {
+      "id": "node-3",
+      "type": "custom",
+      "position": {
+        "x": 850,
+        "y": 100
+      },
+      "data": {
+        "title": "Best Practices",
+        "description": "Learn Best Practices for Security Engineer",
+        "learningTime": "2-4 hours",
+        "level": "intermediate",
+        "resources": "/resources/node-3",
+        "subtopics": [],
+        "tools": []
+      }
+    },
+    {
+      "id": "node-4",
+      "type": "custom",
+      "position": {
+        "x": 1100,
+        "y": 100
+      },
+      "data": {
+        "title": "Tools & Frameworks",
+        "description": "Learn Tools & Frameworks for Security Engineer",
+        "learningTime": "2-4 hours",
+        "level": "intermediate",
+        "resources": "/resources/node-4",
+        "subtopics": [],
+        "tools": []
+      }
+    },
+    {
+      "id": "node-5",
+      "type": "custom",
+      "position": {
+        "x": 100,
+        "y": 300
+      },
+      "data": {
+        "title": "Testing",
+        "description": "Learn Testing for Security Engineer",
+        "learningTime": "2-4 hours",
+        "level": "intermediate",
+        "resources": "/resources/node-5",
+        "subtopics": [],
+        "tools": []
+      }
+    },
+    {
+      "id": "node-6",
+      "type": "custom",
+      "position": {
+        "x": 350,
+        "y": 300
+      },
+      "data": {
+        "title": "Deployment",
+        "description": "Learn Deployment for Security Engineer",
+        "learningTime": "2-4 hours",
+        "level": "intermediate",
+        "resources": "/resources/node-6",
+        "subtopics": [],
+        "tools": []
+      }
+    },
+    {
+      "id": "node-7",
+      "type": "custom",
+      "position": {
+        "x": 600,
+        "y": 300
+      },
+      "data": {
+        "title": "Security",
+        "description": "Learn Security for Security Engineer",
+        "learningTime": "2-4 hours",
+        "level": "advanced",
+        "resources": "/resources/node-7",
+        "subtopics": [],
+        "tools": []
+      }
+    },
+    {
+      "id": "node-8",
+      "type": "custom",
+      "position": {
+        "x": 850,
+        "y": 300
+      },
+      "data": {
+        "title": "Performance",
+        "description": "Learn Performance for Security Engineer",
+        "learningTime": "2-4 hours",
+        "level": "advanced",
+        "resources": "/resources/node-8",
+        "subtopics": [],
+        "tools": []
+      }
+    },
+    {
+      "id": "node-9",
+      "type": "custom",
+      "position": {
+        "x": 1100,
+        "y": 300
+      },
+      "data": {
+        "title": "Real Projects",
+        "description": "Learn Real Projects for Security Engineer",
+        "learningTime": "2-4 hours",
+        "level": "advanced",
+        "resources": "/resources/node-9",
+        "subtopics": [],
+        "tools": []
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-1",
+      "source": "node-0",
+      "target": "node-1",
+      "type": "smoothstep"
+    },
+    {
+      "id": "edge-2",
+      "source": "node-1",
+      "target": "node-2",
+      "type": "smoothstep"
+    },
+    {
+      "id": "edge-3",
+      "source": "node-2",
+      "target": "node-3",
+      "type": "smoothstep"
+    },
+    {
+      "id": "edge-4",
+      "source": "node-3",
+      "target": "node-4",
+      "type": "smoothstep"
+    },
+    {
+      "id": "edge-5",
+      "source": "node-4",
+      "target": "node-5",
+      "type": "smoothstep"
+    },
+    {
+      "id": "edge-6",
+      "source": "node-5",
+      "target": "node-6",
+      "type": "smoothstep"
+    },
+    {
+      "id": "edge-7",
+      "source": "node-6",
+      "target": "node-7",
+      "type": "smoothstep"
+    },
+    {
+      "id": "edge-8",
+      "source": "node-7",
+      "target": "node-8",
+      "type": "smoothstep"
+    },
+    {
+      "id": "edge-9",
+      "source": "node-8",
+      "target": "node-9",
+      "type": "smoothstep"
+    }
+  ],
+  "totalNodes": 10
+}

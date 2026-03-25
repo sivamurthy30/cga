@@ -387,6 +387,61 @@ class PostgresDB:
             """, (learner_id,))
             return cursor.fetchall()
     
+    # ============================================
+    # USER STATS OPERATIONS
+    # ============================================
+    
+    def get_user_stats(self, learner_id):
+        """Get XP, badges, streak for a user"""
+        with self.get_connection() as conn:
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+            
+            # Get total completed skills
+            cursor.execute("""
+                SELECT COUNT(*) as completed_skills
+                FROM learning_progress
+                WHERE learner_id = %s AND status = 'completed'
+            """, (learner_id,))
+            completed_skills = cursor.fetchone()['completed_skills']
+            
+            # Get total quiz score
+            cursor.execute("""
+                SELECT COALESCE(SUM(score), 0) as total_score,
+                       COUNT(*) as total_quizzes
+                FROM quiz_results
+                WHERE learner_id = %s
+            """, (learner_id,))
+            quiz_stats = cursor.fetchone()
+            
+            # Calculate XP (simple formula)
+            xp = (completed_skills * 100) + (quiz_stats['total_score'] * 10)
+            
+            # Get streak (days with activity)
+            cursor.execute("""
+                SELECT COUNT(DISTINCT DATE(taken_at)) as active_days
+                FROM quiz_results
+                WHERE learner_id = %s
+                  AND taken_at >= CURRENT_DATE - INTERVAL '7 days'
+            """, (learner_id,))
+            streak = cursor.fetchone()['active_days']
+            
+            # Get badges (achievements)
+            badges = []
+            if completed_skills >= 5:
+                badges.append('Skill Master')
+            if quiz_stats['total_quizzes'] >= 3:
+                badges.append('Quiz Champion')
+            if streak >= 3:
+                badges.append('Consistent Learner')
+            
+            return {
+                'xp': xp,
+                'streak': streak,
+                'badges': badges,
+                'completed_skills': completed_skills,
+                'total_quizzes': quiz_stats['total_quizzes']
+            }
+    
     def close(self):
         """Close all connections in pool"""
         if self.pool:

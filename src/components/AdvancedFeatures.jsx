@@ -195,6 +195,23 @@ const AdvancedFeatures = ({ learnerProfile, onFeaturesUpdate }) => {
       <div className="features-header">
         <h3>🚀 Advanced Features</h3>
         <p className="features-subtitle">Unlock ML-powered insights and analysis</p>
+        <button 
+          className="explore-concepts-btn"
+          onClick={() => window.location.hash = 'advanced-concepts'}
+          style={{
+            marginTop: '0.5rem',
+            padding: '0.5rem 1rem',
+            background: 'var(--accent-primary)',
+            color: 'white',
+            border: 'none',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            fontSize: '0.875rem',
+            fontWeight: 600
+          }}
+        >
+          🎓 Explore Advanced Concepts →
+        </button>
       </div>
 
       {/* Tabs */}
