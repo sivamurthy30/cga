@@ -69,3 +69,4 @@ data/uploads/*
 *.jpeg
 !public/*.png
 !public/*.jpg
+.env

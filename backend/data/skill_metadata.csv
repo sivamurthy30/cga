@@ -1,0 +1,185 @@
+skill,difficulty,learning_time,category
+Python,0.3,100,Programming
+JavaScript,0.35,90,Programming
+Java,0.4,120,Programming
+C++,0.6,150,Programming
+C#,0.45,110,Programming
+Go,0.5,100,Programming
+Rust,0.7,180,Programming
+Ruby,0.4,100,Programming
+PHP,0.35,80,Programming
+TypeScript,0.4,80,Programming
+Swift,0.5,120,Mobile
+Kotlin,0.5,110,Mobile
+Dart,0.45,100,Mobile
+SQL,0.4,80,Database
+PostgreSQL,0.5,90,Database
+MySQL,0.45,85,Database
+MongoDB,0.45,70,Database
+Redis,0.5,60,Database
+Elasticsearch,0.6,100,Database
+NoSQL,0.5,90,Database
+Statistics,0.6,200,Math
+Mathematics,0.5,180,Math
+Linear Algebra,0.7,150,Math
+Calculus,0.7,160,Math
+Probability,0.6,140,Math
+Machine Learning,0.7,300,AI
+Deep Learning,0.9,400,AI
+Natural Language Processing,0.8,350,AI
+Computer Vision,0.85,380,AI
+Reinforcement Learning,0.9,400,AI
+TensorFlow,0.75,200,AI
+PyTorch,0.75,200,AI
+Keras,0.6,120,AI
+Scikit-learn,0.5,100,AI
+Transformers,0.8,250,AI
+HuggingFace,0.75,220,AI
+LangChain,0.7,180,AI
+LlamaIndex,0.7,190,AI
+Data Structures,0.5,150,Programming
+Algorithms,0.6,200,Programming
+System Design,0.7,250,Architecture
+Microservices,0.7,180,Architecture
+Cloud Architecture,0.65,200,Architecture
+React,0.5,120,Frontend
+Next.js,0.55,130,Frontend
+Vue.js,0.45,100,Frontend
+Svelte,0.5,110,Frontend
+Angular,0.55,130,Frontend
+HTML,0.2,40,Frontend
+CSS,0.25,50,Frontend
+Tailwind CSS,0.3,60,Frontend
+Bootstrap,0.3,50,Frontend
+Django,0.6,150,Backend
+Flask,0.4,100,Backend
+FastAPI,0.5,110,Backend
+Spring Boot,0.65,180,Backend
+Express.js,0.45,100,Backend
+Node.js,0.5,120,Backend
+GraphQL,0.6,120,Backend
+gRPC,0.65,130,Backend
+REST API,0.4,100,Backend
+AWS,0.6,200,Cloud
+Azure,0.6,200,Cloud
+Google Cloud Platform,0.6,200,Cloud
+Docker,0.5,100,DevOps
+Kubernetes,0.8,250,DevOps
+Jenkins,0.5,120,DevOps
+CI/CD,0.6,150,DevOps
+Terraform,0.65,140,DevOps
+Ansible,0.6,130,DevOps
+Helm,0.7,160,DevOps
+ArgoCD,0.75,180,DevOps
+Git,0.3,60,Tools
+GitHub,0.25,50,Tools
+Linux,0.5,150,Tools
+Bash Scripting,0.45,100,Tools
+Excel,0.2,50,Tools
+Tableau,0.3,80,Visualization
+Power BI,0.35,90,Visualization
+Matplotlib,0.4,70,Visualization
+Seaborn,0.35,60,Visualization
+Plotly,0.4,80,Visualization
+Pandas,0.4,100,Data Science
+NumPy,0.45,90,Data Science
+Apache Spark,0.7,200,Big Data
+Kafka,0.65,150,Big Data
+Airflow,0.6,130,Data Engineering
+dbt,0.5,100,Data Engineering
+Snowflake,0.55,120,Data Engineering
+Databricks,0.6,140,Data Engineering
+Agile,0.3,80,Management
+Scrum,0.3,70,Management
+Project Management,0.4,120,Management
+Product Management,0.5,150,Management
+Figma,0.35,80,Design
+Adobe XD,0.4,90,Design
+Sketch,0.4,85,Design
+UI/UX Design,0.5,180,Design
+OAuth,0.55,110,Security
+JWT,0.45,80,Security
+Cybersecurity,0.7,250,Security
+Penetration Testing,0.8,300,Security
+Blockchain,0.8,280,Emerging
+Web3,0.75,250,Emerging
+Solidity,0.85,320,Emerging
+OpenCV,0.7,180,Computer Vision
+YOLOv8,0.85,300,Computer Vision
+MLflow,0.55,130,MLOps
+Weights & Biases,0.5,120,MLOps
+Kubeflow,0.8,280,MLOps
+Ray Serve,0.7,200,MLOps
+BentoML,0.65,160,MLOps
+Feature Store,0.75,220,MLOps
+Optuna,0.6,140,AutoML
+AutoGluon,0.55,130,AutoML
+Gymnasium,0.7,180,Reinforcement Learning
+Stable Baselines,0.65,160,Reinforcement Learning
+Unity ML-Agents,0.75,200,Game AI
+Prophet,0.5,120,Time Series
+PyOD,0.6,140,Anomaly Detection
+SHAP,0.55,130,Explainability
+Featuretools,0.6,150,Feature Engineering
+Looker,0.4,100,BI
+Metabase,0.35,80,BI
+Superset,0.4,90,BI
+Prisma,0.45,100,Database ORM
+tRPC,0.5,110,API
+Supabase,0.45,100,Backend-as-a-Service
+Flutter,0.6,150,Mobile
+React Native,0.55,130,Mobile
+Jetpack Compose,0.6,140,Mobile
+SwiftUI,0.55,130,Mobile
+Terraform Cloud,0.7,170,DevOps
+Pulumi,0.65,150,DevOps
+Crossplane,0.75,200,DevOps
+Istio,0.8,240,Service Mesh
+Linkerd,0.75,200,Service Mesh
+Knative,0.7,180,Serverless
+Delta Lake,0.65,160,Data Lake
+Iceberg,0.7,170,Data Lake
+Feast,0.75,200,Feature Store
+Great Expectations,0.6,140,Data Quality
+Prefect,0.6,130,Workflow Orchestration
+Dagster,0.65,150,Data Orchestration
+Qwik,0.5,110,Frontend
+Remix,0.55,130,Frontend
+SolidJS,0.5,120,Frontend
+Partytown,0.4,90,Performance
+Zod,0.3,60,Validation
+PocketBase,0.45,100,Backend
+Tauri,0.6,150,Desktop
+Deno,0.5,110,Runtime
+Bun.js,0.45,100,Runtime
+Temporal,0.7,180,Workflows
+Dapr,0.65,160,Microservices
+eBPF,0.8,250,Observability
+Nix,0.7,180,Package Management
+Tilt,0.5,120,Development
+KEDA,0.6,140,Autoscaling
+KubeVirt,0.75,200,Virtualization
+Longhorn,0.6,140,Storage
+FluxCD,0.7,160,GitOps
+Garden.io,0.65,150,Development
+Keptn,0.7,170,Continuous Delivery
+RAG Systems,0.75,220,LLM
+Prompt Engineering,0.6,140,LLM
+vLLM,0.7,180,LLM Serving
+TensorRT-LLM,0.8,240,LLM Optimization
+Llama 3,0.85,300,LLM Models
+Mistral,0.8,280,LLM Models
+Grok,0.85,320,LLM Models
+Segment Anything,0.9,350,Computer Vision
+YOLO-World,0.9,340,Computer Vision
+GroundingDINO,0.85,300,Computer Vision
+FAISS,0.65,160,Vector Search
+Pinecone,0.6,140,Vector Database
+Weaviate,0.65,150,Vector Database
+Chroma,0.55,130,Vector Database
+AutoGen,0.7,180,AI Agents
+CrewAI,0.65,160,AI Agents
+LangGraph,0.7,170,AI Workflows
+TRULens,0.6,140,Evaluation
+Ragas,0.55,130,Evaluation
+DeepEval,0.6,140,Evaluation

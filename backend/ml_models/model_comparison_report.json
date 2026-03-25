@@ -1,0 +1,102 @@
+{
+  "training_date": "2026-02-16",
+  "dataset": {
+    "total_samples": 50000,
+    "train_samples": 40000,
+    "test_samples": 10000,
+    "label_noise": 0.12
+  },
+  "models_compared": {
+    "random_forest": {
+      "train_accuracy": 0.9898416666666668,
+      "test_accuracy": 0.7973916666666668,
+      "architecture": "Single Random Forest (100 trees)"
+    },
+    "hybrid_ensemble": {
+      "train_accuracy": 0.9898291666666666,
+      "test_accuracy": 0.990025,
+      "architecture": "Stacking: XGBoost + GB + LR + SVM \u2192 RF",
+      "base_models": 4,
+      "meta_learner": "Random Forest"
+    }
+  },
+  "final_model": {
+    "type": "Hybrid Stacking Ensemble",
+    "test_accuracy": 0.990025,
+    "improvement_over_baseline": 24.157931589453092
+  },
+  "per_tip_comparison": [
+    {
+      "tip_id": 1,
+      "tip_name": "Add Quantifiable Impact",
+      "rf_accuracy": 0.6642,
+      "ensemble_accuracy": 0.9913
+    },
+    {
+      "tip_id": 2,
+      "tip_name": "Open Source Contributions",
+      "rf_accuracy": 0.827,
+      "ensemble_accuracy": 0.9898
+    },
+    {
+      "tip_id": 3,
+      "tip_name": "Certifications & Badges",
+      "rf_accuracy": 0.5017,
+      "ensemble_accuracy": 0.9911
+    },
+    {
+      "tip_id": 4,
+      "tip_name": "Action Verbs & STAR",
+      "rf_accuracy": 0.9889,
+      "ensemble_accuracy": 0.9889
+    },
+    {
+      "tip_id": 5,
+      "tip_name": "Technical Blog",
+      "rf_accuracy": 0.9905,
+      "ensemble_accuracy": 0.9905
+    },
+    {
+      "tip_id": 6,
+      "tip_name": "Portfolio Website",
+      "rf_accuracy": 0.7672,
+      "ensemble_accuracy": 0.9898
+    },
+    {
+      "tip_id": 7,
+      "tip_name": "Specific Tools & Versions",
+      "rf_accuracy": 0.9081,
+      "ensemble_accuracy": 0.9893
+    },
+    {
+      "tip_id": 8,
+      "tip_name": "Hackathon Wins",
+      "rf_accuracy": 0.7438,
+      "ensemble_accuracy": 0.9904
+    },
+    {
+      "tip_id": 9,
+      "tip_name": "Leadership & Mentoring",
+      "rf_accuracy": 0.6226,
+      "ensemble_accuracy": 0.989
+    },
+    {
+      "tip_id": 10,
+      "tip_name": "GitHub Stats",
+      "rf_accuracy": 0.5752,
+      "ensemble_accuracy": 0.9907
+    },
+    {
+      "tip_id": 11,
+      "tip_name": "Live Demos",
+      "rf_accuracy": 0.9888,
+      "ensemble_accuracy": 0.9888
+    },
+    {
+      "tip_id": 12,
+      "tip_name": "AI/ML Experience",
+      "rf_accuracy": 0.9907,
+      "ensemble_accuracy": 0.9907
+    }
+  ]
+}

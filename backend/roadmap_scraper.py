@@ -66,12 +66,18 @@ class RoadmapScraper:
         """Fetch roadmap content from GitHub"""
         try:
             # Try to fetch the roadmap JSON file
-            url = f"{self.raw_content_url}/src/data/roadmaps/{roadmap_id}/roadmap.json"
+            url = f"{self.raw_content_url}/src/data/roadmaps/{roadmap_id}/{roadmap_id}.json"
             response = requests.get(url, headers=self.headers, timeout=10)
             
             if response.status_code == 200:
                 return response.json()
             else:
+                # Fallback to roadmap.json just in case
+                backup_url = f"{self.raw_content_url}/src/data/roadmaps/{roadmap_id}/roadmap.json"
+                response = requests.get(backup_url, headers=self.headers, timeout=10)
+                if response.status_code == 200:
+                    return response.json()
+                
                 print(f"Could not fetch {roadmap_id}: {response.status_code}")
                 return None
         except Exception as e:

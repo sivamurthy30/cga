@@ -15,9 +15,10 @@ import hashlib
 import secrets
 from datetime import datetime, timedelta
 
-# Add project root to path
+# Add backend root to path
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-PROJECT_ROOT = os.path.abspath(os.path.join(CURRENT_DIR, ".."))
+# current is backend/app/routes, need to reach backend/
+PROJECT_ROOT = os.path.abspath(os.path.join(CURRENT_DIR, "..", ".."))
 sys.path.append(PROJECT_ROOT)
 
 try:
@@ -192,9 +193,14 @@ if RESUME_PARSER_AVAILABLE:
 else:
     resume_parser = None
 
-# Initialize GitHub Analyzer if available
+# Initialize GitHub Analyzer if available with token if provided
 if GITHUB_ANALYZER_AVAILABLE:
-    github_analyzer = GitHubAnalyzer()
+    from app.config import settings
+    token = settings.GITHUB_TOKEN
+    # Only use real token string if specified
+    if token and "your_github_token" in token:
+        token = None 
+    github_analyzer = GitHubAnalyzer(github_token=token)
 else:
     github_analyzer = None
 
@@ -986,6 +992,7 @@ async def upload_resume(request: Request):
                 "experience_years": resume_data['experience_years'],
                 "suggested_role": resume_data['suggested_role'],
                 "confidence": resume_data['confidence'],
+                "match_percentage": resume_data.get('match_percentage', 0),
                 "reasoning": resume_data['reasoning'],
                 "email": resume_data.get('email', ''),
                 "phone": resume_data.get('phone', ''),

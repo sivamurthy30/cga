@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { gsap } from 'gsap';
 import ThemeToggle from './ThemeToggle';
+import LoadingScreen from './LoadingScreen';
 import '../styles/Onboarding.css';
+import '../styles/SmoothAnimations.css';
 
 const OnboardingFlow = ({ onComplete, currentUser, onLogout, theme, toggleTheme }) => {
   const [currentStep, setCurrentStep] = useState(0); // Start at welcome screen
@@ -19,6 +21,7 @@ const OnboardingFlow = ({ onComplete, currentUser, onLogout, theme, toggleTheme 
   const [aiMatchPercentage, setAiMatchPercentage] = useState(0);
   const [aiReasoning, setAiReasoning] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState("");
   const [error, setError] = useState(null);
   const [githubUsername, setGithubUsername] = useState('');
   const [showAllSkills, setShowAllSkills] = useState(false);
@@ -322,6 +325,11 @@ const OnboardingFlow = ({ onComplete, currentUser, onLogout, theme, toggleTheme 
           setAiSuggestedRole(aiSuggestion.suggestedRole || resumeData.suggested_role);
           setAiConfidence(aiSuggestion.confidence);
           setAiReasoning(aiSuggestion.reasoning);
+          
+          // Also update match percentage if AI is more/less confident
+          if (aiSuggestion.confidence) {
+            setAiMatchPercentage(Math.round(aiSuggestion.confidence * 100));
+          }
         } else {
           // Fallback: Use resume data directly
           const fallbackRole = resumeData.suggested_role || quizResults?.suggestedRole || 'Full Stack Developer';
@@ -678,10 +686,7 @@ const OnboardingFlow = ({ onComplete, currentUser, onLogout, theme, toggleTheme 
           )}
 
           {isLoading && (
-            <div className="loading-overlay">
-              <div className="loading-spinner"></div>
-              <p>Analyzing your profile...</p>
-            </div>
+            <LoadingScreen message={loadingMessage || "Analyzing your profile..."} />
           )}
 
           <div className="help-options">
@@ -1122,6 +1127,8 @@ const OnboardingFlow = ({ onComplete, currentUser, onLogout, theme, toggleTheme 
                   onClick={() => {
                     setResumeData(null);
                     setAiSuggestedRole(null);
+                    setAiMatchPercentage(0);
+                    setAiConfidence(0);
                   }}
                 >
                   Upload Different Resume
@@ -1154,10 +1161,7 @@ const OnboardingFlow = ({ onComplete, currentUser, onLogout, theme, toggleTheme 
           )}
 
           {isLoading && (
-            <div className="loading-overlay">
-              <div className="loading-spinner"></div>
-              <p>Analyzing your profile...</p>
-            </div>
+            <LoadingScreen message={loadingMessage || "Analyzing your profile..."} />
           )}
 
           <div className="skills-input-options">

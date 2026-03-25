@@ -1,0 +1,301 @@
+id,target_role,known_skills,learning_speed
+1,Data Scientist,"Python,SQL",0.8
+2,Data Scientist,"Python,Statistics",0.6
+3,ML Engineer,"Python,Mathematics",0.9
+4,ML Engineer,"Deep Learning,PyTorch",0.5
+5,Data Analyst,"Excel,SQL",0.7
+6,Data Scientist,"Python,Pandas",0.85
+7,ML Engineer,"Python,Statistics,TensorFlow",0.75
+8,Data Analyst,"Excel,Tableau",0.6
+9,Backend Engineer,"Python,Django",0.8
+10,Backend Engineer,"Java,Spring Boot",0.7
+11,Frontend Developer,"JavaScript,React",0.75
+12,Frontend Developer,"HTML,CSS,JavaScript",0.65
+13,Full Stack Developer,"Python,JavaScript,SQL",0.85
+14,Full Stack Developer,"Node.js,React,MongoDB",0.8
+15,DevOps Engineer,"Docker,Linux",0.7
+16,DevOps Engineer,"AWS,Kubernetes",0.75
+17,Cloud Architect,"AWS,Terraform",0.8
+18,Cloud Architect,"Azure,Docker",0.7
+19,Data Engineer,"Python,SQL,Spark",0.85
+20,Data Engineer,"Airflow,Kafka",0.75
+21,Mobile Developer,"Swift,iOS",0.7
+22,Mobile Developer,"Kotlin,Android",0.65
+23,Security Engineer,"Python,Linux",0.75
+24,Security Engineer,"Cybersecurity,Penetration Testing",0.8
+25,Product Manager,"Agile,Scrum",0.6
+26,Product Manager,"Product Management,Analytics",0.65
+27,UI/UX Designer,"Figma,Adobe XD",0.7
+28,UI/UX Designer,"UI/UX Design,Sketch",0.75
+29,Blockchain Developer,"Python,Solidity",0.8
+30,Blockchain Developer,"Web3,Smart Contracts",0.85
+31,Data Scientist,"Python,Scikit-learn",0.82
+32,ML Engineer,"TensorFlow,Keras",0.78
+33,Data Scientist,"Pandas,NumPy",0.88
+34,Computer Vision Engineer,"PyTorch,OpenCV",0.92
+35,NLP Engineer,"Transformers,HuggingFace",0.87
+36,MLOps Engineer,"Docker,Kubeflow",0.76
+37,Data Engineer,"Spark,Hadoop",0.83
+38,Backend Engineer,"FastAPI,PostgreSQL",0.81
+39,Frontend Developer,"Next.js,Tailwind",0.79
+40,Full Stack Developer,"Django,React",0.86
+41,DevOps Engineer,"Terraform,Helm",0.74
+42,Cloud Architect,"GCP,Anthos",0.82
+43,Data Analyst,"Power BI,SQL",0.68
+44,BI Engineer,"Looker,dbt",0.72
+45,Research Scientist,"Mathematics,Linear Algebra",0.91
+46,Quant Developer,"Python,NumPy",0.89
+47,Game AI Engineer,"Reinforcement Learning,Pygame",0.84
+48,Embedded ML Engineer,"TensorFlow Lite,Edge TPU",0.77
+49,Federated Learning Engineer,"Flower,PySyft",0.85
+50,Recommendation Systems Engineer,"Surprise,LightFM",0.8
+51,Data Scientist,"SQL,Statistics",0.78
+52,ML Engineer,"PyTorch,Mathematics",0.88
+53,Data Analyst,"Tableau,Excel",0.65
+54,Backend Engineer,"Node.js,Express",0.79
+55,Frontend Developer,"Vue.js,TypeScript",0.73
+56,Full Stack Developer,"FastAPI,React",0.84
+57,DevOps Engineer,"Jenkins,CI/CD",0.71
+58,Cloud Architect,"Kubernetes,Terraform",0.8
+59,Data Engineer,"Kafka,Spark",0.82
+60,Mobile Developer,"React Native,JavaScript",0.76
+61,Security Engineer,"OAuth,JWT",0.77
+62,Product Manager,"SQL,Analytics",0.62
+63,UI/UX Designer,"Sketch,Prototyping",0.72
+64,Blockchain Developer,"Ethereum,Hardhat",0.83
+65,Data Scientist,"Machine Learning,Pandas",0.81
+66,ML Engineer,"Computer Vision,OpenCV",0.9
+67,NLP Engineer,"BERT,SpaCy",0.86
+68,MLOps Engineer,"MLflow,W&B",0.75
+69,Data Engineer,"Airflow,dbt",0.8
+70,Backend Engineer,"GraphQL,Hasura",0.78
+71,Frontend Developer,"Svelte,Tailwind",0.74
+72,Full Stack Developer,"Next.js,Prisma",0.87
+73,DevOps Engineer,"Ansible,AWS",0.73
+74,Cloud Architect,"Azure DevOps,GitHub Actions",0.79
+75,BI Engineer,"Metabase,Superset",0.7
+76,Data Analyst,"Google Analytics,BigQuery",0.67
+77,Research Scientist,"Statistics,Bayesian",0.9
+78,Quant Developer,"Pandas,Ta-lib",0.88
+79,Game AI Engineer,"Unity,ML-Agents",0.82
+80,Embedded ML Engineer,"ONNX,Coral",0.76
+81,Federated Learning Engineer,"TensorFlow Federated,OpenMined",0.84
+82,Recommendation Systems Engineer,"TensorFlow Recommenders,Implicit",0.81
+83,Data Scientist,"Feature Engineering,SHAP",0.8
+84,ML Engineer,"Model Optimization,ONNX",0.87
+85,Computer Vision Engineer,"YOLO,Detectron2",0.91
+86,NLP Engineer,"LangChain,LlamaIndex",0.85
+87,MLOps Engineer,"Ray Serve,BentoML",0.77
+88,Data Engineer,"Delta Lake,Iceberg",0.81
+89,Backend Engineer,"gRPC,Protocol Buffers",0.8
+90,Frontend Developer,"WebAssembly,Rust",0.76
+91,Full Stack Developer,"T3 Stack,Astro",0.88
+92,DevOps Engineer,"ArgoCD,Flux",0.75
+93,Cloud Architect,"Multi-cloud,Knative",0.82
+94,Data Analyst,"Mixpanel,Amplitude",0.69
+95,BI Engineer,"Redash,Mode",0.71
+96,Research Scientist,"Causal Inference,DoWhy",0.92
+97,Quant Developer,"Backtrader,Zipline",0.87
+98,Game AI Engineer,"Gymnasium,Stable-Baselines",0.83
+99,Embedded ML Engineer,"TinyML,uTensor",0.75
+100,Federated Learning Engineer,"FedML,FATE",0.86
+101,Data Scientist,"Time Series,Prophet",0.79
+102,ML Engineer,"AutoML,Optuna",0.89
+103,Data Analyst,"Looker Studio,Data Studio",0.66
+104,Backend Engineer,"Serverless,Lambda",0.82
+105,Frontend Developer,"Remix, Solid",0.77
+106,Full Stack Developer,"Remix,Prisma",0.86
+107,DevOps Engineer,"Crossplane,Pulumi",0.74
+108,Cloud Architect,"Istio,Linkerd",0.81
+109,Data Engineer,"Snowflake,Databricks",0.84
+110,Mobile Developer,"Flutter,Dart",0.78
+111,Security Engineer,"Zero Trust,Auth0",0.79
+112,Product Manager,"Roadmap,Productboard",0.64
+113,UI/UX Designer,"Framer,Webflow",0.74
+114,Blockchain Developer,"Polkadot,Substrate",0.85
+115,Data Scientist,"NLP,Sentiment",0.8
+116,ML Engineer,"GANs,Diffusion",0.9
+117,Computer Vision Engineer,"Pose Estimation,MediaPipe",0.92
+118,NLP Engineer,"RAG,Vector DBs",0.88
+119,MLOps Engineer,"KServe,Seldon",0.78
+120,Data Engineer,"Feature Store,Feast",0.83
+121,Backend Engineer,"Event Driven,Kafka Streams",0.81
+122,Frontend Developer,"Qwik,Signals",0.78
+123,Full Stack Developer,"Qwik,Supabase",0.89
+124,DevOps Engineer,"GitOps,Argo Workflows",0.76
+125,Cloud Architect,"Serverless,Keda",0.83
+126,Data Analyst,"Segment,Rudderstack",0.7
+127,BI Engineer,"Cube.js,Lightdash",0.73
+128,Research Scientist,"Graph Neural Networks,PyG",0.93
+129,Quant Developer,"Freqtrade,CCXT",0.88
+130,Game AI Engineer,"RLlib,PettingZoo",0.84
+131,Embedded ML Engineer,"Espressif,ESP32",0.77
+132,Federated Learning Engineer,"OpenFL,Substra",0.87
+133,Recommendation Systems Engineer,"Two Towers,DeepFM",0.82
+134,Data Scientist,"Anomaly Detection,PyOD",0.81
+135,ML Engineer,"LLM Fine-tuning,PEFT",0.91
+136,Computer Vision Engineer,"SAM,Segment Anything",0.93
+137,NLP Engineer,"Multi-modal,CLIP",0.89
+138,MLOps Engineer,"Flyte,ZenML",0.79
+139,Data Engineer,"Great Expectations,Soda",0.85
+140,Backend Engineer,"Dapr,Service Mesh",0.83
+141,Frontend Developer,"Leptos,Actix",0.8
+142,Full Stack Developer,"Leptos,SurrealDB",0.9
+143,DevOps Engineer,"Nix,Colmena",0.78
+144,Cloud Architect,"eBPF,Cilium",0.85
+145,Data Analyst,"PostHog,Count",0.72
+146,BI Engineer,"Evidence,Metrbase",0.75
+147,Research Scientist,"Quantum ML,Qiskit",0.94
+148,Quant Developer,"Moonshot,FinRL",0.89
+149,Game AI Engineer,"TorchRL,SKRL",0.85
+150,Embedded ML Engineer,"STM32Cube.AI,NXP",0.78
+151,Federated Learning Engineer,"NVIDIA FLARE,IBM FL",0.88
+152,Recommendation Systems Engineer,"Wide&Deep,DCN",0.83
+153,Data Scientist,"Causal ML,EconML",0.82
+154,ML Engineer,"Model Compression,DistilBERT",0.92
+155,Computer Vision Engineer,"RT-DETR,YOLO-World",0.94
+156,NLP Engineer,"Agentic AI,AutoGen",0.9
+157,MLOps Engineer,"Metaflow,Pachyderm",0.8
+158,Data Engineer,"Mage,Kedro",0.86
+159,Backend Engineer,"Temporal,Workflows",0.84
+160,Frontend Developer,"Htmx,Alpine.js",0.81
+161,Full Stack Developer,"Htmx,HTMX + Django",0.91
+162,DevOps Engineer,"Earthly,Buildkit",0.79
+163,Cloud Architect,"WASM,SpinKube",0.86
+164,Data Analyst,"Pirate Metrics,AARRR",0.73
+165,BI Engineer,"Grafana,Tempo",0.76
+166,Research Scientist,"Neuro-symbolic AI,Logic Tensor",0.95
+167,Quant Developer,"PyQL,QuantLib",0.9
+168,Game AI Engineer,"SuperSuite,RLWorld",0.86
+169,Embedded ML Engineer,"Raspberry Pi Pico,W65C02",0.79
+170,Federated Learning Engineer,"Flower v1.5,FedML v0.8",0.89
+171,Recommendation Systems Engineer,"xDeepFM,AIF360",0.84
+172,Data Scientist,"MLOps Maturity,CRISP-DM",0.83
+173,ML Engineer,"Prompt Engineering,Chain-of-Thought",0.93
+174,Computer Vision Engineer,"GroundingDINO,OWL-ViT",0.95
+175,NLP Engineer,"Toolformer,ReAct",0.91
+176,MLOps Engineer,"Orion,DVC 3.0",0.81
+177,Data Engineer,"Dagster,Meltano",0.87
+178,Backend Engineer,"Actor Model,Proto.Actor",0.85
+179,Frontend Developer,"Fresh,Deno",0.82
+180,Full Stack Developer,"Fresh, Deno KV",0.92
+181,DevOps Engineer,"Tilt,DevSpace",0.8
+182,Cloud Architect,"Knative 1.10,CloudEvents",0.87
+183,Data Analyst,"Retention Analysis,Cohort",0.74
+184,BI Engineer,"dbt Metrics,Elementary",0.77
+185,Research Scientist,"Embodied AI,RT-2",0.96
+186,Quant Developer,"RL for Trading,FinRL-Meta",0.91
+187,Game AI Engineer,"MineRL2,NetHack",0.87
+188,Embedded ML Engineer,"TinyMLx,Whisper Tiny",0.8
+189,Federated Learning Engineer,"FedScale,Bazel",0.9
+190,Recommendation Systems Engineer,"Multi-task Learning,MMOE",0.85
+191,Data Scientist,"LLM Observability,PromptFlow",0.84
+192,ML Engineer,"Retrieval Augmented,FAISS",0.94
+193,Computer Vision Engineer," Florence-2, PaliGemma",0.96
+194,NLP Engineer,"Mixture of Experts,DeepSeek",0.92
+195,MLOps Engineer,"ClearML v2,Weights v0.16",0.82
+196,Data Engineer,"Prefect 3.0,Daytona",0.88
+197,Backend Engineer,"Fastly Compute,Edge",0.86
+198,Frontend Developer,"Zod,Valibot",0.83
+199,Full Stack Developer,"Tauri, Rust + Web",0.93
+200,DevOps Engineer,"Rancher Desktop,K3s",0.81
+201,Cloud Architect,"Crossplane 0.40,OPA",0.88
+202,Data Analyst,"Funnel Analysis,User Journey",0.75
+203,BI Engineer,"Sigma Computing,ThoughtSpot",0.78
+204,Research Scientist,"AI Safety,Mechanistic Interpretability",0.97
+205,Quant Developer,"Market Microstructure,Tape Reading",0.92
+206,Game AI Engineer,"AlphaStar 2,OpenSpiel",0.88
+207,Embedded ML Engineer,"ESP-IDF v5.2,Espressif",0.81
+208,Federated Learning Engineer,"TensorFlow Federated 0.8,Privacy",0.91
+209,Recommendation Systems Engineer,"Causal RecSys,IPS",0.86
+210,Data Scientist,"Model Cards,Responsible AI",0.85
+211,ML Engineer,"Structured Outputs,Grammar",0.95
+212,Computer Vision Engineer,"VideoMAE,TimeSformer",0.97
+213,NLP Engineer,"Code Llama,StarCoder2",0.93
+214,MLOps Engineer,"LangSmith,TruLens",0.83
+215,Data Engineer,"Modular,dbt Cloud",0.89
+216,Backend Engineer,"Cloudflare Workers,D1",0.87
+217,Frontend Developer,"Partytown,Module Federation",0.84
+218,Full Stack Developer,"PocketBase,Go Web",0.94
+219,DevOps Engineer,"Garden.io,OpenKruise",0.82
+220,Cloud Architect,"KubeVirt,Harvester",0.89
+221,Data Analyst,"Product Analytics,Retention",0.76
+222,BI Engineer,"Hex,Deepnote",0.79
+223,Research Scientist,"AGI Benchmarks,ARC Prize",0.98
+224,Quant Developer,"HFT Infrastructure,Nanex",0.93
+225,Game AI Engineer,"Craftax,Procgen",0.89
+226,Embedded ML Engineer,"Zephyr RTOS,ChibiOS",0.82
+227,Federated Learning Engineer,"Bazel FL,Privacy Sandbox",0.92
+228,Recommendation Systems Engineer,"Graph RecSys,NGCF",0.87
+229,Data Scientist,"Data Contracts,Pydantic",0.86
+230,ML Engineer,"Test Time Training,TTA",0.96
+231,Computer Vision Engineer,"DINOv2,MViT",0.98
+232,NLP Engineer,"Instruction Tuning,DPO",0.94
+233,MLOps Engineer,"PromptFlow,LangChain Hub",0.84
+234,Data Engineer,"LakeFS,DVC Data",0.9
+235,Backend Engineer,"Bun.js,Elysia",0.88
+236,Frontend Developer,"Vite 5,esbuild",0.85
+237,Full Stack Developer,"Remix v2,Prisma Accelerate",0.95
+238,DevOps Engineer,"KEDA 2.12,Ollama Operator",0.83
+239,Cloud Architect,"Kilo,OpenFaaS",0.9
+240,Data Analyst,"SQL Optimization,EXPLAIN",0.77
+241,BI Engineer,"Atlan,Collibra",0.8
+242,Research Scientist,"Scaling Laws,Chinchilla",0.99
+243,Quant Developer,"Order Book Imbalance,LOBSTER",0.94
+244,Game AI Engineer,"AlphaCode 2,Codeforces",0.9
+245,Embedded ML Engineer,"CircuitPython,Micropython 1.23",0.83
+246,Federated Learning Engineer,"FedML Edge,WebFL",0.93
+247,Recommendation Systems Engineer,"Self-Supervised RecSys,SimCLR",0.88
+248,Data Scientist,"Data Mesh,Domain Driven",0.87
+249,ML Engineer,"Knowledge Distillation,MiniLM",0.97
+250,Computer Vision Engineer,"Segment Anything 2,SA-1B",0.99
+251,NLP Engineer,"RWKV,State Space Models",0.95
+252,MLOps Engineer,"ML Metadata Store,MIMIC",0.85
+253,Data Engineer,"Delta Live Tables,Unity Catalog",0.91
+254,Backend Engineer,"Deno 2.0,Fresh 2.0",0.89
+255,Frontend Developer,"Qwik 1.5,Partytown 0.9",0.86
+256,Full Stack Developer,"SolidStart, Solid 1.9",0.96
+257,DevOps Engineer,"FluxCD v2,ArgoCD 2.11",0.84
+258,Cloud Architect,"Longhorn 1.7,Rook Ceph",0.91
+259,Data Analyst,"Experimentation Platform,Optimizely",0.78
+260,BI Engineer,"Streamlit BI,Gradio Dashboards",0.81
+261,Research Scientist,"AI Alignment,Superalignment",1.0
+262,Quant Developer,"Market Impact Models,Almgren",0.95
+263,Game AI Engineer,"DiT,Diffusion Transformers",0.91
+264,Embedded ML Engineer,"TensorFlow Lite Micro,CMSIS-NN",0.84
+265,Federated Learning Engineer,"Privacy-Preserving FL,DP-SGD",0.94
+266,Recommendation Systems Engineer,"Temporal RecSys,TimeSVD",0.89
+267,Data Scientist,"LLM Evaluation,RAGAS",0.88
+268,ML Engineer,"Mixture of Experts,Switch Transformers",0.98
+269,Computer Vision Engineer,"YOLOv10,RT-DETR-L",1.0
+270,NLP Engineer,"Grok 2, xAI Models",0.96
+271,MLOps Engineer,"vLLM, TensorRT-LLM",0.86
+272,Data Engineer,"Apache Iceberg 1.6,Tabular",0.92
+273,Backend Engineer,"Zig 0.13, Bun S3",0.9
+274,Frontend Developer,"Astro 4.0, Islands v2",0.87
+275,Full Stack Developer,"T3 12, tRPC v11",0.97
+276,DevOps Engineer,"KubeEdge 1.16, K3s 1.30",0.85
+277,Cloud Architect,"KubeVirt 1.3, Volcano",0.92
+278,Data Analyst,"Causal Impact,DoWhy Dash",0.79
+279,BI Engineer,"Retool BI, Appsmith Pro",0.82
+280,Research Scientist,"Test-Time Training, CoT@32B",1.0
+281,Quant Developer,"VPIN, Volume-Synchronized",0.96
+282,Game AI Engineer,"Gato, Multi-task RL",0.92
+283,Embedded ML Engineer,"Edge TPU v2, Coral Dev",0.85
+284,Federated Learning Engineer,"FedNova, Scaffold",0.95
+285,Recommendation Systems Engineer,"LightGCN, Pure Exploration",0.9
+286,Data Scientist,"Feature Stores, Tecton",0.89
+287,ML Engineer,"Grokked Transformers, Phase Change",0.99
+288,Computer Vision Engineer,"Emu Video, VideoGen",1.0
+289,NLP Engineer,"Command R+, Cohere Tools",0.97
+290,MLOps Engineer,"OpenLLM, Baseten Deploy",0.87
+291,Data Engineer,"Nessie, Git for Data",0.93
+292,Backend Engineer,"PowerSync, ElectricSQL",0.91
+293,Frontend Developer,"Preact 19, Signals Core",0.88
+294,Full Stack Developer,"RedwoodJS 8, Prisma 6",0.98
+295,DevOps Engineer,"Keptn 1.10, Tekton 0.60",0.86
+296,Cloud Architect,"Harvester 1.4, KubeSail",0.93
+297,Data Analyst,"Bayesian A/B, Thorhammer",0.8
+298,BI Engineer,"Lightdash 0.10, Cube Cloud",0.83
+299,Research Scientist,"Scaling Monosemanticity, SAEs",1.0
+300,Quant Developer,"AlphaLens, Alphalens 2",0.97

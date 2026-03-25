@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     
     # FAST2SMS (Optional)
     FAST2SMS_API_KEY: str | None = None
+    GITHUB_TOKEN: str | None = None
     CORS_ORIGINS: str = "http://localhost:3000,http://127.0.0.1:3000"
 
     @field_validator("CORS_ORIGINS")

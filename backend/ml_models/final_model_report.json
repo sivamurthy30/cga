@@ -1,0 +1,100 @@
+{
+  "training_date": "2026-02-16",
+  "model_type": "Hybrid Stacking Ensemble",
+  "dataset": {
+    "total_samples": 5000,
+    "train_samples": 3500,
+    "test_samples": 1500,
+    "train_test_split": "70/30",
+    "label_noise": 0.3
+  },
+  "performance": {
+    "train_accuracy": 0.9639285714285714,
+    "test_accuracy": 0.9643333333333334,
+    "generalization_gap": 0.0004047619047620188
+  },
+  "per_tip_performance": [
+    {
+      "tip_id": 1,
+      "tip_name": "Quantifiable Impact",
+      "train_accuracy": 0.9628571428571429,
+      "test_accuracy": 0.962
+    },
+    {
+      "tip_id": 2,
+      "tip_name": "Open Source",
+      "train_accuracy": 0.9697142857142858,
+      "test_accuracy": 0.97
+    },
+    {
+      "tip_id": 3,
+      "tip_name": "Certifications",
+      "train_accuracy": 0.9614285714285714,
+      "test_accuracy": 0.9613333333333334
+    },
+    {
+      "tip_id": 4,
+      "tip_name": "Action Verbs",
+      "train_accuracy": 0.9662857142857143,
+      "test_accuracy": 0.954
+    },
+    {
+      "tip_id": 5,
+      "tip_name": "Technical Blog",
+      "train_accuracy": 0.9502857142857143,
+      "test_accuracy": 0.9673333333333334
+    },
+    {
+      "tip_id": 6,
+      "tip_name": "Portfolio",
+      "train_accuracy": 0.9594285714285714,
+      "test_accuracy": 0.9493333333333334
+    },
+    {
+      "tip_id": 7,
+      "tip_name": "Specific Tools",
+      "train_accuracy": 0.9622857142857143,
+      "test_accuracy": 0.9613333333333334
+    },
+    {
+      "tip_id": 8,
+      "tip_name": "Hackathons",
+      "train_accuracy": 0.9628571428571429,
+      "test_accuracy": 0.966
+    },
+    {
+      "tip_id": 9,
+      "tip_name": "Leadership",
+      "train_accuracy": 0.9662857142857143,
+      "test_accuracy": 0.964
+    },
+    {
+      "tip_id": 10,
+      "tip_name": "GitHub Stats",
+      "train_accuracy": 0.9668571428571429,
+      "test_accuracy": 0.968
+    },
+    {
+      "tip_id": 11,
+      "tip_name": "Live Demos",
+      "train_accuracy": 0.9714285714285714,
+      "test_accuracy": 0.976
+    },
+    {
+      "tip_id": 12,
+      "tip_name": "AI/ML Experience",
+      "train_accuracy": 0.9674285714285714,
+      "test_accuracy": 0.9726666666666667
+    }
+  ],
+  "architecture": {
+    "base_models": [
+      "GradientBoosting",
+      "LogisticRegression",
+      "SVM"
+    ],
+    "meta_learner": "RandomForest",
+    "feature_scaling": "StandardScaler",
+    "cross_validation": "5-fold"
+  }
+}

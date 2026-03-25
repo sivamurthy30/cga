@@ -37,7 +37,7 @@ async def upload_resume(file: UploadFile = File(...)):
                 "experience_years": resume_data['experience_years'],
                 "suggested_role": resume_data['suggested_role'],
                 "confidence": resume_data['confidence'],
-                "match_percentage": resume_data.get('match_percentage', 70),
+                "match_percentage": resume_data.get('match_percentage', 0),
                 "reasoning": resume_data['reasoning'],
                 "email": resume_data.get('email', ''),
                 "phone": resume_data.get('phone', ''),
