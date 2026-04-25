@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import './styles/DesignSystem.css';
 import './styles/SmoothAnimations.css';
+import './styles/Layout.css';
 import './App.css';
 import Auth from './components/Auth';
 import OnboardingFlow from './components/OnboardingFlow';
@@ -10,11 +11,75 @@ import RoadmapPage from './pages/RoadmapPage';
 import AdvancedConceptsPage from './pages/AdvancedConceptsPage';
 import AIChatWidget from './components/ai/AIChatWidget';
 import Navigation from './components/Navigation';
+import PricingModal from './components/PricingModal';
+import ProBadge from './components/ProBadge';
+import PaymentSuccess from './pages/PaymentSuccess';
+import PaymentFailure from './pages/PaymentFailure';
+import CommandPalette from './components/CommandPalette';
+import DeepWorkPlayer from './components/DeepWorkPlayer';
+import HackerConsole from './components/HackerConsole';
+import GhostHunterReviewer from './components/GhostHunterReviewer';
+import PitchPerfect from './components/PitchPerfect';
+import SalaryHeatmap from './components/SalaryHeatmap';
+import PredictiveCareerSlider from './components/PredictiveCareerSlider';
+import SplashScreen from './components/SplashScreen';
+import ExecutiveVault from './components/premium/ExecutiveVault';
+import ResumeBuilder from './components/ResumeBuilder';
+import DailyChallenge from './components/DailyChallenge';
+import InterviewPrep from './components/InterviewPrep';
+import GitHubHeatmap from './components/GitHubHeatmap';
+import useDynamicFavicon from './hooks/useDynamicFavicon';
 import useRoadmapStore from './store/roadmapStore';
+import { initiatePayUPayment } from './utils/payuIntegration';
 import { gsap } from 'gsap';
 import { TextPlugin } from 'gsap/TextPlugin';
 
 gsap.registerPlugin(TextPlugin);
+
+// ─── Atomic save helper ───────────────────────────────────────────────────────
+export async function atomicSaveStep(step) {
+  const token = localStorage.getItem('authToken');
+  if (!token) return;
+  try {
+    await fetch('/api/user/status/step', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify({ step }),
+    });
+  } catch { /* silent — offline mode */ }
+}
+
+async function fetchUserStatus(authToken) {
+  // Local/demo tokens can't hit the backend — restore from localStorage
+  if (!authToken || authToken.startsWith('local-token-') || authToken.startsWith('demo-token-')) {
+    const profile = (() => {
+      try { return JSON.parse(localStorage.getItem('learnerProfile') || 'null'); } catch { return null; }
+    })();
+    const onboardingDone = localStorage.getItem('onboardingComplete') === 'true';
+    return {
+      // Once onboarding is done, always go to dashboard — never block on assessment
+      status: onboardingDone ? 'dashboard' : 'onboarding_step_0',
+      last_saved_step: 0,
+      onboarding_complete: onboardingDone,
+      is_pro: localStorage.getItem('isPro') === 'true',
+      target_role: profile?.targetRole || '',
+      user_id: localStorage.getItem('userId') || '',
+      name: localStorage.getItem('userName') || '',
+      email: localStorage.getItem('userEmail') || '',
+      _local: true,
+      _profile: profile,
+    };
+  }
+  try {
+    const res = await fetch('/api/user/status', {
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+    if (!res.ok) return null;
+    return res.json();
+  } catch {
+    return null;
+  }
+}
 
 async function fetchFullProfile(authToken) {
   const res = await fetch('/api/user/profile', {
@@ -97,10 +162,20 @@ function App() {
   const [appLoading, setAppLoading] = useState(true);
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
   const [fontSize, setFontSize] = useState(localStorage.getItem('fontSize') || 'default');
+  const [showPricingModal, setShowPricingModal] = useState(false);
+  const [isPro, setIsPro] = useState(localStorage.getItem('isPro') === 'true');
   const titleRef = useRef(null);
 
   const { loadFromDB } = useRoadmapStore();
 
+  // Dynamic favicon — show green dot when mentor has notification
+  const [hasMentorNotification, setHasMentorNotification] = useState(false);
+  useDynamicFavicon(hasMentorNotification);
+
+  // Active feature page (for X-factor routes)
+  const [activePage, setActivePage] = useState(null); // 'code-review' | 'pitch-perfect' | 'salary-heatmap'
+
+  // All hooks must be declared before any conditional returns
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
@@ -109,12 +184,43 @@ function App() {
       if (hash === '#advanced-concepts') {
         setShowAdvancedConcepts(true);
         setShowRoadmapCanvas(false);
+        setActivePage(null);
       } else if (hash === '#roadmap') {
         setShowRoadmapCanvas(true);
         setShowAdvancedConcepts(false);
+        setActivePage(null);
+      } else if (hash === '#code-review') {
+        setActivePage('code-review');
+        setShowAdvancedConcepts(false);
+        setShowRoadmapCanvas(false);
+      } else if (hash === '#pitch-perfect') {
+        setActivePage('pitch-perfect');
+        setShowAdvancedConcepts(false);
+        setShowRoadmapCanvas(false);
+      } else if (hash === '#salary-heatmap') {
+        setActivePage('salary-heatmap');
+        setShowAdvancedConcepts(false);
+        setShowRoadmapCanvas(false);
+      } else if (hash === '#executive-vault') {
+        setActivePage('executive-vault');
+        setShowAdvancedConcepts(false);
+        setShowRoadmapCanvas(false);
+      } else if (hash === '#resume-builder') {
+        setActivePage('resume-builder');
+        setShowAdvancedConcepts(false);
+        setShowRoadmapCanvas(false);
+      } else if (hash === '#daily-challenge') {
+        setActivePage('daily-challenge');
+        setShowAdvancedConcepts(false);
+        setShowRoadmapCanvas(false);
+      } else if (hash === '#interview-prep') {
+        setActivePage('interview-prep');
+        setShowAdvancedConcepts(false);
+        setShowRoadmapCanvas(false);
       } else if (hash === '#dashboard' || hash === '') {
         setShowAdvancedConcepts(false);
         setShowRoadmapCanvas(false);
+        setActivePage(null);
       }
     };
 
@@ -143,136 +249,104 @@ function App() {
     });
   };
 
-  const restoreSessionFromDB = async (authToken, baseUser) => {
-    console.log('=== Restoring session from DATABASE ===');
-    console.log('Auth token:', authToken ? 'exists' : 'missing');
-    console.log('Base user from auth:', baseUser);
-    
-    // Check if the base user from verify/login already shows onboarding as complete
-    // Backend might return 1/0 or true/false
-    const isOnboardingComplete = baseUser.onboarding_complete === true || 
-                                 baseUser.onboarding_complete === 1 || 
-                                 baseUser.onboarding_complete === "1";
-
-    if (isOnboardingComplete && baseUser.target_role) {
-      console.log('✓ User has completed onboarding (from auth response) - going to dashboard');
-      
-      setCurrentUser(baseUser);
-      // Construct a minimal learner profile until full profile is fetched
-      const profile = {
-        targetRole: baseUser.target_role,
-        knownSkills: [],
-        learningSpeed: baseUser.learning_speed || 'medium',
-        onboarding_complete: true,
-        assessmentComplete: true,
-        assessmentResults: null,
-        timestamp: new Date().toISOString()
-      };
-      setLearnerProfile(profile);
-      
-      setShowRoadmap(true);
-      setShowOnboarding(false);
-      setShowAssessment(false);
-      setShowSkillsAnalysis(false);
-
-      // Still fetch full profile in background to get skills/stats
-      fetchFullProfile(authToken).then(dbProfile => {
-        if (dbProfile) {
-          console.log('✓ Full profile fetched in background');
-          const fullProfile = buildLearnerProfile(dbProfile);
-          setLearnerProfile(fullProfile);
-          loadFromDB(
-            dbProfile.roadmap_id || 'frontend-developer',
-            dbProfile.completed_nodes || [],
-            dbProfile.stats || {}
-          );
-        }
-      }).catch(err => console.error('Background profile fetch failed:', err));
-      
-      return;
-    }
-    
-    // If not complete, try fetching full profile from database
-    try {
-      const dbProfile = await fetchFullProfile(authToken);
-      if (!dbProfile) throw new Error('No profile returned from database');
-
-      console.log('✓ Profile fetched from database:', dbProfile);
-      
-      const profile = buildLearnerProfile(dbProfile);
-      console.log('✓ Built learner profile:', profile);
-
-      loadFromDB(
-        dbProfile.roadmap_id || 'frontend-developer',
-        dbProfile.completed_nodes || [],
-        dbProfile.stats || {}
-      );
-
-      setCurrentUser({ ...baseUser, target_role: dbProfile.target_role });
-      setLearnerProfile(profile);
-
-      // Check if user has completed onboarding
-      if ((dbProfile.onboarding_complete === true || dbProfile.onboarding_complete === 1) && dbProfile.target_role) {
-        console.log('✓ User has completed onboarding - going to dashboard');
-        console.log('  - onboarding_complete:', dbProfile.onboarding_complete);
-        console.log('  - target_role:', dbProfile.target_role);
-        setShowRoadmap(true);
-        setShowOnboarding(false);
-        setShowAssessment(false);
-        setShowSkillsAnalysis(false);
-      } else {
-        console.log('✗ New user or incomplete onboarding - showing onboarding');
-        console.log('  - onboarding_complete:', dbProfile.onboarding_complete);
-        console.log('  - target_role:', dbProfile.target_role);
-        setShowOnboarding(true);
-        setShowRoadmap(false);
-      }
-    } catch (err) {
-      console.log('⚠ Backend not available or error:', err.message);
-      console.log('Creating new user profile - showing onboarding');
-      
-      // Backend not available - new user flow
-      setShowOnboarding(true);
-      setShowRoadmap(false);
-    }
-  };
-
+  // ─── Phase 1: Anti-Amnesia Shield ─────────────────────────────────────────
+  // On mount: show splash, call /api/user/status, route to exact step
   useEffect(() => {
     const authToken = localStorage.getItem('authToken');
     const userId = localStorage.getItem('userId');
 
-    console.log('=== App Mount - Checking Auth ===');
-    console.log('authToken:', authToken ? 'exists' : 'missing');
-    console.log('userId:', userId);
-
     if (!authToken || !userId) {
-      console.log('No auth credentials - showing login');
       setAppLoading(false);
       return;
     }
 
-    console.log('Verifying token with backend...');
-    fetch('/api/auth/verify', {
-      headers: { 'Authorization': `Bearer ${authToken}` }
-    })
-      .then(res => {
-        console.log('Verify response status:', res.status);
-        return res.json();
-      })
-      .then(async data => {
-        console.log('Verify response data:', data);
-        if (data.user) {
-          console.log('✓ Token valid, user:', data.user);
-          setIsAuthenticated(true);
-          await restoreSessionFromDB(authToken, data.user);
+    // Use /status endpoint — single call that tells us exactly where to go
+    fetchUserStatus(authToken)
+      .then(async (statusData) => {
+        if (!statusData) { handleLogout(); return; }
+
+        setIsAuthenticated(true);
+        setIsPro(statusData.is_pro || localStorage.getItem('isPro') === 'true');
+        const baseUser = {
+          id: statusData.user_id,
+          name: statusData.name,
+          email: statusData.email,
+          target_role: statusData.target_role,
+          onboarding_complete: statusData.onboarding_complete,
+        };
+        setCurrentUser(baseUser);
+
+        const { status, last_saved_step } = statusData;
+
+        if (status === 'dashboard') {
+          // Fully onboarded — go straight to dashboard
+          let profile = null;
+          if (statusData._local && statusData._profile) {
+            // Offline mode — restore from localStorage
+            profile = statusData._profile;
+            setLearnerProfile(profile);
+          } else {
+            const dbProfile = await fetchFullProfile(authToken).catch(() => null);
+            if (dbProfile) {
+              profile = buildLearnerProfile(dbProfile);
+              setLearnerProfile(profile);
+              loadFromDB(
+                dbProfile.roadmap_id || 'frontend-developer',
+                dbProfile.completed_nodes || [],
+                dbProfile.stats || {}
+              );
+            } else {
+              setLearnerProfile({
+                targetRole: statusData.target_role,
+                knownSkills: [],
+                learningSpeed: 'medium',
+                onboarding_complete: true,
+                assessmentComplete: true,
+                assessmentResults: null,
+              });
+            }
+          }
+          setShowRoadmap(true);
+
+        } else if (status === 'assessment') {
+          // Onboarding done but no quiz yet
+          if (statusData._local && statusData._profile) {
+            setLearnerProfile(statusData._profile);
+          } else {
+            const dbProfile = await fetchFullProfile(authToken).catch(() => null);
+            if (dbProfile) setLearnerProfile(buildLearnerProfile(dbProfile));
+            else setLearnerProfile({ targetRole: statusData.target_role, knownSkills: [], learningSpeed: 'medium', onboarding_complete: true });
+          }
+          setShowAssessment(true);
+
         } else {
-          console.log('✗ Invalid token response');
-          handleLogout();
+          // onboarding_step_N — resume at exact step
+          setShowOnboarding(true);
+          // Pass last_saved_step to OnboardingFlow via learnerProfile
+          setLearnerProfile({ targetRole: statusData.target_role || '', knownSkills: [], learningSpeed: 'medium', onboarding_complete: false, resumeStep: last_saved_step });
         }
       })
-      .catch(err => {
-        console.log('✗ Verify failed:', err);
-        handleLogout();
+      .catch(() => {
+        // Backend offline — check if we have a local session
+        const token = localStorage.getItem('authToken');
+        const onboardingDone = localStorage.getItem('onboardingComplete') === 'true';
+        const savedProfile = (() => {
+          try { return JSON.parse(localStorage.getItem('learnerProfile') || 'null'); } catch { return null; }
+        })();
+
+        if (token && onboardingDone && savedProfile) {
+          setIsAuthenticated(true);
+          setCurrentUser({
+            id: localStorage.getItem('userId'),
+            name: localStorage.getItem('userName'),
+            email: localStorage.getItem('userEmail'),
+          });
+          setLearnerProfile(savedProfile);
+          // Once onboarding is done, always go to dashboard
+          setShowRoadmap(true);
+        } else {
+          setShowOnboarding(true);
+        }
       })
       .finally(() => setAppLoading(false));
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -292,13 +366,46 @@ function App() {
 
   const handleAuthSuccess = async (user) => {
     const authToken = localStorage.getItem('authToken');
-    console.log('Auth success, user:', user);
     setIsAuthenticated(true);
     setCurrentUser(user);
     setAppLoading(true);
-    await restoreSessionFromDB(authToken, user);
-    setAppLoading(false);
+
+    try {
+      const statusData = await fetchUserStatus(authToken);
+      if (statusData) {
+        setIsPro(statusData.is_pro || false);
+        if (statusData.status === 'dashboard') {
+          const dbProfile = await fetchFullProfile(authToken).catch(() => null);
+          if (dbProfile) {
+            setLearnerProfile(buildLearnerProfile(dbProfile));
+            loadFromDB(dbProfile.roadmap_id || 'frontend-developer', dbProfile.completed_nodes || [], dbProfile.stats || {});
+          } else {
+            setLearnerProfile({ targetRole: statusData.target_role, knownSkills: [], learningSpeed: 'medium', onboarding_complete: true, assessmentComplete: true, assessmentResults: null });
+          }
+          setShowRoadmap(true);
+        } else if (statusData.status === 'assessment') {
+          const dbProfile = await fetchFullProfile(authToken).catch(() => null);
+          if (dbProfile) setLearnerProfile(buildLearnerProfile(dbProfile));
+          setShowAssessment(true);
+        } else {
+          setLearnerProfile({ targetRole: statusData.target_role || '', knownSkills: [], learningSpeed: 'medium', onboarding_complete: false, resumeStep: statusData.last_saved_step });
+          setShowOnboarding(true);
+        }
+      } else {
+        setShowOnboarding(true);
+      }
+    } catch {
+      setShowOnboarding(true);
+    } finally {
+      setAppLoading(false);
+    }
   };
+  const isPaymentPage = window.location.pathname === '/payment/success' ||
+                        window.location.pathname === '/payment/failure';
+  if (isPaymentPage) {
+    if (window.location.pathname === '/payment/success') return <PaymentSuccess />;
+    return <PaymentFailure />;
+  }
 
   const handleLogout = () => {
     const authToken = localStorage.getItem('authToken');
@@ -310,11 +417,9 @@ function App() {
       }).catch(() => {});
     }
     
-    // Only remove auth tokens - all user data is in the database
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('userName');
+    // Clear all session data
+    ['authToken','userId','userEmail','userName',
+     'onboardingComplete','assessmentComplete','learnerProfile','isPro'].forEach(k => localStorage.removeItem(k));
     
     // Clear state
     setIsAuthenticated(false);
@@ -325,47 +430,36 @@ function App() {
     setShowSkillsAnalysis(false);
     setShowRoadmap(false);
     setShowRoadmapCanvas(false);
+    setActivePage(null);
     setAppLoading(false);
   };
 
   const handleOnboardingComplete = async (profile) => {
     const authToken = localStorage.getItem('authToken');
     
-    console.log('=== Onboarding Complete ===');
-    console.log('Profile:', profile);
-    console.log('Auth token:', authToken ? 'exists' : 'missing');
-    
     setShowOnboarding(false);
     setLearnerProfile(profile);
+
+    // ── Always persist to localStorage for offline/refresh resilience ──
+    localStorage.setItem('onboardingComplete', 'true');
+    localStorage.setItem('learnerProfile', JSON.stringify(profile));
     
-    // Save onboarding completion to database
+    // Save to backend if online
     if (authToken && profile.targetRole) {
       try {
-        console.log('Saving onboarding to database...');
         const response = await fetch('/api/user/complete-onboarding', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken}`
-          },
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
           body: JSON.stringify({
             target_role: profile.targetRole,
             known_skills: profile.knownSkills || [],
             learning_speed: profile.learningSpeed || 'medium'
           })
         });
-        
-        if (response.ok) {
-          const data = await response.json();
-          console.log('✓ Onboarding saved to database:', data);
-        } else {
-          console.warn('⚠ Failed to save onboarding:', response.status);
-        }
+        if (response.ok) console.log('✓ Onboarding saved to DB');
       } catch (err) {
-        console.warn('⚠ Could not save onboarding to backend:', err);
+        console.warn('⚠ Could not save onboarding to backend (offline mode):', err);
       }
-    } else {
-      console.warn('⚠ Missing auth token or target role, cannot save to database');
     }
     
     setShowAssessment(true);
@@ -389,23 +483,19 @@ function App() {
     };
     setLearnerProfile(updatedProfile);
 
-    console.log('=== Assessment Complete ===');
-    console.log('Assessment results:', assessmentResults);
-    console.log('Updated profile:', updatedProfile);
+    // ── Always persist to localStorage for offline/refresh resilience ──
+    localStorage.setItem('assessmentComplete', 'true');
+    localStorage.setItem('learnerProfile', JSON.stringify(updatedProfile));
 
-    // Save quiz results to database
+    // Save quiz results to database (if online)
     if (authToken) {
       const skillKeys = Object.keys(assessmentResults || {});
       const totalQ = skillKeys.reduce((sum, k) => sum + (assessmentResults[k]?.total || 0), 0);
       const totalCorrect = skillKeys.reduce((sum, k) => sum + (assessmentResults[k]?.correct || 0), 0);
       try {
-        console.log('Saving assessment results to database...');
         const response = await fetch('/api/user/quiz/save', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken}`
-          },
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
           body: JSON.stringify({
             quiz_type: 'skill_assessment',
             score: totalCorrect,
@@ -414,15 +504,9 @@ function App() {
             results_data: assessmentResults
           })
         });
-        
-        if (response.ok) {
-          const data = await response.json();
-          console.log('✓ Assessment results saved to database:', data);
-        } else {
-          console.warn('⚠ Failed to save assessment:', response.status);
-        }
+        if (response.ok) console.log('✓ Assessment saved to DB');
       } catch (err) {
-        console.warn('⚠ Could not save quiz results to backend:', err);
+        console.warn('⚠ Could not save quiz to backend (offline mode):', err);
       }
     }
 
@@ -430,23 +514,34 @@ function App() {
     setShowSkillsAnalysis(true);
   };
 
+  const handleUpgrade = async (planDetails) => {
+    console.log('Upgrading to DEVAsquare Pro:', planDetails);
+    
+    try {
+      // Get user details
+      const userDetails = {
+        name: currentUser?.name || 'User',
+        email: currentUser?.email || localStorage.getItem('userEmail') || 'user@example.com',
+        phone: currentUser?.phone || '9999999999'
+      };
+
+      // Initiate PayU payment
+      const result = await initiatePayUPayment(planDetails, userDetails);
+      
+      if (!result.success) {
+        alert('Payment initiation failed: ' + result.error);
+      }
+      // PayU will redirect to their payment page
+      // User will be redirected back to success/failure page after payment
+      
+    } catch (error) {
+      console.error('Payment error:', error);
+      alert('Payment failed: ' + error.message);
+    }
+  };
+
   if (appLoading) {
-    return (
-      <div style={{
-        display: 'flex', justifyContent: 'center', alignItems: 'center',
-        height: '100vh', background: 'var(--bg-primary)', flexDirection: 'column', gap: 16
-      }}>
-        <div style={{
-          width: 48, height: 48, border: '4px solid var(--border-primary)',
-          borderTop: '4px solid var(--accent-amber)', borderRadius: '50%',
-          animation: 'spin 1s linear infinite'
-        }} />
-        <p style={{ color: 'var(--text-secondary)', fontFamily: 'monospace', fontSize: 14 }}>
-          Loading your profile…
-        </p>
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-      </div>
-    );
+    return <SplashScreen message="Restoring your session..." />;
   }
 
   if (!isAuthenticated) {
@@ -479,6 +574,7 @@ function App() {
           toggleTheme={toggleTheme}
         />
         <AIChatWidget />
+        <CommandPalette onTheme={toggleTheme} onLogout={handleLogout} />
       </>
     );
   }
@@ -670,6 +766,17 @@ function App() {
               <button
                 className="btn-celeb-primary"
                 onClick={() => {
+                  // Persist final state to localStorage before navigating
+                  localStorage.setItem('onboardingComplete', 'true');
+                  localStorage.setItem('assessmentComplete', 'true');
+                  if (learnerProfile) {
+                    localStorage.setItem('learnerProfile', JSON.stringify({
+                      ...learnerProfile,
+                      onboarding_complete: true,
+                      assessmentComplete: true,
+                    }));
+                  }
+
                   setShowSkillsAnalysis(false);
                   setShowRoadmap(true);
 
@@ -677,16 +784,13 @@ function App() {
                   if (authToken) {
                     fetch('/api/user/complete-onboarding', {
                       method: 'POST',
-                      headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${authToken}`
-                      },
+                      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
                       body: JSON.stringify({
                         target_role: learnerProfile?.targetRole || 'Full Stack Developer',
                         known_skills: learnerProfile?.knownSkills || [],
                         learning_speed: learnerProfile?.learningSpeed || 'medium'
                       })
-                    }).catch(err => console.warn('Background sync failed:', err));
+                    }).catch(() => {});
                   }
                 }}
               >
@@ -721,6 +825,104 @@ function App() {
       );
     }
 
+    if (activePage === 'code-review') {
+      return (
+        <>
+          <Navigation currentUser={currentUser} onLogout={handleLogout} theme={theme} toggleTheme={toggleTheme} currentPage="code-review" />
+          <div style={{ paddingTop: 'var(--nav-height, 64px)', minHeight: '100vh', background: 'var(--bg-primary)' }}>
+            <GhostHunterReviewer />
+          </div>
+          <AIChatWidget />
+          <HackerConsole learnerProfile={learnerProfile} currentUser={currentUser} onTheme={toggleTheme} />
+          <CommandPalette onNavigate={() => {}} onUpgrade={() => setShowPricingModal(true)} onTheme={toggleTheme} onLogout={handleLogout} />
+        </>
+      );
+    }
+
+    if (activePage === 'pitch-perfect') {
+      return (
+        <>
+          <Navigation currentUser={currentUser} onLogout={handleLogout} theme={theme} toggleTheme={toggleTheme} currentPage="pitch-perfect" />
+          <div style={{ paddingTop: 'var(--nav-height, 64px)', minHeight: '100vh', background: 'var(--bg-primary)' }}>
+            <PitchPerfect />
+          </div>
+          <AIChatWidget />
+          <HackerConsole learnerProfile={learnerProfile} currentUser={currentUser} onTheme={toggleTheme} />
+          <CommandPalette onNavigate={() => {}} onUpgrade={() => setShowPricingModal(true)} onTheme={toggleTheme} onLogout={handleLogout} />
+        </>
+      );
+    }
+
+    if (activePage === 'salary-heatmap') {
+      return (
+        <>
+          <Navigation currentUser={currentUser} onLogout={handleLogout} theme={theme} toggleTheme={toggleTheme} currentPage="salary-heatmap" />
+          <div style={{ paddingTop: 'var(--nav-height, 64px)', padding: '80px 24px 24px', background: 'var(--bg-primary)', minHeight: '100vh' }}>
+            <SalaryHeatmap targetRole={learnerProfile?.targetRole} />
+          </div>
+          <AIChatWidget />
+          <HackerConsole learnerProfile={learnerProfile} currentUser={currentUser} onTheme={toggleTheme} />
+          <CommandPalette onNavigate={() => {}} onUpgrade={() => setShowPricingModal(true)} onTheme={toggleTheme} onLogout={handleLogout} />
+        </>
+      );
+    }
+
+    if (activePage === 'executive-vault') {
+      return (
+        <>
+          <Navigation currentUser={currentUser} onLogout={handleLogout} theme={theme} toggleTheme={toggleTheme} currentPage="executive-vault" />
+          <div style={{ paddingTop: 64 }}>
+            <ExecutiveVault isPro={isPro} onUpgradeClick={() => setShowPricingModal(true)} />
+          </div>
+          <AIChatWidget />
+          <HackerConsole learnerProfile={learnerProfile} currentUser={currentUser} onTheme={toggleTheme} />
+          <CommandPalette onNavigate={() => {}} onUpgrade={() => setShowPricingModal(true)} onTheme={toggleTheme} onLogout={handleLogout} />
+        </>
+      );
+    }
+
+    if (activePage === 'resume-builder') {
+      return (
+        <>
+          <Navigation currentUser={currentUser} onLogout={handleLogout} theme={theme} toggleTheme={toggleTheme} currentPage="resume-builder" />
+          <div style={{ paddingTop: 64 }}>
+            <ResumeBuilder isPro={isPro} onUpgradeClick={() => setShowPricingModal(true)} learnerProfile={learnerProfile} />
+          </div>
+          <AIChatWidget />
+          <HackerConsole learnerProfile={learnerProfile} currentUser={currentUser} onTheme={toggleTheme} />
+          <CommandPalette onNavigate={() => {}} onUpgrade={() => setShowPricingModal(true)} onTheme={toggleTheme} onLogout={handleLogout} />
+        </>
+      );
+    }
+
+    if (activePage === 'daily-challenge') {
+      return (
+        <>
+          <Navigation currentUser={currentUser} onLogout={handleLogout} theme={theme} toggleTheme={toggleTheme} currentPage="daily-challenge" />
+          <div style={{ paddingTop: 'var(--nav-height,64px)', minHeight: '100vh', background: 'var(--bg-primary)' }}>
+            <DailyChallenge />
+          </div>
+          <AIChatWidget />
+          <HackerConsole learnerProfile={learnerProfile} currentUser={currentUser} onTheme={toggleTheme} />
+          <CommandPalette onNavigate={() => {}} onUpgrade={() => setShowPricingModal(true)} onTheme={toggleTheme} onLogout={handleLogout} />
+        </>
+      );
+    }
+
+    if (activePage === 'interview-prep') {
+      return (
+        <>
+          <Navigation currentUser={currentUser} onLogout={handleLogout} theme={theme} toggleTheme={toggleTheme} currentPage="interview-prep" />
+          <div style={{ paddingTop: 'var(--nav-height,64px)', minHeight: '100vh', background: 'var(--bg-primary)' }}>
+            <InterviewPrep targetRole={learnerProfile?.targetRole} />
+          </div>
+          <AIChatWidget />
+          <HackerConsole learnerProfile={learnerProfile} currentUser={currentUser} onTheme={toggleTheme} />
+          <CommandPalette onNavigate={() => {}} onUpgrade={() => setShowPricingModal(true)} onTheme={toggleTheme} onLogout={handleLogout} />
+        </>
+      );
+    }
+
     if (showRoadmapCanvas) {
       return (
         <>
@@ -734,6 +936,9 @@ function App() {
             cycleFontSize={cycleFontSize}
           />
           <AIChatWidget />
+          <DeepWorkPlayer />
+          <HackerConsole learnerProfile={learnerProfile} currentUser={currentUser} onTheme={toggleTheme} />
+          <CommandPalette onNavigate={() => {}} onUpgrade={() => setShowPricingModal(true)} onTheme={toggleTheme} onLogout={handleLogout} />
         </>
       );
     }
@@ -748,8 +953,33 @@ function App() {
           onOpenRoadmap={() => setShowRoadmapCanvas(true)}
           theme={theme}
           toggleTheme={toggleTheme}
+          isPro={isPro}
+          onUpgradeClick={() => setShowPricingModal(true)}
         />
+        {/* Predictive Career Slider — inside dashboard max-width container */}
+        <div style={{ maxWidth: 1400, margin: '0 auto', padding: '0 2.5rem 2rem' }}>
+          <PredictiveCareerSlider targetRole={learnerProfile?.targetRole} learnerProfile={learnerProfile} />
+        </div>
         <AIChatWidget />
+        <DeepWorkPlayer />
+        <HackerConsole learnerProfile={learnerProfile} currentUser={currentUser} onTheme={toggleTheme} />
+        <CommandPalette
+          onNavigate={() => {}}
+          onUpgrade={() => setShowPricingModal(true)}
+          onTheme={toggleTheme}
+          onLogout={handleLogout}
+          onAssessment={() => { setShowRoadmap(false); setShowAssessment(true); }}
+        />
+        {!isPro && (
+          <div style={{ position: 'fixed', top: '1rem', right: '1rem', zIndex: 1000 }}>
+            <ProBadge onClick={() => setShowPricingModal(true)} />
+          </div>
+        )}
+        <PricingModal 
+          isOpen={showPricingModal}
+          onClose={() => setShowPricingModal(false)}
+          onUpgrade={handleUpgrade}
+        />
       </>
     );
   }

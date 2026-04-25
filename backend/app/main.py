@@ -2,6 +2,9 @@ import time
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes import auth, user, quiz, roadmap, ai, legacy_routes, linucb
+from app.routes import knowledge_graph, mentor, analytics
+from app.routes import proof_of_skill, code_review, pitch_perfect, salary_heatmap, market_radar, executive_vault
+from app.routes import resume_transform
 from app.config import settings
 import logging
 
@@ -43,13 +46,31 @@ app.include_router(linucb.router, prefix="/api/linucb", tags=["linucb", "reinfor
 app.include_router(ai.router, tags=["ai"])
 app.include_router(legacy_routes.router, tags=["legacy"])
 
+# System 2: Knowledge Graph
+app.include_router(knowledge_graph.router, prefix="/api/graph", tags=["knowledge-graph"])
+# System 3: Shadow Mentor
+app.include_router(mentor.router, prefix="/api/mentor", tags=["shadow-mentor"])
+# System 4: Async Analytics + WebSocket
+app.include_router(analytics.router, prefix="/api/analytics", tags=["async-analytics"])
+
+# New X-Factor routes
+app.include_router(proof_of_skill.router, prefix="/api/proof", tags=["proof-of-skill"])
+app.include_router(code_review.router, prefix="/api/code", tags=["ghost-hunter"])
+app.include_router(pitch_perfect.router, prefix="/api/pitch", tags=["pitch-perfect"])
+app.include_router(salary_heatmap.router, prefix="/api/salary", tags=["salary-heatmap"])
+app.include_router(market_radar.router, prefix="/api/market", tags=["market-radar"])
+app.include_router(executive_vault.router, prefix="/api/vault", tags=["executive-vault"])
+app.include_router(resume_transform.router, prefix="/api/resume", tags=["resume-transform"])
+
 @app.get("/health")
 def health_check():
     return {
-        "status": "healthy", 
+        "status": "healthy",
         "mode": "fastapi",
-        "features": {
-            "linucb": "enabled",
-            "reinforcement_learning": "active"
+        "systems": {
+            "linucb_bandit": "enabled",
+            "knowledge_graph": "enabled",
+            "shadow_mentor": "enabled",
+            "async_analytics": "enabled",
         }
     }

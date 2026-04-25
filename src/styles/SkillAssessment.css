@@ -1,18 +1,18 @@
-/* ============================================
+﻿/* ============================================
    SKILL ASSESSMENT - DEVA THEME
    ============================================ */
 
 .skill-assessment-container {
   min-height: 100vh;
-  background: var(--white);
+  background: var(--bg-card);
   display: flex;
   flex-direction: column;
 }
 
 /* Header - Sticky at top */
 .assessment-header {
-  background: var(--white);
-  border: 2px solid var(--platinum);
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
   padding: 2rem 4rem;
   position: sticky;
   top: 0;
@@ -23,7 +23,7 @@
 .assessment-header h2 {
   font-size: 1.75rem;
   margin-bottom: 0.5rem;
-  color: var(--rich-black);
+  color: var(--text-primary);
   font-weight: 700;
 }
 
@@ -42,11 +42,11 @@
   width: 100%;
   max-width: 600px;
   height: 12px;
-  background: var(--pearl);
+  background: var(--bg-secondary);
   border-radius: 10px;
   overflow: hidden;
   margin: 1rem 0;
-  border: 2px solid var(--platinum);
+  border: 1px solid var(--border-primary);
 }
 
 .progress-fill {
@@ -77,9 +77,9 @@
 /* Question Section */
 .question-section {
   padding: 3rem;
-  background: var(--white);
+  background: var(--bg-card);
   border-radius: 20px;
-  border: 2px solid var(--platinum);
+  border: 1px solid var(--border-primary);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
   margin-bottom: 2rem;
 }
@@ -114,7 +114,7 @@
 }
 
 .question-text {
-  color: var(--rich-black);
+  color: var(--text-primary);
   font-size: 1.5rem;
   line-height: 1.5;
   font-weight: 600;
@@ -133,10 +133,10 @@
   align-items: center;
   gap: 1.5rem;
   padding: 1.5rem 2rem;
-  background: var(--pearl);
-  border: 2px solid var(--platinum);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: 12px;
-  color: var(--rich-black);
+  color: var(--text-primary);
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -147,7 +147,7 @@
 
 .option-button:hover {
   border-color: var(--accent-amber);
-  background: var(--platinum);
+  background: var(--bg-hover);
   transform: translateX(8px);
   box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3);
 }
@@ -164,18 +164,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--platinum);
+  background: var(--bg-hover);
   border-radius: 8px;
   font-weight: 700;
   font-size: 1.25rem;
   flex-shrink: 0;
   transition: all 0.3s ease;
-  color: var(--rich-black);
+  color: var(--text-primary);
 }
 
 .option-button:hover .option-letter {
   background: var(--accent-amber);
-  color: var(--white);
+  color: #ffffff;
   transform: scale(1.1);
 }
 
@@ -183,11 +183,11 @@
   flex: 1;
   line-height: 1.5;
   font-weight: 500;
-  color: var(--rich-black);
+  color: var(--text-primary);
 }
 
 .option-button:hover .option-text {
-  color: var(--rich-black);
+  color: var(--text-primary);
   font-weight: 600;
 }
 
@@ -198,7 +198,7 @@
   align-items: center;
   justify-content: center;
   min-height: 60vh;
-  color: var(--rich-black);
+  color: var(--text-primary);
 }
 
 .loading-spinner {
@@ -306,8 +306,8 @@
   top: 0;
   left: 0;
   height: 100%;
-  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-  box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+  background: linear-gradient(90deg, #ffffff, #e0e0e0);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
   transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -343,10 +343,10 @@
 }
 
 .stepper-step.active .step-circle {
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  background: linear-gradient(135deg, #ffffff, #e0e0e0);
   border-color: transparent;
-  color: #fff;
-  box-shadow: 0 0 25px rgba(139, 92, 246, 0.6);
+  color: #000000;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
   transform: scale(1.1);
 }
 
@@ -554,7 +554,7 @@
 }
 
 .skill-score-badge[data-level="expert"] { background: rgba(16, 185, 129, 0.2); color: #34d399; border-color: rgba(16, 185, 129, 0.5); }
-.skill-score-badge[data-level="advanced"] { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border-color: rgba(59, 130, 246, 0.5); }
+.skill-score-badge[data-level="advanced"] { background: rgba(255, 255, 255, 0.2); color: #ffffff; border-color: rgba(255, 255, 255, 0.5); }
 .skill-score-badge[data-level="intermediate"] { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border-color: rgba(245, 158, 11, 0.5); }
 .skill-score-badge[data-level="beginner"] { background: rgba(239, 68, 68, 0.2); color: #f87171; border-color: rgba(239, 68, 68, 0.5); }
 
@@ -590,7 +590,7 @@
 }
 
 .skill-progress-fill[data-level="expert"] { background: linear-gradient(90deg, #10b981, #34d399); box-shadow: 0 0 20px rgba(16, 185, 129, 0.5); }
-.skill-progress-fill[data-level="advanced"] { background: linear-gradient(90deg, #2563eb, #60a5fa); box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+.skill-progress-fill[data-level="advanced"] { background: linear-gradient(90deg, #ffffff, #e0e0e0); box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
 .skill-progress-fill[data-level="intermediate"] { background: linear-gradient(90deg, #d97706, #fbbf24); box-shadow: 0 0 20px rgba(245, 158, 11, 0.5); }
 .skill-progress-fill[data-level="beginner"] { background: linear-gradient(90deg, #dc2626, #f87171); box-shadow: 0 0 20px rgba(239, 68, 68, 0.5); }
 
@@ -626,9 +626,10 @@
   color: white;
 }
 .roadmap-control-btn:hover {
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  background: linear-gradient(135deg, #ffffff, #e0e0e0);
+  color: #000000;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.4);
 }
 .interactive-roadmap-container {
   background: rgba(15, 23, 42, 0.95);
@@ -658,8 +659,8 @@
   margin-bottom: 1rem;
 }
 .action-number {
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-  color: white;
+  background: linear-gradient(135deg, #ffffff, #e0e0e0);
+  color: #000000;
 }
 
 /* Common Navigation buttons */
@@ -681,16 +682,16 @@
 }
 
 .step-navigation .btn-primary {
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-  color: #fff;
+  background: linear-gradient(135deg, #ffffff, #e0e0e0);
+  color: #000000;
   border: none;
-  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.4);
 }
 
 .step-navigation .btn-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
-  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.6);
+  background: linear-gradient(135deg, #e0e0e0, #c0c0c0);
 }
 
 .step-navigation .btn-secondary {
@@ -712,8 +713,8 @@
 }
 
 .interactive-roadmap-container {
-  background: var(--white);
-  border: 2px solid var(--platinum);
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
   border-radius: 16px;
   padding: 2rem;
   margin-bottom: 2rem;
@@ -732,8 +733,8 @@
 /* Roadmap Nodes */
 .roadmap-node {
   position: absolute;
-  background: var(--white);
-  border: 3px solid var(--platinum);
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
   border-radius: 16px;
   padding: 1.5rem;
   cursor: pointer;
@@ -786,14 +787,14 @@
   top: -12px;
   right: -12px;
   font-size: 1.5rem;
-  background: var(--white);
+  background: var(--bg-card);
   border-radius: 50%;
   width: 32px;
   height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--platinum);
+  border: 1px solid var(--border-primary);
 }
 
 .skill-node.completed .node-status {
@@ -810,7 +811,7 @@
 }
 
 .node-title {
-  color: var(--rich-black);
+  color: var(--text-primary);
   font-size: 1rem;
   font-weight: 700;
   margin-bottom: 0.25rem;
@@ -873,7 +874,7 @@
   top: 50%;
   transform: translateY(-50%);
   background: var(--accent-amber);
-  color: var(--white);
+  color: #ffffff;
   padding: 0.5rem 1rem;
   border-radius: 8px;
   font-size: 0.875rem;
@@ -890,15 +891,15 @@
 
 /* Legend */
 .roadmap-legend {
-  background: var(--white);
-  border: 2px solid var(--platinum);
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
   border-radius: 12px;
   padding: 1.5rem;
   margin-bottom: 2rem;
 }
 
 .roadmap-legend h4 {
-  color: var(--rich-black);
+  color: var(--text-primary);
   font-size: 1rem;
   font-weight: 700;
   margin-bottom: 1rem;
@@ -938,8 +939,8 @@
 
 /* External Links */
 .roadmap-external-links {
-  background: var(--white);
-  border: 2px solid var(--platinum);
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
   border-radius: 16px;
   padding: 2rem;
 }
@@ -964,8 +965,8 @@
 }
 
 .external-link-card {
-  background: var(--pearl);
-  border: 2px solid var(--platinum);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: 12px;
   padding: 1.5rem;
   display: flex;
@@ -991,7 +992,7 @@
 }
 
 .link-content h4 {
-  color: var(--rich-black);
+  color: var(--text-primary);
   font-size: 1rem;
   font-weight: 600;
   margin: 0 0 0.25rem 0;
@@ -1023,8 +1024,8 @@
 }
 
 .plan-section {
-  background: var(--white);
-  border: 2px solid var(--platinum);
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
   border-radius: 12px;
   padding: 2rem;
 }
@@ -1043,8 +1044,8 @@
 }
 
 .action-card {
-  background: var(--pearl);
-  border: 2px solid var(--platinum);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: 12px;
   padding: 1.5rem;
   display: flex;
@@ -1062,7 +1063,7 @@
   height: 40px;
   min-width: 40px;
   background: var(--accent-amber);
-  color: var(--white);
+  color: #ffffff;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1076,7 +1077,7 @@
 }
 
 .action-content h4 {
-  color: var(--rich-black);
+  color: var(--text-primary);
   font-size: 1.125rem;
   font-weight: 600;
   margin: 0 0 0.5rem 0;
@@ -1122,14 +1123,14 @@
   color: var(--dark-gray);
   font-size: 0.9375rem;
   padding: 1rem 1.5rem;
-  background: var(--pearl);
+  background: var(--bg-secondary);
   border-radius: 8px;
   border-left: 4px solid var(--accent-amber);
   transition: all 0.3s ease;
 }
 
 .goals-list li:hover {
-  background: var(--platinum);
+  background: var(--bg-hover);
   transform: translateX(4px);
 }
 
@@ -1140,7 +1141,7 @@
   gap: 1rem;
   margin-top: 3rem;
   padding-top: 2rem;
-  border: 2px solid var(--platinum);
+  border: 1px solid var(--border-primary);
 }
 
 .step-navigation .btn {
@@ -1329,3 +1330,4 @@
     min-height: auto;
   }
 }
+

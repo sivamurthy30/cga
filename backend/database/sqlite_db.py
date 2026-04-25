@@ -59,7 +59,9 @@ class SQLiteDB:
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     onboarding_complete BOOLEAN DEFAULT 0,
                     quiz_score INTEGER,
-                    quiz_category TEXT
+                    quiz_category TEXT,
+                    last_saved_step INTEGER DEFAULT 0,
+                    is_pro BOOLEAN DEFAULT 0
                 );
                 
                 -- Learner skills
@@ -167,6 +169,15 @@ class SQLiteDB:
                 CREATE INDEX IF NOT EXISTS idx_quiz_results ON quiz_results(learner_id, quiz_type);
                 CREATE INDEX IF NOT EXISTS idx_roadmap_progress ON roadmap_progress(learner_id, roadmap_id);
             ''')
+            # Migrate existing databases — add columns if missing
+            for col, definition in [
+                ('last_saved_step', 'INTEGER DEFAULT 0'),
+                ('is_pro', 'BOOLEAN DEFAULT 0'),
+            ]:
+                try:
+                    cursor.execute(f'ALTER TABLE learners ADD COLUMN {col} {definition}')
+                except Exception:
+                    pass  # Column already exists
     
     # ==================== LEARNER OPERATIONS ====================
     

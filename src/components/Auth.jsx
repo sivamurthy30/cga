@@ -167,27 +167,21 @@ const Auth = ({ onAuthSuccess, theme, toggleTheme }) => {
   }, [isLogin]);
 
   const handleDemoLogin = async () => {
-    setError('');
-    setIsLoading(true);
 
     try {
-      // Simulate network delay for realistic feel
       await new Promise(resolve => setTimeout(resolve, 800));
 
-      // Create demo user data (offline mode)
       const demoUser = {
         id: 'demo-user-001',
         email: 'demo@deva.ai',
         name: 'Demo User'
       };
 
-      // Store auth data
       localStorage.setItem('authToken', 'demo-token-' + Date.now());
       localStorage.setItem('userId', demoUser.id);
       localStorage.setItem('userEmail', demoUser.email);
       localStorage.setItem('userName', demoUser.name);
 
-      // Create demo learner profile with onboarding complete
       const demoProfile = {
         userId: demoUser.id,
         targetRole: 'Full Stack Developer',
@@ -211,7 +205,6 @@ const Auth = ({ onAuthSuccess, theme, toggleTheme }) => {
       localStorage.setItem('learnerProfile', JSON.stringify(demoProfile));
       localStorage.setItem('onboardingComplete', 'true');
 
-      // Animate and redirect
       gsap.to('.auth-form', {
         scale: 0.95,
         opacity: 0,
@@ -357,6 +350,7 @@ const Auth = ({ onAuthSuccess, theme, toggleTheme }) => {
       localStorage.setItem('userId', data.user.id);
       localStorage.setItem('userEmail', data.user.email);
       localStorage.setItem('userName', data.user.name);
+      if (data.user.is_pro) localStorage.setItem('isPro', 'true');
 
       // Animate and redirect
       gsap.to('.auth-form', {

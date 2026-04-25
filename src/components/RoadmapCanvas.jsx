@@ -17,7 +17,7 @@ const nodeTypes = {
   custom: RoadmapNode
 };
 
-const RoadmapCanvas = ({ roadmapData }) => {
+const RoadmapCanvas = ({ roadmapData, getTrend, getSalaryPremium, radarLoaded }) => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [selectedNode, setSelectedNode] = useState(null);
@@ -26,17 +26,22 @@ const RoadmapCanvas = ({ roadmapData }) => {
 
   useEffect(() => {
     if (roadmapData) {
-      // Transform nodes with completion status
+      // Transform nodes with completion status + market radar
       const transformedNodes = roadmapData.nodes.map(node => {
-        // Ensure node has proper structure
+        const title = node.data?.title || node.title || 'Untitled';
+        const trend = getTrend ? getTrend(title) : null;
+        const salaryPremium = getSalaryPremium ? getSalaryPremium(title) : 0;
+
         const nodeData = {
-          title: node.data?.title || node.title || 'Untitled',
+          title,
           description: node.data?.description || node.description || 'No description',
           learningTime: node.data?.learningTime || '2-3 hours',
           level: node.data?.level || node.level || 'beginner',
           resources: node.data?.resources || node.link || `/resources/${node.id}`,
           isCompleted: isNodeCompleted(roadmapData.slug, node.id),
-          isRecommended: false
+          isRecommended: false,
+          trend,
+          salaryPremium,
         };
         
         return {

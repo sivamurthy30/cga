@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import RoadmapCanvas from '../components/RoadmapCanvas';
 import useRoadmapStore from '../store/roadmapStore';
 import Navigation from '../components/Navigation';
+import useMarketRadar from '../hooks/useMarketRadar';
 import '../styles/RoadmapPage.css';
 
 const RoadmapPage = ({ learnerProfile, currentUser, onLogout, theme, toggleTheme, fontSize, cycleFontSize }) => {
@@ -20,6 +21,8 @@ const RoadmapPage = ({ learnerProfile, currentUser, onLogout, theme, toggleTheme
     streak,
     badges
   } = useRoadmapStore();
+
+  const { getTrend, getSalaryPremium, loaded: radarLoaded } = useMarketRadar();
 
   // Default roadmaps (fallback if API fails)
   const defaultRoadmaps = [
@@ -253,6 +256,9 @@ const RoadmapPage = ({ learnerProfile, currentUser, onLogout, theme, toggleTheme
             ...roadmapData,
             nodes: filteredNodes || roadmapData.nodes
           }}
+          getTrend={getTrend}
+          getSalaryPremium={getSalaryPremium}
+          radarLoaded={radarLoaded}
         />
       ) : (
         <div className="roadmap-empty">

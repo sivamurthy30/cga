@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { motion } from 'framer-motion';
 import BlogReaderModal from './BlogReaderModal';
@@ -17,6 +17,18 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
     const saved = localStorage.getItem('deva_resource_completion');
     return saved ? JSON.parse(saved) : {};
   }); // { skill: [resourceName, ...] }
+
+  // Dynamic difficulty tracking
+  const [difficultyPath, setDifficultyPath] = useState([]);
+  const [forcedHard, setForcedHard] = useState(false); // true when next 2 must be hard
+  const [forcedHardCount, setForcedHardCount] = useState(0);
+  const [recentMediumCorrect, setRecentMediumCorrect] = useState(0);
+  const [recentMediumTimer, setRecentMediumTimer] = useState(null);
+  const questionStartTime = React.useRef(Date.now());
+  const quizStartTime = React.useRef(Date.now());
+
+  // Proof of skill
+  const [proofHash, setProofHash] = useState(null);
 
   useEffect(() => {
     // Generate questions for all skills
@@ -73,7 +85,7 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
       python: [
         {
           question: "What is the time complexity of dict.get() in Python?",
-          options: ["O(1) average case", "O(n)", "O(log n)", "O(n²)"],
+          options: ["O(1) average case", "O(n)", "O(log n)", "O(nÂ²)"],
           correct: 0,
           difficulty: "medium",
           explanation: "Dictionary lookups in Python use hash tables with O(1) average case complexity"
@@ -282,7 +294,7 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
         },
         {
           question: "What is the time complexity of HashMap.get()?",
-          options: ["O(1) average case", "O(n)", "O(log n)", "O(n²)"],
+          options: ["O(1) average case", "O(n)", "O(log n)", "O(nÂ²)"],
           correct: 0,
           difficulty: "medium",
           explanation: "HashMap uses hashing for O(1) average case lookup time"
@@ -1174,6 +1186,36 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
     const currentSkill = skills[currentSkillIndex];
     const questions = quizQuestions[currentSkill];
     const currentQuestion = questions[currentQuestionIndex];
+    const timeTaken = Date.now() - questionStartTime.current;
+    const isCorrect = optionIndex === currentQuestion.correct;
+
+    // Track difficulty path
+    const thisDifficulty = currentQuestion.difficulty;
+    setDifficultyPath(prev => [...prev, thisDifficulty]);
+
+    // Dynamic Difficulty: 2 medium correct in <30s â†’ force next 2 hard
+    if (thisDifficulty === 'medium' && isCorrect && timeTaken < 30000) {
+      setRecentMediumCorrect(prev => {
+        const next = prev + 1;
+        if (next >= 2) {
+          setForcedHard(true);
+          setForcedHardCount(2);
+          return 0;
+        }
+        return next;
+      });
+    } else if (thisDifficulty !== 'medium') {
+      setRecentMediumCorrect(0);
+    }
+
+    // Decrement forced hard counter
+    if (forcedHard) {
+      setForcedHardCount(prev => {
+        const next = prev - 1;
+        if (next <= 0) setForcedHard(false);
+        return next;
+      });
+    }
 
     // Store answer
     const answerKey = `${currentSkill}_${currentQuestionIndex}`;
@@ -1182,9 +1224,13 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
       [answerKey]: {
         selected: optionIndex,
         correct: currentQuestion.correct,
-        difficulty: currentQuestion.difficulty
+        difficulty: currentQuestion.difficulty,
+        timeTaken,
       }
     }));
+
+    // Reset question timer
+    questionStartTime.current = Date.now();
 
     // Animate transition
     gsap.to('.question-card', {
@@ -1211,7 +1257,7 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
     });
   };
 
-  const calculateScores = () => {
+  const calculateScores = async () => {
     const scores = {};
 
     skills.forEach(skill => {
@@ -1250,6 +1296,36 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
       };
     });
 
+    // Generate Proof of Skill hash
+    const totalCorrect = Object.values(scores).reduce((s, v) => s + v.correct, 0);
+    const totalQ = Object.values(scores).reduce((s, v) => s + v.total, 0);
+    const avgScore = totalQ > 0 ? Math.round((totalCorrect / totalQ) * 100) : 0;
+    const timeTakenMs = Date.now() - quizStartTime.current;
+    const userId = localStorage.getItem('userId') || 'anonymous';
+
+    try {
+      const res = await fetch('/api/proof/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: userId,
+          skill: skills.join('+'),
+          score: avgScore,
+          total_questions: totalQ,
+          correct_answers: totalCorrect,
+          time_taken_ms: timeTakenMs,
+          difficulty_path: difficultyPath,
+        }),
+      });
+      if (res.ok) {
+        const proof = await res.json();
+        setProofHash(proof.proof_hash);
+        localStorage.setItem('deva_proof_hash', proof.proof_hash);
+      }
+    } catch {
+      // Proof generation failed silently â€” not critical
+    }
+
     setSkillScores(scores);
     setShowResults(true);
   };
@@ -1266,7 +1342,7 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
 
     if (level === 'beginner') {
       return {
-        title: '📚 Start Learning',
+        title: 'ðŸ“š Start Learning',
         message: `You're just getting started with ${skill}. Focus on fundamentals first.`,
         resources: [
           { type: 'course', name: `${skill} Basics`, platform: 'DEVA Content', link: '#', skill: skill },
@@ -1285,7 +1361,7 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
       };
     } else if (level === 'intermediate') {
       return {
-        title: '📈 Keep Improving',
+        title: 'ðŸ“ˆ Keep Improving',
         message: `You have a good foundation in ${skill}. Time to level up!`,
         resources: [
           { type: 'course', name: `Advanced ${skill}`, platform: 'DEVA Content', link: '#', skill: skill },
@@ -1304,7 +1380,7 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
       };
     } else if (level === 'advanced') {
       return {
-        title: '🎯 Almost There!',
+        title: 'ðŸŽ¯ Almost There!',
         message: `You're proficient in ${skill}. Polish your skills for interviews!`,
         resources: [
           { type: 'practice', name: `${skill} Interview Questions`, platform: 'DEVA Content', link: '#', skill: skill },
@@ -1323,14 +1399,14 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
       };
     } else {
       return {
-        title: '🏆 Interview Ready!',
+        title: 'ðŸ† Interview Ready!',
         message: `Excellent! You're ready for ${skill} interviews.`,
         interviewChecklist: [
-          `✓ Core ${skill} concepts mastered`,
-          `✓ Can explain advanced topics`,
-          `✓ Problem-solving skills strong`,
-          `✓ Best practices understood`,
-          `✓ Real-world experience demonstrated`
+          `âœ“ Core ${skill} concepts mastered`,
+          `âœ“ Can explain advanced topics`,
+          `âœ“ Problem-solving skills strong`,
+          `âœ“ Best practices understood`,
+          `âœ“ Real-world experience demonstrated`
         ],
         resources: [
           { type: 'practice', name: 'Mock Interviews', platform: 'DEVA Content', link: '#', skill: skill },
@@ -1400,7 +1476,7 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
                 style={{ cursor: index <= currentStep ? 'pointer' : 'not-allowed', opacity: index > currentStep ? 0.6 : 1 }}
               >
                 <div className="step-circle">
-                  {index < currentStep ? '✓' : index + 1}
+                  {index < currentStep ? 'âœ“' : index + 1}
                 </div>
                 <span className="step-label">{step}</span>
               </div>
@@ -1418,14 +1494,14 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
               <div className="results-overview">
                 <div className="overview-stats">
                   <div className="stat-card">
-                    <div className="stat-icon">📊</div>
+                    <div className="stat-icon">ðŸ“Š</div>
                     <div className="stat-content">
                       <div className="stat-value">{skills.length}</div>
                       <div className="stat-label">Skills Tested</div>
                     </div>
                   </div>
                   <div className="stat-card">
-                    <div className="stat-icon">✅</div>
+                    <div className="stat-icon">âœ…</div>
                     <div className="stat-content">
                       <div className="stat-value">
                         {Object.values(skillScores).reduce((sum, s) => sum + s.correct, 0)}
@@ -1434,7 +1510,7 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
                     </div>
                   </div>
                   <div className="stat-card">
-                    <div className="stat-icon">🎯</div>
+                    <div className="stat-icon">ðŸŽ¯</div>
                     <div className="stat-content">
                       <div className="stat-value">
                         {Math.round(Object.values(skillScores).reduce((sum, s) => sum + s.weightedPercentage, 0) / skills.length)}%
@@ -1443,7 +1519,7 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
                     </div>
                   </div>
                   <div className="stat-card">
-                    <div className="stat-icon">🏆</div>
+                    <div className="stat-icon">ðŸ†</div>
                     <div className="stat-content">
                       <div className="stat-value">
                         {Object.values(skillScores).filter(s => s.level === 'expert' || s.level === 'advanced').length}
@@ -1503,10 +1579,10 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
                     }
                   }}
                 >
-                  ← Exit Results
+                  â† Exit Results
                 </button>
                 <button className="btn btn-primary" onClick={() => setCurrentStep(1)}>
-                  Next: Skills Analysis →
+                  Next: Skills Analysis â†’
                 </button>
               </div>
             </div>
@@ -1543,7 +1619,7 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
                       </div>
                       <div className="skill-stats" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', margin: '0.5rem 0 1rem' }}>
                         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                          <span style={{ fontWeight: '500', color: 'var(--rich-black)'}}>Assessment Score: {score.correct}/{score.total}</span>
+                          <span style={{ fontWeight: '500', color: 'var(--text-primary)'}}>Assessment Score: {score.correct}/{score.total}</span>
                           <span className="skill-level-badge" data-level={score.level}>
                             {score.level.toUpperCase()}
                           </span>
@@ -1551,7 +1627,7 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
                         
                         <div className="learning-progress-mini" style={{ marginTop: '0.5rem' }}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                            <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 'bold' }}>LEARNING PROGRESS</span>
+                            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 'bold' }}>LEARNING PROGRESS</span>
                             <span style={{ fontSize: '0.75rem', color: 'var(--primary)', fontWeight: 'bold' }}>
                               {Math.round(((resourceCompletion[skill] || []).length / (recommendation.resources.length || 1)) * 100)}%
                             </span>
@@ -1593,15 +1669,15 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
                                 className="resource-link"
                                 onMouseOver={(e) => {
                                   e.currentTarget.style.transform = 'translateY(-2px)';
-                                  e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1)';
-                                  e.currentTarget.style.backgroundColor = '#f8fafc';
-                                  e.currentTarget.style.borderColor = 'var(--primary)';
+                                  e.currentTarget.style.boxShadow = '0 8px 20px rgba(0,0,0,0.3)';
+                                  e.currentTarget.style.backgroundColor = 'var(--bg-hover)';
+                                  e.currentTarget.style.borderColor = 'var(--accent-amber)';
                                 }}
                                 onMouseOut={(e) => {
                                   e.currentTarget.style.transform = 'none';
                                   e.currentTarget.style.boxShadow = 'none';
                                   e.currentTarget.style.backgroundColor = 'transparent';
-                                  e.currentTarget.style.borderColor = 'var(--platinum)';
+                                  e.currentTarget.style.borderColor = 'var(--border-primary)';
                                 }}
                                 onClick={(e) => {
                                   if (resource.type !== 'video') {
@@ -1613,7 +1689,7 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
                                   display: 'flex',
                                   alignItems: 'center',
                                   padding: '1.25rem',
-                                  border: '1px solid var(--platinum)',
+                                  border: '1px solid var(--border-primary)',
                                   borderRadius: '12px',
                                   textDecoration: 'none',
                                   transition: 'all 0.3s ease',
@@ -1624,29 +1700,29 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
                               >
                                 <div className="link-icon" style={{ 
                                   fontSize: '1.5rem', 
-                                  background: 'white', 
+                                  background: 'var(--bg-card)', 
                                   padding: '0.75rem', 
                                   borderRadius: '10px', 
                                   boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)',
                                   display: 'flex',
                                   alignItems: 'center',
                                   justifyContent: 'center',
-                                  border: '1px solid #f1f5f9'
+                                  border: '1px solid var(--border-primary)'
                                 }}>
                                   {resource.type === 'video' ? '📺' : resource.type === 'course' ? '🎓' : '📄'}
                                 </div>
                                 <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                    <span className="resource-name" style={{ color: 'var(--rich-black)', fontWeight: '700', fontSize: '1.05rem' }}>
+                                    <span className="resource-name" style={{ color: 'var(--text-primary)', fontWeight: '700', fontSize: '1.05rem' }}>
                                       {resource.name}
                                     </span>
                                     {(resourceCompletion[skill] || []).includes(resource.name) && (
                                       <motion.span 
                                         initial={{ scale: 0 }}
                                         animate={{ scale: 1 }}
-                                        style={{ color: '#10b981', background: '#ecfdf5', borderRadius: '50%', padding: '2px', fontSize: '0.8rem', display: 'flex' }}
+                                        style={{ color: '#10b981', background: 'rgba(16,185,129,0.15)', borderRadius: '50%', padding: '2px', fontSize: '0.8rem', display: 'flex' }}
                                       >
-                                        ✓
+                                        âœ“
                                       </motion.span>
                                     )}
                                   </div>
@@ -1654,7 +1730,7 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
                                     <span className="resource-type" style={{ fontSize: '0.65rem', background: resource.type === 'video' ? '#fee2e2' : '#e0f2fe', padding: '3px 10px', borderRadius: '20px', color: resource.type === 'video' ? '#991b1b' : '#075985', textTransform: 'uppercase', letterSpacing: '0.8px', fontWeight: '800' }}>
                                       {resource.type}
                                     </span>
-                                    <span className="resource-platform" style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '500' }}>{resource.platform}</span>
+                                    <span className="resource-platform" style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: '500' }}>{resource.platform}</span>
                                   </div>
                                 </div>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -1683,7 +1759,7 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
                                       Verify Mastery
                                     </button>
                                   )}
-                                  <span style={{ color: '#cbd5e1', fontSize: '1.2rem', transition: 'transform 0.2s' }}>→</span>
+                                  <span style={{ color: '#cbd5e1', fontSize: '1.2rem', transition: 'transform 0.2s' }}>â†’</span>
                                 </div>
                               </a>
                             ))}
@@ -1697,10 +1773,10 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
 
               <div className="step-navigation">
                 <button className="btn btn-secondary" onClick={() => setCurrentStep(0)}>
-                  ← Back
+                  â† Back
                 </button>
                 <button className="btn btn-primary" onClick={() => setCurrentStep(2)}>
-                  Next: Action Plan →
+                  Next: Action Plan â†’
                 </button>
               </div>
             </div>
@@ -1765,8 +1841,13 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
 
               <div className="step-navigation">
                 <button className="btn btn-secondary" onClick={() => setCurrentStep(1)}>
-                  ← Back
+                  â† Back
                 </button>
+                {proofHash && (
+                  <div style={{ fontSize: 11, color: '#10b981', padding: '6px 12px', background: 'rgba(16,185,129,0.08)', borderRadius: 8, border: '1px solid rgba(16,185,129,0.2)', fontFamily: 'monospace', maxWidth: 280, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    ðŸ” Proof: {proofHash.slice(0, 20)}...
+                  </div>
+                )}
                 <button 
                   className="btn btn-primary"
                   onClick={() => onComplete(skillScores)}
@@ -1809,8 +1890,13 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
 
       <div className="question-card">
         <div className="question-difficulty" data-difficulty={currentQuestion.difficulty}>
-          {currentQuestion.difficulty.toUpperCase()}
+          {forcedHard ? 'ðŸ”¥ HARD (Difficulty Boost Active)' : currentQuestion.difficulty.toUpperCase()}
         </div>
+        {forcedHard && (
+          <div style={{ fontSize: 11, color: '#f59e0b', marginBottom: 8, padding: '4px 10px', background: 'rgba(245,158,11,0.1)', borderRadius: 6, display: 'inline-block' }}>
+            âš¡ You answered 2 medium questions correctly in under 30s â€” difficulty increased!
+          </div>
+        )}
         <h3 className="question-text">{currentQuestion.question}</h3>
         
         <div className="options-grid">
@@ -1831,3 +1917,5 @@ const SkillAssessmentQuiz = ({ skills, onComplete, onClose }) => {
 };
 
 export default SkillAssessmentQuiz;
+
+

@@ -1,0 +1,52 @@
+/* ============================================
+   PRO BADGE - DEVASQUARE
+   ============================================ */
+
+.pro-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+  color: #000000;
+  border: none;
+  border-radius: 100px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.pro-badge:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.5);
+}
+
+.pro-icon {
+  font-size: 1.25rem;
+  animation: rotate 3s linear infinite;
+}
+
+.pro-text {
+  letter-spacing: 0.02em;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.6);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

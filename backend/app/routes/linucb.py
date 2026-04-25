@@ -48,10 +48,13 @@ class FeedbackRequest(BaseModel):
     learner_profile: LearnerProfile
     skill: str
     interaction_type: str = Field(
-        ..., 
+        ...,
         description="Type: clicked, started, progress, completed, skipped"
     )
     time_spent: Optional[int] = Field(None, description="Time spent in minutes")
+    ideal_time: Optional[int] = Field(None, description="Expected ideal time in minutes")
+    pre_score: Optional[float] = Field(None, description="Assessment score before (0-100)")
+    post_score: Optional[float] = Field(None, description="Assessment score after (0-100)")
     completed: bool = False
 
 
@@ -106,7 +109,7 @@ async def recommend_skills(
         recommender = get_linucb_recommender()
         
         # Convert to dict
-        profile_dict = profile.dict()
+        profile_dict = profile.model_dump()
         
         # Get recommendations
         recommendations = recommender.recommend_skills(
@@ -119,6 +122,11 @@ async def recommend_skills(
         known_skills = [s.strip() for s in profile.known_skills.split(',') if s.strip()]
         total_candidates = len(recommender.all_skills) - len(known_skills) if exclude_known else len(recommender.all_skills)
         
+        # Inject ucb_score (use expected_reward as proxy if not present)
+        for rec in recommendations:
+            if "ucb_score" not in rec:
+                rec["ucb_score"] = rec.get("expected_reward", 0.0)
+
         return RecommendationResponse(
             recommendations=recommendations,
             total_candidates=total_candidates,
@@ -156,15 +164,17 @@ async def submit_feedback(feedback: FeedbackRequest):
         # Get recommender
         recommender = get_linucb_recommender()
         
-        # Calculate reward from interaction
-        reward = recommender.calculate_reward_from_interaction(
+        # Calculate composite reward (System 1 reward function)
+        reward = recommender.compute_composite_reward(
             interaction_type=feedback.interaction_type,
             time_spent=feedback.time_spent,
-            completed=feedback.completed
+            ideal_time=feedback.ideal_time,
+            pre_score=feedback.pre_score,
+            post_score=feedback.post_score,
         )
         
         # Update model
-        profile_dict = feedback.learner_profile.dict()
+        profile_dict = feedback.learner_profile.model_dump()
         recommender.update_with_feedback(
             learner_profile=profile_dict,
             skill=feedback.skill,
@@ -282,7 +292,7 @@ async def explain_recommendation(
         # Calculate multi-objective reward
         reward, objectives = recommender.reward_calculator.calculate_multi_objective_reward(
             skill=skill,
-            learner=profile.dict(),
+            learner=profile.model_dump(),
             target_role_skills=target_role_skills
         )
         

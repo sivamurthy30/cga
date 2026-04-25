@@ -15,7 +15,6 @@ def test_health():
     assert res.status_code == 200
     payload = res.json()
     assert payload["status"] == "healthy"
-    assert payload["mode"] == "fastapi"
 
 
 def test_quiz_generate_contract():

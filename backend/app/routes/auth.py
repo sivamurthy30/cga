@@ -80,7 +80,8 @@ async def login(login_req: LoginRequest):
             "email": user["email"],
             "name": user["name"],
             "target_role": user.get("target_role"),
-            "onboarding_complete": user.get("onboarding_complete", 0)
+            "onboarding_complete": user.get("onboarding_complete", 0),
+            "is_pro": bool(user.get("is_pro", 0)),
         },
         "message": "Login successful"
     }
@@ -102,3 +103,60 @@ async def verify(current_user: dict = Depends(get_current_user)):
 async def logout():
     # JWT auth is stateless for now; frontend can clear token locally.
     return {"message": "Logged out successfully"}
+
+
+# ─── DEV-ONLY: Test Pro User ──────────────────────────────────────────────────
+# Credentials: pro@deva.dev / DevaPro123!
+# This endpoint is safe to call multiple times (idempotent).
+DEV_PRO_EMAIL    = "pro@deva.dev"
+DEV_PRO_PASSWORD = "DevaPro123!"
+DEV_PRO_NAME     = "Pro Tester"
+
+@router.post("/dev/seed-pro-user")
+async def seed_pro_user():
+    """
+    Creates (or resets) a fully-onboarded Pro test account.
+    Only intended for development / demo use.
+    """
+    from app.utils.security import get_password_hash
+
+    existing = db.get_learner_by_email(DEV_PRO_EMAIL)
+    if existing:
+        user_id = existing["id"]
+    else:
+        user_id = db.create_learner(
+            email=DEV_PRO_EMAIL,
+            name=DEV_PRO_NAME,
+            target_role="Full Stack Developer",
+            learning_speed="fast",
+        )
+
+    db.update_learner(
+        user_id,
+        password_hash=get_password_hash(DEV_PRO_PASSWORD),
+        onboarding_complete=1,
+        is_pro=1,
+        target_role="Full Stack Developer",
+        learning_speed="fast",
+    )
+
+    # Ensure some skills exist
+    db.add_skills_batch(user_id, [
+        "JavaScript", "React", "Node.js", "Python", "SQL",
+        "Docker", "TypeScript", "AWS", "Machine Learning",
+    ])
+
+    token = create_access_token(subject=user_id)
+    return {
+        "token": token,
+        "user": {
+            "id": user_id,
+            "email": DEV_PRO_EMAIL,
+            "name": DEV_PRO_NAME,
+            "target_role": "Full Stack Developer",
+            "onboarding_complete": 1,
+            "is_pro": True,
+        },
+        "message": "Dev pro user ready",
+        "credentials": {"email": DEV_PRO_EMAIL, "password": DEV_PRO_PASSWORD},
+    }
