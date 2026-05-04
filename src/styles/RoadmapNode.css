@@ -1,0 +1,248 @@
+.roadmap-node {
+  min-width: 280px;
+  max-width: 320px;
+  padding: 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: 16px;
+  box-shadow: var(--shadow-lg);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.roadmap-node::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--level-color);
+  opacity: 0.8;
+}
+
+.roadmap-node:hover {
+  border-color: var(--level-color);
+  box-shadow: 0 8px 24px var(--level-glow), 0 0 40px var(--level-glow);
+  transform: translateY(-4px);
+}
+
+.roadmap-node.completed {
+  background: var(--bg-card);
+  border-color: var(--accent-success);
+  border-width: 2px;
+}
+
+[data-theme='light'] .roadmap-node.completed {
+  background: rgba(5, 150, 105, 0.06);
+}
+
+.roadmap-node.recommended {
+  border-color: var(--accent-amber);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: var(--shadow-md), 0 0 20px rgba(245, 158, 11, 0.3);
+  }
+  50% {
+    box-shadow: var(--shadow-lg), 0 0 40px rgba(245, 158, 11, 0.6);
+  }
+}
+
+.completion-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  background: var(--accent-success);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 1.125rem;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+}
+
+.node-recommended-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  background: var(--accent-amber);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  animation: bounce 1s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.node-header {
+  margin-bottom: 0.75rem;
+}
+
+.level-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--level-color);
+}
+
+.node-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.4;
+}
+
+.node-description {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin: 0 0 1rem 0;
+  line-height: 1.5;
+}
+
+.node-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-primary);
+}
+
+.learning-time {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.complete-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid var(--text-muted);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.complete-btn:hover {
+  border-color: var(--accent-success);
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--accent-success);
+  transform: scale(1.1);
+}
+
+.roadmap-node.completed .complete-btn {
+  border-color: var(--accent-success);
+  background: var(--accent-success);
+  color: white;
+}
+
+.node-tooltip {
+  position: absolute;
+  top: -180px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  padding: 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  box-shadow: var(--shadow-xl);
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.node-tooltip h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem 0;
+}
+
+.node-tooltip p {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin: 0 0 0.75rem 0;
+  line-height: 1.5;
+}
+
+.tooltip-meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.tooltip-action {
+  font-size: 0.75rem;
+  color: var(--accent-amber);
+  font-weight: 600;
+  text-align: center;
+  padding-top: 0.75rem;
+  border: 2px solid var(--platinum);
+}
+
+/* ── Light mode overrides ── */
+[data-theme='light'] .roadmap-node {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+[data-theme='light'] .roadmap-node:hover {
+  box-shadow: 0 8px 24px var(--level-glow);
+  border-color: var(--level-color);
+}
+
+[data-theme='light'] .node-title {
+  color: #0f172a;
+}
+
+[data-theme='light'] .node-description {
+  color: #475569;
+}
+
+[data-theme='light'] .node-footer {
+  border-color: #e2e8f0;
+}
+
+[data-theme='light'] .learning-time {
+  color: #94a3b8;
+}
+
+[data-theme='light'] .complete-btn {
+  border-color: #cbd5e1;
+  color: #94a3b8;
+}
+
+[data-theme='light'] .node-tooltip {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}

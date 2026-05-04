@@ -1,0 +1,258 @@
+role,skill
+Data Scientist,Python
+Data Scientist,SQL
+Data Scientist,Statistics
+Data Scientist,Machine Learning
+Data Scientist,Pandas
+Data Scientist,NumPy
+Data Scientist,Matplotlib
+Data Scientist,Scikit-learn
+Data Scientist,Jupyter
+Data Scientist,A/B Testing
+Data Scientist,Experimentation
+Data Scientist,Feature Engineering
+Data Scientist,SQL Optimization
+Data Scientist,Data Warehousing
+Data Scientist,Statistical Modeling
+Data Scientist,Data Visualization
+Data Scientist,Hypothesis Testing
+Data Scientist,Causal Inference
+Data Scientist,Time Series Analysis
+Data Scientist,Anomaly Detection
+ML Engineer,Python
+ML Engineer,Mathematics
+ML Engineer,Machine Learning
+ML Engineer,Deep Learning
+ML Engineer,TensorFlow
+ML Engineer,PyTorch
+ML Engineer,Keras
+ML Engineer,Scikit-learn
+ML Engineer,Docker
+ML Engineer,Kubernetes
+ML Engineer,MLOps
+ML Engineer,Model Deployment
+ML Engineer,CI/CD
+ML Engineer,Model Monitoring
+ML Engineer,Hyperparameter Tuning
+ML Engineer,Model Optimization
+ML Engineer,AutoML
+ML Engineer,LLM Fine-tuning
+ML Engineer,Feature Stores
+ML Engineer,Experiment Tracking
+Computer Vision Engineer,OpenCV
+Computer Vision Engineer,YOLO
+Computer Vision Engineer,Detectron2
+Computer Vision Engineer,Segmentation Models
+Computer Vision Engineer,PyTorch
+Computer Vision Engineer,TensorFlow
+Computer Vision Engineer,3D Vision
+Computer Vision Engineer,SLAM
+Computer Vision Engineer,Object Detection
+Computer Vision Engineer,Pose Estimation
+Computer Vision Engineer,Image Augmentation
+Computer Vision Engineer,Video Analysis
+Computer Vision Engineer,Depth Estimation
+Computer Vision Engineer,Instance Segmentation
+NLP Engineer,Transformers
+NLP Engineer,HuggingFace
+NLP Engineer,BERT
+NLP Engineer,Named Entity Recognition
+NLP Engineer,Sentiment Analysis
+NLP Engineer,LangChain
+NLP Engineer,LlamaIndex
+NLP Engineer,RAG Systems
+NLP Engineer,Prompt Engineering
+NLP Engineer,Text Classification
+NLP Engineer,Summarization
+NLP Engineer,Question Answering
+NLP Engineer,Tokenization
+NLP Engineer,Embeddings
+Data Analyst,SQL
+Data Analyst,Excel
+Data Analyst,Tableau
+Data Analyst,Power BI
+Data Analyst,Statistics
+Data Analyst,Python
+Data Analyst,Pandas
+Data Analyst,Google Analytics
+Data Analyst,Looker Studio
+Data Analyst,Cohort Analysis
+Data Analyst,Funnel Analysis
+Data Analyst,A/B Testing
+Data Analyst,Data Cleaning
+Data Analyst,Data Storytelling
+Data Analyst,Excel Power Query
+Backend Engineer,Python
+Backend Engineer,Java
+Backend Engineer,Django
+Backend Engineer,Flask
+Backend Engineer,FastAPI
+Backend Engineer,Spring Boot
+Backend Engineer,Node.js
+Backend Engineer,Express.js
+Backend Engineer,SQL
+Backend Engineer,PostgreSQL
+Backend Engineer,MongoDB
+Backend Engineer,REST API
+Backend Engineer,GraphQL
+Backend Engineer,Docker
+Backend Engineer,Microservices
+Backend Engineer,gRPC
+Backend Engineer,Redis
+Backend Engineer,Kafka
+Frontend Developer,JavaScript
+Frontend Developer,HTML
+Frontend Developer,CSS
+Frontend Developer,React
+Frontend Developer,TypeScript
+Frontend Developer,Tailwind CSS
+Frontend Developer,Next.js
+Frontend Developer,Vue.js
+Frontend Developer,Svelte
+Frontend Developer,State Management
+Frontend Developer,Responsive Design
+Frontend Developer,Web Performance
+Frontend Developer,Accessibility
+Frontend Developer,Testing Jest
+Full Stack Developer,JavaScript
+Full Stack Developer,Python
+Full Stack Developer,React
+Full Stack Developer,Node.js
+Full Stack Developer,SQL
+Full Stack Developer,MongoDB
+Full Stack Developer,Docker
+Full Stack Developer,REST API
+Full Stack Developer,Authentication
+Full Stack Developer,CI/CD
+Full Stack Developer,TypeScript
+Full Stack Developer,Prisma
+Full Stack Developer,Next.js
+DevOps Engineer,Linux
+DevOps Engineer,Docker
+DevOps Engineer,Kubernetes
+DevOps Engineer,AWS
+DevOps Engineer,CI/CD
+DevOps Engineer,Jenkins
+DevOps Engineer,Terraform
+DevOps Engineer,Bash Scripting
+DevOps Engineer,Git
+DevOps Engineer,Prometheus
+DevOps Engineer,Grafana
+DevOps Engineer,Helm
+DevOps Engineer,ArgoCD
+DevOps Engineer,Flux
+DevOps Engineer,Monitoring
+Cloud Architect,AWS
+Cloud Architect,Azure
+Cloud Architect,Docker
+Cloud Architect,Kubernetes
+Cloud Architect,Terraform
+Cloud Architect,Microservices
+Cloud Architect,System Design
+Cloud Architect,Cloud Architecture
+Cloud Architect,Multi-cloud
+Cloud Architect,Istio
+Cloud Architect,Serverless
+Cloud Architect,Cost Optimization
+Cloud Architect,High Availability
+Cloud Architect,Disaster Recovery
+Data Engineer,Python
+Data Engineer,SQL
+Data Engineer,Apache Spark
+Data Engineer,Airflow
+Data Engineer,Kafka
+Data Engineer,AWS
+Data Engineer,Docker
+Data Engineer,Pandas
+Data Engineer,Snowflake
+Data Engineer,Databricks
+Data Engineer,dbt
+Data Engineer,Delta Lake
+Data Engineer,Data Pipelines
+Data Engineer,ETL
+Data Engineer,Data Quality
+Mobile Developer,Swift
+Mobile Developer,Kotlin
+Mobile Developer,React Native
+Mobile Developer,iOS
+Mobile Developer,Android
+Mobile Developer,Flutter
+Mobile Developer,Dart
+Mobile Developer,Xamarin
+Mobile Developer,Jetpack Compose
+Mobile Developer,SwiftUI
+Security Engineer,Linux
+Security Engineer,Python
+Security Engineer,Cybersecurity
+Security Engineer,Penetration Testing
+Security Engineer,Network Security
+Security Engineer,OAuth
+Security Engineer,JWT
+Security Engineer,Zero Trust
+Security Engineer,Cloud Security
+Security Engineer,SIEM
+Security Engineer,Threat Hunting
+Security Engineer,Incident Response
+Product Manager,Product Management
+Product Manager,Agile
+Product Manager,Scrum
+Product Manager,Project Management
+Product Manager,Analytics
+Product Manager,SQL
+Product Manager,A/B Testing
+Product Manager,Roadmapping
+Product Manager,User Research
+Product Manager,Prioritization
+Product Manager,Metrics
+UI/UX Designer,UI/UX Design
+UI/UX Designer,Figma
+UI/UX Designer,Adobe XD
+UI/UX Designer,Sketch
+UI/UX Designer,HTML
+UI/UX Designer,CSS
+UI/UX Designer,Prototyping
+UI/UX Designer,User Testing
+UI/UX Designer,Design Systems
+UI/UX Designer,Accessibility
+UI/UX Designer,Motion Design
+Blockchain Developer,Python
+Blockchain Developer,Blockchain
+Blockchain Developer,Web3
+Blockchain Developer,Smart Contracts
+Blockchain Developer,Solidity
+Blockchain Developer,Cryptography
+Blockchain Developer,Ethereum
+Blockchain Developer,Hardhat
+Blockchain Developer,IPFS
+Blockchain Developer,DeFi
+Blockchain Developer,NFTs
+MLOps Engineer,Docker
+MLOps Engineer,Kubeflow
+MLOps Engineer,MLflow
+MLOps Engineer,Weights & Biases
+MLOps Engineer,Ray Serve
+MLOps Engineer,BentoML
+MLOps Engineer,KServe
+MLOps Engineer,Feature Store
+MLOps Engineer,Model Registry
+MLOps Engineer,Monitoring
+BI Engineer,Looker
+BI Engineer,dbt
+BI Engineer,Tableau
+BI Engineer,Power BI
+BI Engineer,SQL
+BI Engineer,Data Modeling
+BI Engineer,ETL
+BI Engineer,Metrics Layer
+Quant Developer,Python
+Quant Developer,NumPy
+Quant Developer,Pandas
+Quant Developer,Backtrader
+Quant Developer,Ta-lib
+Quant Developer,Risk Management
+Quant Developer,Portfolio Optimization
+Game AI Engineer,Reinforcement Learning
+Game AI Engineer,Gymnasium
+Game AI Engineer,Unity ML-Agents
+Game AI Engineer,Pygame
+Game AI Engineer,Stable Baselines

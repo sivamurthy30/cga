@@ -1,0 +1,90 @@
+/* Theme Toggle Button — scoped with high specificity to survive global overrides */
+button.theme-toggle-btn {
+  background: transparent !important;
+  border: none !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  color: unset !important;
+}
+
+button.theme-toggle-btn * {
+  pointer-events: none;
+}
+
+button.theme-toggle-btn:hover {
+  background: transparent !important;
+  border-color: transparent !important;
+  transform: scale(1.05);
+}
+
+.toggle-track {
+  width: 70px;
+  height: 36px;
+  border-radius: 100px;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.toggle-track.light {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
+  border: 2px solid #f59e0b !important;
+}
+
+.toggle-track.dark {
+  background: linear-gradient(135deg, #1e293b, #0f172a) !important;
+  border: 2px solid #334155 !important;
+}
+
+.toggle-thumb {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  position: absolute;
+  top: 1px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  background: transparent !important;
+}
+
+.toggle-track.light .toggle-thumb {
+  left: 2px;
+  color: #ffffff !important;
+}
+
+.toggle-track.dark .toggle-thumb {
+  left: calc(100% - 32px);
+  color: #fbbf24 !important;
+}
+
+.toggle-thumb svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.5;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .toggle-track {
+    width: 48px;
+    height: 24px;
+  }
+  .toggle-thumb {
+    width: 18px;
+    height: 18px;
+  }
+  .toggle-track.dark .toggle-thumb {
+    left: calc(100% - 20px);
+  }
+}

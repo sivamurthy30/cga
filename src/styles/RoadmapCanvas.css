@@ -1,0 +1,78 @@
+.roadmap-canvas-container {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  background: var(--bg-primary);
+}
+
+/* ReactFlow background */
+.react-flow__background {
+  background: var(--bg-primary) !important;
+}
+
+/* Controls */
+.react-flow__controls {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-primary) !important;
+  border-radius: 10px !important;
+  box-shadow: var(--shadow-md) !important;
+  overflow: hidden;
+}
+
+.react-flow__controls-button {
+  background: var(--bg-card) !important;
+  border-bottom: 1px solid var(--border-primary) !important;
+  color: var(--text-primary) !important;
+  fill: var(--text-primary) !important;
+  width: 28px !important;
+  height: 28px !important;
+}
+
+.react-flow__controls-button:hover {
+  background: var(--bg-hover) !important;
+}
+
+.react-flow__controls-button svg {
+  fill: var(--text-primary) !important;
+}
+
+/* MiniMap */
+.react-flow__minimap {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-primary) !important;
+  border-radius: 10px !important;
+  overflow: hidden;
+}
+
+.react-flow__minimap-mask {
+  fill: var(--bg-primary) !important;
+  opacity: 0.5 !important;
+}
+
+/* Edges */
+.react-flow__edge-path {
+  stroke: var(--border-secondary);
+  stroke-width: 2;
+}
+
+.react-flow__edge.animated path {
+  stroke-dasharray: 5;
+  animation: dashdraw 0.5s linear infinite;
+}
+
+@keyframes dashdraw {
+  to { stroke-dashoffset: -10; }
+}
+
+/* Attribution */
+.react-flow__attribution {
+  background: var(--bg-card) !important;
+  color: var(--text-muted) !important;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 10px;
+}
+
+.react-flow__attribution a {
+  color: var(--accent-primary) !important;
+}

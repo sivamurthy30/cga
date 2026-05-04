@@ -1,0 +1,431 @@
+/* ============================================
+   DEVA GLOBAL LAYOUT — fixes alignment on every page
+   Import this AFTER DesignSystem.css
+   ============================================ */
+
+/* ── Nav height constant ── */
+:root {
+  --nav-height: 64px;
+}
+
+/* ── Every page that sits below the sticky nav ── */
+.dashboard-container,
+.roadmap-page,
+.onboarding-container,
+.skill-assessment-container,
+.auth-container {
+  padding-top: 0; /* auth has its own centering */
+}
+
+/* Pages rendered with Navigation above them need top clearance */
+.page-with-nav {
+  padding-top: var(--nav-height);
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+/* Inner content padding — consistent across all feature pages */
+.page-with-nav > * {
+  padding-top: 28px;
+}
+
+/* ── Navigation bar ── */
+.navigation-bar {
+  height: var(--nav-height);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-primary);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ── Dashboard ── */
+.dashboard-container {
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+.dashboard-main {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem 2.5rem 4rem;
+}
+
+@media (max-width: 1024px) {
+  .dashboard-main { padding: 1.5rem 1.5rem 3rem; }
+}
+@media (max-width: 640px) {
+  .dashboard-main { padding: 1rem 1rem 2rem; }
+}
+
+/* ── Roadmap page ── */
+.roadmap-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+/* ── Onboarding ── */
+.onboarding-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: var(--bg-primary);
+}
+
+.onboarding-content {
+  max-width: 900px;
+  width: 100%;
+  padding: 2.5rem 3rem;
+  background: transparent;
+}
+
+@media (max-width: 768px) {
+  .onboarding-content { padding: 1.5rem; }
+}
+
+/* ── Skill Assessment ── */
+.skill-assessment-container {
+  min-height: 100vh;
+  background: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+}
+
+.assessment-header {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-primary);
+  padding: 1.25rem 2.5rem;
+  position: sticky;
+  top: var(--nav-height);
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.assessment-header h2 {
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.assessment-header p {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+}
+
+.assessment-header p strong {
+  color: var(--accent-amber);
+}
+
+.question-card {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.question-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.question-text {
+  color: var(--text-primary);
+  font-size: 1.25rem;
+  line-height: 1.6;
+  font-weight: 600;
+}
+
+.option-button {
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  color: var(--text-primary);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  min-height: 60px;
+  transition: all 0.2s ease;
+}
+
+.option-button:hover {
+  border-color: var(--accent-amber);
+  background: var(--bg-hover);
+  transform: translateX(4px);
+}
+
+.option-letter {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border-radius: 8px;
+}
+
+.option-button:hover .option-letter {
+  background: var(--accent-amber);
+  color: #000;
+}
+
+.option-text {
+  color: var(--text-primary);
+}
+
+/* ── Assessment Results ── */
+.assessment-results {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem 2.5rem 4rem;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.results-header h2 {
+  color: var(--text-primary);
+  background: none;
+  -webkit-text-fill-color: unset;
+  filter: none;
+  font-size: 2rem;
+}
+
+.results-header p { color: var(--text-secondary); }
+
+.results-stepper {
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: 50px;
+  padding: 1rem 2rem;
+  backdrop-filter: none;
+}
+
+.stepper-line { background: var(--border-primary); }
+.stepper-line-fill { background: var(--accent-amber); box-shadow: none; }
+
+.step-circle {
+  background: var(--bg-secondary);
+  border-color: var(--border-primary);
+  color: var(--text-muted);
+  width: 44px; height: 44px;
+  font-size: 1rem;
+}
+
+.stepper-step.active .step-circle {
+  background: var(--accent-amber);
+  color: #000;
+  box-shadow: 0 0 12px rgba(245,158,11,0.4);
+  transform: scale(1.05);
+}
+
+.stepper-step.completed .step-circle {
+  background: var(--accent-success);
+  color: #fff;
+}
+
+.step-label { color: var(--text-secondary); font-size: 0.875rem; }
+.stepper-step.active .step-label { color: var(--text-primary); font-weight: 700; }
+.stepper-step.completed .step-label { color: var(--accent-success); }
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-amber);
+  box-shadow: var(--shadow-md);
+}
+
+.stat-value { color: var(--text-primary); font-size: 2rem; }
+.stat-label { color: var(--text-secondary); font-size: 0.8125rem; }
+
+.skill-summary-card,
+.skill-result-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.skill-summary-card:hover,
+.skill-result-card:hover {
+  border-color: var(--accent-amber);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+}
+
+.skill-result-header h3,
+.skill-summary-header h4 { color: var(--text-primary); }
+
+.skill-recommendation {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.skill-recommendation h4 { color: var(--text-primary); }
+.skill-recommendation p { color: var(--text-secondary); }
+
+.plan-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.plan-section h3 { color: var(--accent-amber); }
+
+.action-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.action-content h4 { color: var(--text-primary); }
+.action-content p { color: var(--text-secondary); }
+
+.goals-list li {
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  border-left-color: var(--accent-amber);
+}
+
+.step-navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  padding-top: 0;
+  border: none;
+}
+
+.step-navigation .btn-primary {
+  background: var(--accent-amber);
+  color: #000;
+  border-color: var(--accent-amber);
+  box-shadow: none;
+}
+
+.step-navigation .btn-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.step-navigation .btn-secondary {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-primary);
+}
+
+.step-navigation .btn-secondary:hover {
+  background: var(--bg-hover);
+  border-color: var(--accent-amber);
+}
+
+/* ── Onboarding results cards ── */
+.results-card,
+.results-breakdown {
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  padding: 1.5rem;
+  color: var(--text-primary);
+}
+
+.results-card h3,
+.results-breakdown h4 { color: var(--text-primary); }
+
+.role-badge {
+  background: var(--accent-amber);
+  color: #000;
+}
+
+.breakdown-label,
+.breakdown-count { color: var(--text-primary); }
+
+.breakdown-bar { background: var(--bg-secondary); }
+.breakdown-fill { background: var(--accent-amber); box-shadow: none; }
+
+/* ── Auth page ── */
+.auth-container {
+  min-height: 100vh;
+  background: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.auth-form-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: 16px;
+  padding: 3rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.auth-form h2 { color: var(--text-primary); }
+.auth-subtitle { color: var(--text-secondary); }
+
+.form-group label { color: var(--text-primary); }
+
+.form-group input {
+  background: var(--bg-secondary);
+  border-color: var(--border-primary);
+  color: var(--text-primary);
+}
+
+.form-group input:focus {
+  border-color: var(--accent-amber);
+  box-shadow: 0 0 0 3px rgba(245,158,11,0.15);
+}
+
+/* ── Inline-style overrides for new components ── */
+/* These ensure components using inline styles respect the theme */
+[data-theme='light'] .deva-ui [style*="background: var(--bg-card)"],
+[data-theme='light'] .deva-ui [style*="background:var(--bg-card)"] {
+  background: #ffffff !important;
+}
+
+[data-theme='light'] .deva-ui [style*="color: var(--text-primary)"],
+[data-theme='light'] .deva-ui [style*="color:var(--text-primary)"] {
+  color: #0f172a !important;
+}
+
+[data-theme='light'] .deva-ui [style*="color: var(--text-secondary)"],
+[data-theme='light'] .deva-ui [style*="color:var(--text-secondary)"] {
+  color: #475569 !important;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .assessment-header { padding: 1rem 1.25rem; }
+  .question-card { padding: 1.5rem 1rem; }
+  .assessment-results { padding: 1rem 1rem 2rem; }
+  .results-stepper { padding: 0.75rem 1rem; flex-wrap: wrap; gap: 0.5rem; }
+  .stepper-line { display: none; }
+}
