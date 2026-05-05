@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import '../../styles/PricingModal.css';
 
+const RAZORPAY_KEY_ID = process.env.REACT_APP_RAZORPAY_KEY_ID || 'rzp_test_SleEQLkLLSLagGR';
+
 const PricingModal = ({ isOpen, onClose, onUpgrade }) => {
   const [selectedPlan, setSelectedPlan] = useState('monthly');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   if (!isOpen) return null;
 
   const plans = {
-    monthly: { price: 99,  period: 'month', note: null },
-    yearly:  { price: 600, period: 'year',  note: '₹50/month · billed annually', savings: 'Save 33%' }
+    monthly: { price: 999,  period: 'month', note: null,                          paise: 99900  },
+    yearly:  { price: 7999, period: 'year',  note: '₹666/month · billed annually', paise: 799900 },
   };
 
   const features = [
@@ -26,11 +30,102 @@ const PricingModal = ({ isOpen, onClose, onUpgrade }) => {
     { icon: '🤖', title: 'AI Career Chat',        desc: 'Ask anything about your career' },
   ];
 
+  const handlePayment = async () => {
+    setLoading(true);
+    setError('');
+
+    const userEmail = localStorage.getItem('userEmail') || '';
+    const userName  = localStorage.getItem('userName')  || 'User';
+    const plan      = selectedPlan;
+
+    try {
+      // Step 1: Create order on backend
+      const orderRes = await fetch('/api/payment/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan, email: userEmail }),
+      });
+
+      if (!orderRes.ok) {
+        const err = await orderRes.json();
+        throw new Error(err.detail || 'Failed to create payment order');
+      }
+
+      const order = await orderRes.json();
+
+      // Step 2: Open Razorpay checkout modal
+      const options = {
+        key:          order.key_id || RAZORPAY_KEY_ID,
+        amount:       order.amount,
+        currency:     order.currency,
+        name:         'DEVA Pro',
+        description:  `${plan === 'yearly' ? 'Yearly' : 'Monthly'} subscription`,
+        order_id:     order.order_id,
+        prefill: {
+          name:  userName,
+          email: userEmail,
+        },
+        theme: { color: '#f59e0b' },
+        modal: {
+          ondismiss: () => {
+            setLoading(false);
+            setError('Payment cancelled.');
+          },
+        },
+        handler: async (response) => {
+          // Step 3: Verify payment on backend
+          try {
+            const verifyRes = await fetch('/api/payment/verify', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                razorpay_order_id:   response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature:  response.razorpay_signature,
+                email: userEmail,
+                plan,
+              }),
+            });
+
+            const result = await verifyRes.json();
+
+            if (!verifyRes.ok || !result.success) {
+              throw new Error(result.detail || 'Payment verification failed');
+            }
+
+            // Grant pro access
+            localStorage.setItem('isPro', 'true');
+            setLoading(false);
+            onUpgrade({ plan, payment_id: response.razorpay_payment_id });
+
+          } catch (verifyErr) {
+            setLoading(false);
+            setError(verifyErr.message || 'Payment verification failed. Contact support.');
+          }
+        },
+      };
+
+      if (!window.Razorpay) {
+        throw new Error('Razorpay checkout not loaded. Please refresh and try again.');
+      }
+
+      const rzp = new window.Razorpay(options);
+      rzp.on('payment.failed', (response) => {
+        setLoading(false);
+        setError(`Payment failed: ${response.error.description}`);
+      });
+      rzp.open();
+
+    } catch (err) {
+      setLoading(false);
+      setError(err.message || 'Something went wrong. Please try again.');
+    }
+  };
+
   return (
     <div className="pm-overlay" onClick={onClose}>
       <div className="pm-modal" onClick={e => e.stopPropagation()}>
 
-        {/* Close */}
         <button className="pm-close" onClick={onClose} aria-label="Close">×</button>
 
         {/* Header */}
@@ -70,11 +165,23 @@ const PricingModal = ({ isOpen, onClose, onUpgrade }) => {
           <p className="pm-price-note">{plans.yearly.note}</p>
         )}
 
+        {/* Error */}
+        {error && (
+          <div style={{ background: 'rgba(255,59,48,0.1)', border: '1px solid var(--accent-error)', borderRadius: '8px', padding: '0.75rem 1rem', marginBottom: '0.75rem', fontSize: '0.875rem', color: 'var(--accent-error)' }}>
+            {error}
+          </div>
+        )}
+
         {/* CTA */}
-        <button className="pm-cta" onClick={() => onUpgrade({ plan: selectedPlan, price: plans[selectedPlan].price })}>
-          Start 7-day free trial
+        <button
+          className="pm-cta"
+          onClick={handlePayment}
+          disabled={loading}
+          style={{ opacity: loading ? 0.7 : 1, cursor: loading ? 'not-allowed' : 'pointer' }}
+        >
+          {loading ? 'Processing...' : 'Pay with Razorpay'}
         </button>
-        <p className="pm-cta-note">Cancel anytime · No credit card required to start</p>
+        <p className="pm-cta-note">Secure payment · Cancel anytime · Instant access</p>
 
         {/* Features */}
         <div className="pm-divider"><span>What's included</span></div>
@@ -91,7 +198,7 @@ const PricingModal = ({ isOpen, onClose, onUpgrade }) => {
           ))}
         </div>
 
-        <p className="pm-footer">Secure payment · Cancel anytime · Instant access</p>
+        <p className="pm-footer">Powered by Razorpay · 256-bit SSL encryption</p>
       </div>
     </div>
   );

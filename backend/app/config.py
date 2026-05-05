@@ -59,9 +59,13 @@ class Settings(BaseSettings):
     # SMS (Optional - Fast2SMS)
     FAST2SMS_API_KEY: str = ""
     
+    # Payment — Razorpay
+    RAZORPAY_KEY_ID:     str = ""
+    RAZORPAY_KEY_SECRET: str = ""
+
     # ML Models
     ML_MODEL_PATH: str = "./ml_models"
-    
+
     model_config = {
         "env_file": [".env", "../.env"],
         "case_sensitive": True,

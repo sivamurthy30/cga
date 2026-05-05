@@ -11,6 +11,7 @@ import logging
 from app.config import settings
 from app.database.mongo import init_mongo, close_mongo
 from app.routes import auth, user, ml, features, chat
+from app.routes import payment as payment_routes
 from app.observability import ObservabilityMiddleware, get_metrics
 from app.feature_flags import flags
 from app.events import emit
@@ -103,11 +104,12 @@ async def root():
 # ── Routers — v1 (canonical) + legacy /api/* aliases ─────────────────────────
 for prefix, tag_suffix in [("/api/v1", ""), ("/api", "-legacy")]:
     schema = tag_suffix == ""
-    app.include_router(auth.router,     prefix=f"{prefix}/auth",  tags=[f"Auth{tag_suffix}"],     include_in_schema=schema)
-    app.include_router(user.router,     prefix=f"{prefix}/user",  tags=[f"User{tag_suffix}"],     include_in_schema=schema)
-    app.include_router(ml.router,       prefix=f"{prefix}",       tags=[f"ML{tag_suffix}"],       include_in_schema=schema)
-    app.include_router(features.router, prefix=f"{prefix}",       tags=[f"Features{tag_suffix}"], include_in_schema=schema)
-    app.include_router(chat.router,     prefix=f"{prefix}",       tags=[f"Chat{tag_suffix}"],     include_in_schema=schema)
+    app.include_router(auth.router,            prefix=f"{prefix}/auth",    tags=[f"Auth{tag_suffix}"],    include_in_schema=schema)
+    app.include_router(user.router,            prefix=f"{prefix}/user",    tags=[f"User{tag_suffix}"],    include_in_schema=schema)
+    app.include_router(ml.router,              prefix=f"{prefix}",         tags=[f"ML{tag_suffix}"],      include_in_schema=schema)
+    app.include_router(features.router,        prefix=f"{prefix}",         tags=[f"Features{tag_suffix}"],include_in_schema=schema)
+    app.include_router(chat.router,            prefix=f"{prefix}",         tags=[f"Chat{tag_suffix}"],    include_in_schema=schema)
+    app.include_router(payment_routes.router,  prefix=f"{prefix}/payment", tags=[f"Payment{tag_suffix}"], include_in_schema=schema)
 
 if __name__ == "__main__":
     import uvicorn
