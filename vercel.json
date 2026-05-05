@@ -1,4 +1,11 @@
 {
+  "env": {
+    "CI": "false"
+  },
+  "buildCommand": "CI=false npm run build",
+  "outputDirectory": "build",
+  "installCommand": "npm install --legacy-peer-deps",
+  "framework": "create-react-app",
   "rewrites": [
     {
       "source": "/api/:path*",
@@ -12,9 +19,5 @@
       "source": "/((?!api|health).*)",
       "destination": "/index.html"
     }
-  ],
-  "buildCommand": "npm run build",
-  "outputDirectory": "build",
-  "installCommand": "npm install --legacy-peer-deps",
-  "framework": "create-react-app"
+  ]
 }
