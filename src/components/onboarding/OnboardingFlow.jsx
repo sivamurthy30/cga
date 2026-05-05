@@ -551,6 +551,17 @@ const OnboardingFlow = ({ onComplete, currentUser, onLogout, theme, toggleTheme 
       setAiConfidence(data.confidence);
       setAiReasoning(data.reasoning);
 
+      // Treat GitHub result like resume data so step 5 shows the skills screen
+      setResumeData({
+        skills_found: data.skills_found,
+        total_skills: data.total_skills,
+        suggested_role: data.suggested_role,
+        confidence: data.confidence,
+        experience_years: 0,
+        reasoning: data.reasoning,
+        source: 'github',
+      });
+
     } catch (error) {
       console.error('Error analyzing GitHub:', error);
       setError('Failed to analyze GitHub profile. Please check the username and try again.');

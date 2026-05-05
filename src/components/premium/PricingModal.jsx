@@ -11,8 +11,8 @@ const PricingModal = ({ isOpen, onClose, onUpgrade }) => {
   if (!isOpen) return null;
 
   const plans = {
-    monthly: { price: 999,  period: 'month', note: null,                          paise: 99900  },
-    yearly:  { price: 7999, period: 'year',  note: '₹666/month · billed annually', paise: 799900 },
+    monthly: { price: 9,  period: 'month', note: null,                         paise: 900  },
+    yearly:  { price: 90, period: 'year',  note: '₹9/month · billed annually', paise: 9000 },
   };
 
   const features = [

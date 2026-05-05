@@ -18,8 +18,8 @@ RAZORPAY_KEY_ID     = settings.RAZORPAY_KEY_ID
 RAZORPAY_KEY_SECRET = settings.RAZORPAY_KEY_SECRET
 
 PLAN_PRICES = {
-    "monthly": 99900,   # ₹999 in paise
-    "yearly":  799900,  # ₹7999 in paise
+    "monthly": 900,    # ₹9 in paise (test price)
+    "yearly":  9000,   # ₹90 in paise (test price)
 }
 
 
