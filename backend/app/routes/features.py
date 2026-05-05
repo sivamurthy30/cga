@@ -7,9 +7,128 @@ from app.cache import cache
 from app.intelligence import get_intelligent_recommendation, get_skill_gap_analysis
 from app.events import emit
 from app.feature_flags import flags
-import random, re, io
+import random, re, io, httpx
 
 router = APIRouter()
+
+
+# ─── GitHub Analyzer (no auth required) ──────────────────────────────────────
+@router.post("/github/analyze")
+async def analyze_github(body: dict):
+    """
+    Analyze a GitHub profile and extract skills from repos.
+    No auth required — used during onboarding.
+    """
+    username = body.get("github_username", "").strip()
+    if not username:
+        raise HTTPException(status_code=400, detail="github_username is required")
+
+    try:
+        async with httpx.AsyncClient(timeout=15.0) as client:
+            # Fetch user profile
+            user_res = await client.get(
+                f"https://api.github.com/users/{username}",
+                headers={"Accept": "application/vnd.github.v3+json"},
+            )
+            if user_res.status_code == 404:
+                raise HTTPException(status_code=404, detail=f"GitHub user '{username}' not found")
+            if user_res.status_code != 200:
+                raise HTTPException(status_code=502, detail="GitHub API error")
+
+            user_data = user_res.json()
+
+            # Fetch repos (top 30 by push date)
+            repos_res = await client.get(
+                f"https://api.github.com/users/{username}/repos",
+                params={"sort": "pushed", "per_page": 30},
+                headers={"Accept": "application/vnd.github.v3+json"},
+            )
+            repos = repos_res.json() if repos_res.status_code == 200 else []
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=f"Failed to reach GitHub API: {str(e)}")
+
+    # Extract languages from repos
+    languages = {}
+    for repo in repos:
+        lang = repo.get("language")
+        if lang:
+            languages[lang] = languages.get(lang, 0) + 1
+
+    # Map languages → skills
+    LANG_TO_SKILL = {
+        "Python": "Python", "JavaScript": "JavaScript", "TypeScript": "TypeScript",
+        "Java": "Java", "C++": "C++", "C#": "C#", "Go": "Go", "Rust": "Rust",
+        "Swift": "Swift", "Kotlin": "Kotlin", "PHP": "PHP", "Ruby": "Ruby",
+        "Dart": "Flutter", "Shell": "Bash", "HTML": "HTML", "CSS": "CSS",
+        "Jupyter Notebook": "Python", "R": "R", "Scala": "Scala",
+    }
+
+    # Extract topics from repo descriptions
+    TOPIC_SKILLS = {
+        "react": "React", "node": "Node.js", "express": "Express",
+        "django": "Django", "flask": "Flask", "fastapi": "FastAPI",
+        "docker": "Docker", "kubernetes": "Kubernetes", "aws": "AWS",
+        "machine-learning": "Machine Learning", "deep-learning": "Deep Learning",
+        "tensorflow": "TensorFlow", "pytorch": "PyTorch",
+        "mongodb": "MongoDB", "postgresql": "PostgreSQL", "mysql": "MySQL",
+        "redis": "Redis", "graphql": "GraphQL", "rest": "REST",
+        "android": "Android", "ios": "iOS", "flutter": "Flutter",
+        "blockchain": "Blockchain", "solidity": "Solidity",
+    }
+
+    skills_found = []
+    seen = set()
+
+    # From languages
+    for lang, _ in sorted(languages.items(), key=lambda x: -x[1]):
+        skill = LANG_TO_SKILL.get(lang)
+        if skill and skill not in seen:
+            skills_found.append(skill)
+            seen.add(skill)
+
+    # From repo names and descriptions
+    all_text = " ".join(
+        f"{r.get('name','')} {r.get('description','')} {' '.join(r.get('topics',[]))}"
+        for r in repos
+    ).lower()
+    for keyword, skill in TOPIC_SKILLS.items():
+        if keyword in all_text and skill not in seen:
+            skills_found.append(skill)
+            seen.add(skill)
+
+    # Role suggestion
+    role_signals = {
+        "Frontend Developer":        ["react","vue","angular","html","css","next.js","tailwind"],
+        "Backend Developer":         ["django","flask","fastapi","node.js","express","sql","postgresql"],
+        "Full Stack Developer":      ["react","node.js","sql","docker","javascript","typescript"],
+        "Data Scientist":            ["pandas","numpy","scikit-learn","machine learning","jupyter"],
+        "Machine Learning Engineer": ["tensorflow","pytorch","deep learning","mlops"],
+        "DevOps Engineer":           ["docker","kubernetes","terraform","ci/cd","ansible","aws"],
+        "Mobile Developer":          ["swift","kotlin","flutter","react native","ios","android"],
+    }
+    scores = {role: sum(1 for kw in kws if kw in all_text) for role, kws in role_signals.items()}
+    suggested_role = max(scores, key=scores.get) if any(scores.values()) else "Full Stack Developer"
+
+    return {
+        "username": username,
+        "name": user_data.get("name") or username,
+        "bio": user_data.get("bio") or "",
+        "public_repos": user_data.get("public_repos", 0),
+        "followers": user_data.get("followers", 0),
+        "skills_found": skills_found,
+        "total_skills": len(skills_found),
+        "languages": languages,
+        "suggested_role": suggested_role,
+        "confidence": min(0.95, 0.5 + len(skills_found) * 0.025),
+        "reasoning": [
+            f"Analyzed {len(repos)} repositories",
+            f"Found {len(languages)} programming languages",
+            f"Strongest match: {suggested_role}",
+        ],
+    }
 
 
 # ─── Intelligent Recommendation ──────────────────────────────────────────────

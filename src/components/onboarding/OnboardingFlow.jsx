@@ -457,7 +457,7 @@ const OnboardingFlow = ({ onComplete, currentUser, onLogout, theme, toggleTheme 
     try {
       let response;
       try {
-        response = await fetch('/github/analyze', {
+        response = await fetch('/api/github/analyze', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
