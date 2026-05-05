@@ -450,82 +450,110 @@ const OnboardingFlow = ({ onComplete, currentUser, onLogout, theme, toggleTheme 
       setError('Please enter a GitHub username');
       return;
     }
-    
+
     setIsLoading(true);
     setError(null);
-    
+
     try {
-      let response;
-      try {
-        response = await fetch('/api/github/analyze', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            github_username: githubUsername.trim()
-          })
-        });
-      } catch (fetchError) {
-        // Backend not available - use fallback
-        console.log('GitHub analysis endpoint not available, using fallback');
-        setError('GitHub analysis is currently unavailable. Please skip this step and select your role manually.');
+      const username = githubUsername.trim();
+
+      // Call GitHub API directly — no backend needed, public API
+      const [userRes, reposRes] = await Promise.all([
+        fetch(`https://api.github.com/users/${username}`),
+        fetch(`https://api.github.com/users/${username}/repos?sort=pushed&per_page=30`),
+      ]);
+
+      if (userRes.status === 404) {
+        setError(`GitHub user "${username}" not found. Please check the username.`);
         setIsLoading(false);
         return;
       }
-      
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to analyze GitHub profile');
+      if (!userRes.ok) {
+        setError('GitHub API is unavailable. Please try again or skip this step.');
+        setIsLoading(false);
+        return;
       }
-      
-      const data = await response.json();
-      setGithubData(data);
-      
-      // Calculate match percentage (GitHub data doesn't have it, so calculate from confidence)
-      const matchPercentage = Math.round((data.confidence || 0.7) * 100);
-      setAiMatchPercentage(matchPercentage);
-      
-      // Get AI role suggestion based on GitHub skills
-      try {
-        const suggestionResponse = await fetch('/ai/suggest-role', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            skills: data.skills_found || [],
-            quiz_results: quizResults || {},
-            experience_years: 0,
-            source: 'github'
-          })
+
+      const userData = await userRes.json();
+      const repos = reposRes.ok ? await reposRes.json() : [];
+
+      // Extract languages
+      const languages = {};
+      repos.forEach(r => { if (r.language) languages[r.language] = (languages[r.language] || 0) + 1; });
+
+      // Map languages + topics → skills
+      const LANG_SKILL = {
+        Python:'Python', JavaScript:'JavaScript', TypeScript:'TypeScript',
+        Java:'Java', 'C++':'C++', 'C#':'C#', Go:'Go', Rust:'Rust',
+        Swift:'Swift', Kotlin:'Kotlin', PHP:'PHP', Ruby:'Ruby',
+        Dart:'Flutter', Shell:'Bash', HTML:'HTML', CSS:'CSS',
+        'Jupyter Notebook':'Python', R:'R', Scala:'Scala',
+      };
+      const TOPIC_SKILL = {
+        react:'React', node:'Node.js', express:'Express.js', django:'Django',
+        flask:'Flask', fastapi:'FastAPI', docker:'Docker', kubernetes:'Kubernetes',
+        aws:'AWS', 'machine-learning':'Machine Learning', tensorflow:'TensorFlow',
+        pytorch:'PyTorch', mongodb:'MongoDB', postgresql:'PostgreSQL', mysql:'MySQL',
+        redis:'Redis', graphql:'GraphQL', flutter:'Flutter', android:'Android',
+        blockchain:'Blockchain', solidity:'Solidity', nextjs:'Next.js',
+      };
+
+      const seen = new Set();
+      const skills = [];
+
+      Object.entries(languages)
+        .sort((a, b) => b[1] - a[1])
+        .forEach(([lang]) => {
+          const s = LANG_SKILL[lang];
+          if (s && !seen.has(s)) { skills.push(s); seen.add(s); }
         });
-        
-        if (suggestionResponse.ok) {
-          const aiSuggestion = await suggestionResponse.json();
-          setAiSuggestedRole(aiSuggestion.suggestedRole);
-          setAiConfidence(aiSuggestion.confidence);
-          setAiReasoning(aiSuggestion.reasoning);
-        } else {
-          // Fallback
-          const fallbackRole = quizResults?.suggestedRole || 'Full Stack Developer';
-          setAiSuggestedRole(fallbackRole);
-          setAiConfidence(0.7);
-          setAiReasoning([
-            `Based on your GitHub profile`,
-            `Found ${data.total_skills} skills from your repositories`
-          ]);
-        }
-      } catch (aiError) {
-        console.warn('AI suggestion failed, using fallback:', aiError);
-        const fallbackRole = quizResults?.suggestedRole || 'Full Stack Developer';
-        setAiSuggestedRole(fallbackRole);
-        setAiConfidence(0.7);
-        setAiReasoning([
-          `Based on your GitHub profile`,
-          `Found ${data.total_skills} skills from your repositories`
-        ]);
-      }
-      
+
+      const allText = repos.map(r =>
+        `${r.name} ${r.description || ''} ${(r.topics || []).join(' ')}`
+      ).join(' ').toLowerCase();
+
+      Object.entries(TOPIC_SKILL).forEach(([kw, skill]) => {
+        if (allText.includes(kw) && !seen.has(skill)) { skills.push(skill); seen.add(skill); }
+      });
+
+      // Role suggestion
+      const roleSignals = {
+        'Frontend Developer':        ['react','vue','angular','html','css','next'],
+        'Backend Developer':         ['django','flask','fastapi','node','express','sql','postgresql'],
+        'Full Stack Developer':      ['react','node','sql','docker','javascript','typescript'],
+        'Data Scientist':            ['pandas','numpy','scikit','machine-learning','jupyter'],
+        'Machine Learning Engineer': ['tensorflow','pytorch','deep-learning','mlops'],
+        'DevOps Engineer':           ['docker','kubernetes','terraform','ci','ansible','aws'],
+        'Mobile Developer':          ['swift','kotlin','flutter','react native','ios','android'],
+      };
+      const scores = Object.fromEntries(
+        Object.entries(roleSignals).map(([role, kws]) => [role, kws.filter(kw => allText.includes(kw)).length])
+      );
+      const suggestedRole = Object.entries(scores).sort((a,b) => b[1]-a[1])[0]?.[0] || 'Full Stack Developer';
+
+      const data = {
+        username,
+        name: userData.name || username,
+        skills_found: skills,
+        total_skills: skills.length,
+        suggested_role: suggestedRole,
+        confidence: Math.min(0.95, 0.5 + skills.length * 0.025),
+        reasoning: [
+          `Analyzed ${repos.length} repositories`,
+          `Found ${Object.keys(languages).length} programming languages`,
+          `Strongest match: ${suggestedRole}`,
+        ],
+      };
+
+      setGithubData(data);
+      setAiMatchPercentage(Math.round(data.confidence * 100));
+      setAiSuggestedRole(data.suggested_role);
+      setAiConfidence(data.confidence);
+      setAiReasoning(data.reasoning);
+
     } catch (error) {
       console.error('Error analyzing GitHub:', error);
-      setError(error.message || 'Failed to analyze GitHub profile. Please check the username and try again.');
+      setError('Failed to analyze GitHub profile. Please check the username and try again.');
     } finally {
       setIsLoading(false);
     }

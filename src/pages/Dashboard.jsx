@@ -29,14 +29,14 @@ const ROLE_TO_ROADMAP_ID = {
 };
 
 const PREMIUM_FEATURES = [
-  { icon: '🔍', label: 'Code Reviewer',    hash: '#code-review',      desc: 'Complexity and security audit on your code' },
-  { icon: '🎙️', label: 'Pitch Perfect',     hash: '#pitch-perfect',    desc: 'Record your pitch and get delivery feedback' },
-  { icon: '💰', label: 'Salary Heatmap',    hash: '#salary-heatmap',   desc: 'Salary data by city and role across India' },
-  { icon: '💎', label: 'Executive Vault',   hash: '#executive-vault',  desc: 'Curated books and resume tailoring' },
-  { icon: '📄', label: 'Resume Builder',    hash: '#resume-builder',   desc: 'Rewrite your resume for your target role' },
-  { icon: '⚡', label: 'Daily Challenge',   hash: '#daily-challenge',  desc: 'One coding problem a day, earn XP' },
-  { icon: '🎯', label: 'Interview Prep',    hash: '#interview-prep',   desc: 'Flash cards for your target role' },
-  { icon: '🧠', label: 'Advanced Concepts', hash: '#advanced-concepts',desc: 'System design and architecture deep-dives' },
+  { icon: '🔍', label: 'Code Reviewer',    hash: '#code-review',      desc: 'Complexity and security audit on your code',  pro: true  },
+  { icon: '🎙️', label: 'Pitch Perfect',     hash: '#pitch-perfect',    desc: 'Record your pitch and get delivery feedback', pro: true  },
+  { icon: '💰', label: 'Salary Heatmap',    hash: '#salary-heatmap',   desc: 'Salary data by city and role across India',   pro: true  },
+  { icon: '💎', label: 'Executive Vault',   hash: '#executive-vault',  desc: 'Curated books and resume tailoring',          pro: true  },
+  { icon: '📄', label: 'Resume Builder',    hash: '#resume-builder',   desc: 'Rewrite your resume for your target role',    pro: true  },
+  { icon: '⚡', label: 'Daily Challenge',   hash: '#daily-challenge',  desc: 'One coding problem a day, earn XP',           pro: false },
+  { icon: '🎯', label: 'Interview Prep',    hash: '#interview-prep',   desc: 'Flash cards for your target role',            pro: false },
+  { icon: '🧠', label: 'Advanced Concepts', hash: '#advanced-concepts',desc: 'System design and architecture deep-dives',   pro: false },
 ];
 
 // Always fires hashchange even if hash is already set
