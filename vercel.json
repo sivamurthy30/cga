@@ -9,14 +9,22 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://deva-backend.onrender.com/api/:path*"
+      "destination": "https://cga-2.onrender.com/api/:path*"
+    },
+    {
+      "source": "/ai/:path*",
+      "destination": "https://cga-2.onrender.com/ai/:path*"
+    },
+    {
+      "source": "/github/:path*",
+      "destination": "https://cga-2.onrender.com/github/:path*"
     },
     {
       "source": "/health",
-      "destination": "https://deva-backend.onrender.com/health"
+      "destination": "https://cga-2.onrender.com/health"
     },
     {
-      "source": "/((?!api|health).*)",
+      "source": "/((?!api|ai|github|health).*)",
       "destination": "/index.html"
     }
   ]
