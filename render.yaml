@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: deva-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: MONGODB_URL
+        sync: false          # set manually in Render dashboard
+      - key: MONGODB_DB_NAME
+        value: deva_career
+      - key: CORS_ORIGINS
+        sync: false          # set to your Vercel URL in Render dashboard
+      - key: ACCESS_TOKEN_EXPIRE_DAYS
+        value: "30"
+      - key: PYTHON_VERSION
+        value: "3.11.0"
+    healthCheckPath: /health

@@ -58,10 +58,16 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 # Observability FIRST — wraps everything
 app.add_middleware(ObservabilityMiddleware)
 
+# In production allow all origins (Vercel URL is set via CORS_ORIGINS env var)
+# In development restrict to localhost
+cors_origins = settings.CORS_ORIGINS
+if settings.ENVIRONMENT == "production":
+    cors_origins = ["*"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS,
-    allow_credentials=True,
+    allow_origins=cors_origins,
+    allow_credentials=False if settings.ENVIRONMENT == "production" else True,
     allow_methods=["*"],
     allow_headers=["*"],
 )

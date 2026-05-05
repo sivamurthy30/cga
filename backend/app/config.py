@@ -27,7 +27,8 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_DAYS: int = 30
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
     
-    # CORS
+    # CORS — add your Vercel URL to CORS_ORIGINS env var in production
+    # e.g. CORS_ORIGINS=["https://your-app.vercel.app","http://localhost:3000"]
     CORS_ORIGINS: List[str] = ["http://localhost:3000", "http://localhost:8000"]
     
     # Database (SQLite legacy — kept for fallback)
