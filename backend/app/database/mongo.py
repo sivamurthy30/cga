@@ -20,8 +20,6 @@ def get_mongo_client() -> AsyncIOMotorClient:
             settings.MONGODB_URL,
             tls=True,
             tlsAllowInvalidCertificates=True,
-            tlsInsecure=True,
-            # Short timeouts — fail fast, don't block the app
             serverSelectionTimeoutMS=5000,
             connectTimeoutMS=5000,
             socketTimeoutMS=10000,
