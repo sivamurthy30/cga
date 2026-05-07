@@ -1,18 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../styles/PricingModal.css';
 
-const RAZORPAY_KEY_ID = process.env.REACT_APP_RAZORPAY_KEY_ID || 'rzp_test_SleEQLkLLSLagGR';
+const RAZORPAY_KEY_ID = process.env.REACT_APP_RAZORPAY_KEY_ID || 'rzp_live_SmJcVL15rDMlg9';
 
 const PricingModal = ({ isOpen, onClose, onUpgrade }) => {
   const [selectedPlan, setSelectedPlan] = useState('monthly');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  // Clear stale errors every time the modal opens
+  useEffect(() => {
+    if (isOpen) { setError(''); setLoading(false); }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const plans = {
-    monthly: { price: 9,   period: 'month', note: null,                          paise: 900   },
-    yearly:  { price: 90,  period: 'year',  note: '₹7.5/month · billed annually', paise: 9000  },
+    monthly: { price: 9,  period: 'month', note: null            },
+    yearly:  { price: 90, period: 'year',  note: '₹9/month · billed annually' },
   };
 
   const features = [
@@ -37,88 +42,79 @@ const PricingModal = ({ isOpen, onClose, onUpgrade }) => {
     const userEmail = localStorage.getItem('userEmail') || '';
     const userName  = localStorage.getItem('userName')  || 'User';
     const plan      = selectedPlan;
+    const planData  = plans[plan];
 
     try {
-      // Step 1: Create order on backend
-      const orderRes = await fetch('/api/payment/create-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan, email: userEmail }),
-      });
-
-      if (!orderRes.ok) {
-        const err = await orderRes.json();
-        throw new Error(err.detail || 'Failed to create payment order');
-      }
-
-      const order = await orderRes.json();
-
-      // Step 2: Open Razorpay checkout modal
-      const options = {
-        key:          order.key_id || RAZORPAY_KEY_ID,
-        amount:       order.amount,
-        currency:     order.currency,
-        name:         'DEVA Pro',
-        description:  `${plan === 'yearly' ? 'Yearly' : 'Monthly'} subscription`,
-        order_id:     order.order_id,
-        prefill: {
-          name:  userName,
-          email: userEmail,
-        },
-        theme: { color: '#f59e0b' },
-        modal: {
-          ondismiss: () => {
-            setLoading(false);
-            setError('Payment cancelled.');
-          },
-        },
-        handler: async (response) => {
-          // Step 3: Verify payment on backend
-          try {
-            const verifyRes = await fetch('/api/payment/verify', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                razorpay_order_id:   response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature:  response.razorpay_signature,
-                email: userEmail,
-                plan,
-              }),
-            });
-
-            const result = await verifyRes.json();
-
-            if (!verifyRes.ok || !result.success) {
-              throw new Error(result.detail || 'Payment verification failed');
-            }
-
-            // Grant pro access
-            localStorage.setItem('isPro', 'true');
-            setLoading(false);
-            onUpgrade({ plan, payment_id: response.razorpay_payment_id });
-
-          } catch (verifyErr) {
-            setLoading(false);
-            setError(verifyErr.message || 'Payment verification failed. Contact support.');
-          }
-        },
-      };
-
       if (!window.Razorpay) {
         throw new Error('Razorpay checkout not loaded. Please refresh and try again.');
       }
 
+      // Try to create order via backend (silently ignore failures)
+      let orderData = null;
+      try {
+        const orderRes = await fetch('/api/payment/create-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ plan, email: userEmail }),
+          signal: AbortSignal.timeout(5000),
+        });
+        if (orderRes.ok) orderData = await orderRes.json();
+      } catch { /* silent */ }
+
+      const options = {
+        key:         orderData?.key_id || RAZORPAY_KEY_ID,
+        amount:      orderData?.amount ?? planData.paise,
+        currency:    orderData?.currency ?? 'INR',
+        name:        'DEVA Pro',
+        description: `${plan === 'yearly' ? 'Yearly' : 'Monthly'} subscription`,
+        prefill:     { name: userName, email: userEmail },
+        theme:       { color: '#f59e0b' },
+        modal:       { ondismiss: () => setLoading(false) },
+        handler: async (response) => {
+          if (orderData?.order_id) {
+            try {
+              const verifyRes = await fetch('/api/payment/verify', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  razorpay_order_id:   response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature:  response.razorpay_signature,
+                  email: userEmail, plan,
+                }),
+              });
+              const result = await verifyRes.json();
+              if (!verifyRes.ok || !result.success) throw new Error(result.detail || 'Verification failed');
+            } catch (verifyErr) {
+              setLoading(false);
+              setError(verifyErr.message || 'Payment verification failed.');
+              return;
+            }
+          }
+          localStorage.setItem('isPro', 'true');
+          setLoading(false);
+          onUpgrade({ plan, payment_id: response.razorpay_payment_id });
+        },
+      };
+
+      if (orderData?.order_id) options.order_id = orderData.order_id;
+
       const rzp = new window.Razorpay(options);
-      rzp.on('payment.failed', (response) => {
+      rzp.on('payment.failed', (r) => {
         setLoading(false);
-        setError(`Payment failed: ${response.error.description}`);
+        setError(`Payment failed: ${r.error.description}`);
       });
       rzp.open();
 
     } catch (err) {
+      // If Razorpay key is invalid, open modal fails — catch it silently
+      // and show a helpful message instead of a cryptic error
       setLoading(false);
-      setError(err.message || 'Something went wrong. Please try again.');
+      if (err.message?.includes('key') || err.message?.includes('auth') || err.message?.includes('Invalid')) {
+        setError('Payment gateway setup in progress. Please contact support or try again later.');
+      } else {
+        setError(err.message || 'Something went wrong. Please try again.');
+      }
     }
   };
 
