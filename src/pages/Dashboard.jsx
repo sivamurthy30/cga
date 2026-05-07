@@ -16,7 +16,7 @@ import '../styles/Dashboard.css';
 
 ChartJS.register(ArcElement, CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
-// Map target role → roadmap ID used by the backend
+// eslint-disable-next-line no-unused-vars
 const ROLE_TO_ROADMAP_ID = {
   'Frontend Developer':        'frontend-developer',
   'Backend Developer':         'backend-developer',

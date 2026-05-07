@@ -144,12 +144,12 @@ const PricingModal = ({ isOpen, onClose, onUpgrade }) => {
             onClick={() => setSelectedPlan('yearly')}
           >
             Yearly
-            {selectedPlan === 'yearly' && <span className="pm-save-tag">Save 33%</span>}
+            {selectedPlan === 'yearly' && <span className="pm-save-tag">Save 17%</span>}
           </button>
-          {selectedPlan === 'monthly' && (
-            <span className="pm-save-hint">Switch to yearly and save ₹4,000</span>
-          )}
         </div>
+        {selectedPlan === 'monthly' && (
+          <span className="pm-save-hint">Switch to yearly and save ₹18</span>
+        )}
 
         {/* Price */}
         <div className="pm-price-row">

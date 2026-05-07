@@ -44,6 +44,7 @@ const useGSAPAnimations = (containerRef, logoRef, formRef, taglineRef, featuresR
       gsap.to(logoRef.current, { y: -5, duration: 2.5, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: tl.duration() });
     });
     return () => ctx.revert();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };
 

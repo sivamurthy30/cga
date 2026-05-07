@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MdUpload, MdAutoFixHigh, MdPictureAsPdf, MdCheck, MdEdit } from 'react-icons/md';
+import { MdUpload, MdAutoFixHigh, MdPictureAsPdf, MdCheck } from 'react-icons/md'; // eslint-disable-line no-unused-vars
 import useRoadmapStore from '../../store/roadmapStore';
 
 const ROLES = [

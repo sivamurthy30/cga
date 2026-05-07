@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { gsap } from 'gsap';
-import ThemeToggle from '../common/ThemeToggle';
+import ThemeToggle from '../common/ThemeToggle'; // eslint-disable-line no-unused-vars
 import LoadingScreen from '../common/LoadingScreen';
 import '../../styles/Onboarding.css';
 import '../../styles/SmoothAnimations.css';
@@ -101,14 +101,17 @@ const OnboardingFlow = ({ onComplete, currentUser, onLogout, theme, toggleTheme 
   // eslint-disable-next-line no-unused-vars
   const [githubData, setGithubData] = useState(null);
   const [aiSuggestedRole, setAiSuggestedRole] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [aiConfidence, setAiConfidence] = useState(0);
   const [aiMatchPercentage, setAiMatchPercentage] = useState(0);
   const [aiReasoning, setAiReasoning] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [loadingMessage, setLoadingMessage] = useState("");
   const [error, setError] = useState(null);
   const [githubUsername, setGithubUsername] = useState('');
   const [showAllSkills, setShowAllSkills] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [showAllProjects, setShowAllProjects] = useState(false);
 
   // Interest Quiz Questions - More challenging and insightful

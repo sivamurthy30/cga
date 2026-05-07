@@ -96,8 +96,7 @@
   border: 1px solid var(--border-primary);
   border-radius: 10px;
   padding: 0.3rem;
-  margin-bottom: 1.5rem;
-  position: relative;
+  margin-bottom: 0.5rem;
 }
 
 .pm-toggle-btn {
@@ -111,7 +110,9 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
-  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .pm-toggle-btn.active {
@@ -132,16 +133,15 @@
   vertical-align: middle;
 }
 
+/* Save hint — sits below the toggle, not overlapping */
 .pm-save-hint {
-  position: absolute;
-  right: 0.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 0.72rem;
+  display: block;
+  text-align: center;
+  font-size: 0.75rem;
   color: #10b981;
   font-weight: 600;
-  white-space: nowrap;
-  pointer-events: none;
+  margin-bottom: 1rem;
+  line-height: 1.4;
 }
 
 /* Price */
