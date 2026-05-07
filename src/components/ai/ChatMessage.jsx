@@ -3,6 +3,29 @@ import './ChatMessage.css';
 
 const ChatMessage = ({ role, content, timestamp }) => {
   const isUser = role === 'user';
+
+  // Render content with basic markdown: **bold**, links, newlines
+  const renderContent = (text) => {
+    if (!text) return null;
+    const lines = text.split('\n');
+    return lines.map((line, i) => {
+      // Convert **bold** and links
+      const parts = line.split(/(\*\*[^*]+\*\*|https?:\/\/[^\s]+)/g);
+      const rendered = parts.map((part, j) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+          return <strong key={j}>{part.slice(2, -2)}</strong>;
+        }
+        if (part.startsWith('http')) {
+          return <a key={j} href={part} target="_blank" rel="noopener noreferrer"
+            style={{ color: isUser ? '#fff' : 'var(--accent-primary)', textDecoration: 'underline', wordBreak: 'break-all' }}>
+            {part}
+          </a>;
+        }
+        return part;
+      });
+      return <span key={i}>{rendered}{i < lines.length - 1 && <br />}</span>;
+    });
+  };
   
   return (
     <div className={`chat-message ${isUser ? 'user-message' : 'ai-message'}`}>
@@ -22,7 +45,7 @@ const ChatMessage = ({ role, content, timestamp }) => {
       </div>
       <div className="message-content">
         <div className="message-bubble">
-          {content}
+          {renderContent(content)}
         </div>
         {timestamp && (
           <div className="message-timestamp">

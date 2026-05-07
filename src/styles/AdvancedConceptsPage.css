@@ -779,3 +779,41 @@
 .concept-card:nth-child(6) { animation-delay: 0.3s; }
 .concept-card:nth-child(7) { animation-delay: 0.35s; }
 .concept-card:nth-child(8) { animation-delay: 0.4s; }
+
+/* ── Pro lock overlay ── */
+.concept-locked {
+  opacity: 0.75;
+  filter: saturate(0.4);
+}
+.concept-locked:hover {
+  opacity: 0.85;
+  filter: saturate(0.5);
+}
+
+/* ── Code block in concept modal ── */
+.code-block {
+  background: #1e1e2e;
+  color: #cdd6f4;
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  overflow-x: auto;
+  font-family: 'SF Mono', 'JetBrains Mono', 'Menlo', 'Consolas', monospace;
+  font-size: 0.8125rem;
+  line-height: 1.65;
+  margin: 0;
+  border: 1px solid rgba(255,255,255,0.08);
+  white-space: pre;
+  tab-size: 2;
+}
+
+.code-block code {
+  background: none;
+  color: inherit;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+/* Scrollbar inside code block */
+.code-block::-webkit-scrollbar { height: 4px; }
+.code-block::-webkit-scrollbar-track { background: transparent; }
+.code-block::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }

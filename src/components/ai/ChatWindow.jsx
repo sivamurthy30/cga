@@ -16,8 +16,8 @@ async function getAIResponse(question) {
         message: question,
         context: {
           role: profile.targetRole || '',
-          year: 3,
-          background: 'CSE',
+          targetRole: profile.targetRole || '',
+          knownSkills: profile.knownSkills || [],
         },
       }),
       signal: AbortSignal.timeout(15000),
@@ -25,9 +25,20 @@ async function getAIResponse(question) {
 
     if (!res.ok) throw new Error('API error');
     const data = await res.json();
-    return data.response || data.message || "I couldn't process that. Please try again.";
+
+    // Handle smart actions
+    if (data.action_type === 'redirect' && data.target) {
+      setTimeout(() => window.open(data.target, '_blank', 'noopener,noreferrer'), 900);
+    }
+    if (data.action_type === 'navigate_internal' && data.target) {
+      setTimeout(() => {
+        if (data.target.startsWith('#')) window.location.hash = data.target;
+      }, 900);
+    }
+
+    return data;
   } catch {
-    return "I'm having trouble connecting right now. Please try again in a moment.";
+    return { response: "I'm having trouble connecting right now. Please try again in a moment.", action_type: 'text' };
   }
 }
 
@@ -60,7 +71,7 @@ const ChatWindow = ({ onClose, onMinimize, initialMessage }) => {
 
     try {
       const reply = await getAIResponse(text);
-      setMessages(prev => [...prev, { role: 'ai', content: reply, timestamp: Date.now() }]);
+      setMessages(prev => [...prev, { role: 'ai', content: reply.response || reply, timestamp: Date.now(), action: reply.action_type, target: reply.target }]);
     } finally {
       setIsLoading(false);
     }

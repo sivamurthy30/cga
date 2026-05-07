@@ -21,22 +21,40 @@ def _conn():
 
 
 def init_sqlite_users():
-    """Create users table if it doesn't exist."""
+    """Create users table with all required fields if it doesn't exist."""
     with _conn() as con:
         con.execute("""
             CREATE TABLE IF NOT EXISTS users (
-                id               INTEGER PRIMARY KEY AUTOINCREMENT,
-                email            TEXT    UNIQUE NOT NULL,
-                password_hash    TEXT    NOT NULL,
-                name             TEXT    DEFAULT '',
-                onboarding_complete INTEGER DEFAULT 0,
-                assessment_complete INTEGER DEFAULT 0,
-                is_pro           INTEGER DEFAULT 0,
-                created_at       TEXT    DEFAULT ''
+                id                   INTEGER PRIMARY KEY AUTOINCREMENT,
+                email                TEXT    UNIQUE NOT NULL,
+                password_hash        TEXT    NOT NULL,
+                name                 TEXT    DEFAULT '',
+                onboarding_complete  INTEGER DEFAULT 0,
+                assessment_complete  INTEGER DEFAULT 0,
+                profile_complete     INTEGER DEFAULT 0,
+                is_pro               INTEGER DEFAULT 0,
+                subscription_status  TEXT    DEFAULT 'free',
+                created_at           TEXT    DEFAULT '',
+                updated_at           TEXT    DEFAULT '',
+                last_login           TEXT    DEFAULT ''
             )
         """)
+        # Migrate existing tables — add columns that may be missing
+        _add_column_if_missing(con, "users", "assessment_complete",  "INTEGER DEFAULT 0")
+        _add_column_if_missing(con, "users", "profile_complete",     "INTEGER DEFAULT 0")
+        _add_column_if_missing(con, "users", "subscription_status",  "TEXT DEFAULT 'free'")
+        _add_column_if_missing(con, "users", "updated_at",           "TEXT DEFAULT ''")
+        _add_column_if_missing(con, "users", "last_login",           "TEXT DEFAULT ''")
         con.commit()
     logger.info("✅ SQLite users table ready")
+
+
+def _add_column_if_missing(con, table: str, column: str, definition: str):
+    """Safely add a column to an existing table (no-op if already present)."""
+    existing = [r[1] for r in con.execute(f"PRAGMA table_info({table})").fetchall()]
+    if column not in existing:
+        con.execute(f"ALTER TABLE {table} ADD COLUMN {column} {definition}")
+        logger.info(f"  Migrated: added {table}.{column}")
 
 
 def sqlite_find_user(email: str) -> dict | None:

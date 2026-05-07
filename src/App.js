@@ -52,63 +52,46 @@ export async function atomicSaveStep(step) {
 }
 
 async function fetchUserStatus(authToken) {
-  // Local/demo tokens can't hit the backend — restore from localStorage
+  // Local/demo tokens — use localStorage only (offline mode)
   if (!authToken || authToken.startsWith('local-token-') || authToken.startsWith('demo-token-')) {
-    const profile = (() => {
-      try { return JSON.parse(localStorage.getItem('learnerProfile') || 'null'); } catch { return null; }
-    })();
-    const onboardingDone = localStorage.getItem('onboardingComplete') === 'true';
-    return {
-      status: onboardingDone ? 'dashboard' : 'onboarding_step_0',
-      last_saved_step: 0,
-      onboarding_complete: onboardingDone,
-      is_pro: localStorage.getItem('isPro') === 'true',
-      target_role: profile?.targetRole || '',
-      user_id: localStorage.getItem('userId') || '',
-      name: localStorage.getItem('userName') || '',
-      email: localStorage.getItem('userEmail') || '',
-      _local: true,
-      _profile: profile,
-    };
+    return _localFallbackStatus();
   }
+
   try {
     const res = await fetch('/api/user/status', {
-      headers: { 'Authorization': `Bearer ${authToken}` }
+      headers: { 'Authorization': `Bearer ${authToken}` },
+      signal: AbortSignal.timeout(6000),
     });
-    if (!res.ok) return _localFallbackStatus();
+
+    if (!res.ok) {
+      // Backend returned error — fall back to localStorage
+      return _localFallbackStatus();
+    }
+
     const data = await res.json();
 
-    // If backend says "assessment" but localStorage shows it's already done,
-    // trust localStorage — the quiz save to backend may have failed silently
-    if (data.status === 'assessment') {
-      const localAssessmentDone = localStorage.getItem('assessmentComplete') === 'true';
-      const localProfile = (() => {
-        try { return JSON.parse(localStorage.getItem('learnerProfile') || 'null'); } catch { return null; }
-      })();
-      if (localAssessmentDone || localProfile?.assessmentComplete || localProfile?.assessmentResults) {
-        return { ...data, status: 'dashboard', _profile: localProfile };
-      }
+    // ── BACKEND IS THE SOURCE OF TRUTH ──────────────────────────────────────
+    // Sync localStorage from backend so future offline fallbacks are accurate.
+    // This is the key fix: after login, localStorage reflects what the DB says.
+    if (data.onboarding_complete) {
+      localStorage.setItem('onboardingComplete', 'true');
+    }
+    if (data.assessment_complete) {
+      localStorage.setItem('assessmentComplete', 'true');
+    }
+    if (data.is_pro) {
+      localStorage.setItem('isPro', 'true');
     }
 
-    // If backend says "onboarding" but localStorage shows onboarding+assessment done,
-    // trust localStorage
-    if (data.status === 'onboarding_step_0') {
-      const localOnboardingDone = localStorage.getItem('onboardingComplete') === 'true';
-      const localAssessmentDone = localStorage.getItem('assessmentComplete') === 'true';
-      const localProfile = (() => {
-        try { return JSON.parse(localStorage.getItem('learnerProfile') || 'null'); } catch { return null; }
-      })();
-      const profileHasAssessment = localProfile?.assessmentComplete || !!localProfile?.assessmentResults;
-      if (localOnboardingDone && (localAssessmentDone || profileHasAssessment)) {
-        return { ...data, status: 'dashboard', _local: true, _profile: localProfile };
-      }
-      if (localOnboardingDone) {
-        return { ...data, status: localAssessmentDone || profileHasAssessment ? 'dashboard' : 'assessment', _local: true, _profile: localProfile };
-      }
-    }
+    // Attach local profile data for UI (skills, role, etc.)
+    const localProfile = (() => {
+      try { return JSON.parse(localStorage.getItem('learnerProfile') || 'null'); } catch { return null; }
+    })();
 
-    return data;
+    return { ...data, _profile: localProfile };
+
   } catch {
+    // Network error — fall back to localStorage
     return _localFallbackStatus();
   }
 }
@@ -193,16 +176,84 @@ function normalizeSkillName(skill = '') {
 function buildRolePrioritizedSkills(targetRole, knownSkills = []) {
   const roleSkills = getRoleBasedAssessmentSkills(targetRole);
   const normalizedRole = roleSkills.map(normalizeSkillName);
-
-  // Keep user known skills that are close to role skills.
   const relevantKnown = knownSkills.filter((skill) => {
     const s = normalizeSkillName(skill);
     return normalizedRole.some((roleSkill) => s.includes(roleSkill) || roleSkill.includes(s));
   });
-
-  // Role skills first for consistency, then relevant known skills, deduped.
   const combined = [...roleSkills, ...relevantKnown];
   return [...new Set(combined)].slice(0, 5);
+}
+
+// ─── Shared routing helper — used by both mount effect and handleAuthSuccess ──
+// statusData comes from /api/user/status (backend is source of truth).
+// Returns a promise so callers can await it.
+async function _applyStatus(statusData, authToken, setters) {
+  const {
+    setLearnerProfile, setShowRoadmap, setShowAssessment, setShowOnboarding,
+    loadFromDB,
+  } = setters;
+
+  const localProfile = (() => {
+    try { return JSON.parse(localStorage.getItem('learnerProfile') || 'null'); } catch { return null; }
+  })();
+
+  if (statusData.status === 'dashboard') {
+    // Try to get full profile from backend; fall back to localStorage
+    try {
+      const res = await fetch('/api/user/profile', {
+        headers: { 'Authorization': `Bearer ${authToken}` },
+        signal: AbortSignal.timeout(4000),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const dbProfile = data.profile;
+        if (dbProfile) {
+          const rawSkills = dbProfile.skills || [];
+          const knownSkills = rawSkills.map(s => (typeof s === 'string' ? s : s.skill)).filter(Boolean);
+          setLearnerProfile({
+            targetRole:          dbProfile.target_role || localProfile?.targetRole || '',
+            knownSkills,
+            learningSpeed:       dbProfile.learning_speed || 'medium',
+            onboarding_complete: true,
+            assessmentComplete:  true,
+            assessmentResults:   dbProfile.latest_quiz || localProfile?.assessmentResults || null,
+          });
+          loadFromDB(
+            dbProfile.roadmap_id || 'frontend-developer',
+            dbProfile.completed_nodes || [],
+            dbProfile.stats || {}
+          );
+          setShowRoadmap(true);
+          return;
+        }
+      }
+    } catch { /* fall through to localStorage */ }
+
+    // Use localStorage profile as fallback
+    setLearnerProfile(localProfile || {
+      targetRole: statusData.target_role || '',
+      knownSkills: [], learningSpeed: 'medium',
+      onboarding_complete: true, assessmentComplete: true, assessmentResults: null,
+    });
+    setShowRoadmap(true);
+
+  } else if (statusData.status === 'assessment') {
+    setLearnerProfile(localProfile || {
+      targetRole: statusData.target_role || '',
+      knownSkills: [], learningSpeed: 'medium', onboarding_complete: true,
+    });
+    setShowAssessment(true);
+
+  } else {
+    // onboarding_step_0 — new user or incomplete onboarding
+    setLearnerProfile({
+      targetRole: statusData.target_role || '',
+      knownSkills: [], learningSpeed: 'medium',
+      onboarding_complete: false,
+      resumeStep: statusData.last_saved_step || 0,
+    });
+    setShowOnboarding(true);
+  }
 }
 
 function App() {
@@ -237,6 +288,11 @@ function App() {
       if (!showRoadmap) return;
 
       if (hash === '#advanced-concepts') {
+        // Gate: non-pro users see pricing modal
+        if (!isPro) {
+          setShowPricingModal(true);
+          return;
+        }
         setShowAdvancedConcepts(true);
         setShowRoadmapCanvas(false);
         setActivePage(null);
@@ -305,126 +361,48 @@ function App() {
     });
   };
 
-  // ─── Phase 1: Anti-Amnesia Shield ─────────────────────────────────────────
-  // On mount: show splash, call /api/user/status, route to exact step
+  // ─── Session restore on mount ─────────────────────────────────────────────
+  // Backend is the ONLY source of truth for routing decisions.
+  // localStorage is only used as a UI cache (profile data, theme, etc.)
   useEffect(() => {
     const authToken = localStorage.getItem('authToken');
-    const userId = localStorage.getItem('userId');
+    const userId    = localStorage.getItem('userId');
 
     if (!authToken || !userId) {
       setAppLoading(false);
       return;
     }
 
-    // Use /status endpoint — single call that tells us exactly where to go
+    const setters = { setLearnerProfile, setShowRoadmap, setShowAssessment, setShowOnboarding, loadFromDB };
+
     fetchUserStatus(authToken)
       .then(async (statusData) => {
         if (!statusData) { handleLogout(); return; }
 
         setIsAuthenticated(true);
-        setIsPro(statusData.is_pro || localStorage.getItem('isPro') === 'true');
-        const baseUser = {
-          id: statusData.user_id,
-          name: statusData.name,
-          email: statusData.email,
-          target_role: statusData.target_role,
+        setIsPro(statusData.is_pro || false);
+        setCurrentUser({
+          id:                  statusData.user_id,
+          name:                statusData.name,
+          email:               statusData.email,
+          target_role:         statusData.target_role,
           onboarding_complete: statusData.onboarding_complete,
-        };
-        setCurrentUser(baseUser);
+        });
 
-        const { status, last_saved_step } = statusData;
-
-        // If backend says not done but localStorage says done — sync & trust localStorage
-        const localOnboardingDone = localStorage.getItem('onboardingComplete') === 'true';
-        const localAssessmentDone = localStorage.getItem('assessmentComplete') === 'true'
-          || localProfile?.assessmentComplete === true
-          || (localProfile?.assessmentResults && Object.keys(localProfile.assessmentResults).length > 0);
-        const localProfile = (() => {
-          try { return JSON.parse(localStorage.getItem('learnerProfile') || 'null'); } catch { return null; }
-        })();
-
-        if (status !== 'dashboard' && localOnboardingDone && localProfile?.targetRole) {
-          try {
-            await fetch('/api/user/complete-onboarding', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
-              body: JSON.stringify({
-                target_role: localProfile.targetRole,
-                known_skills: localProfile.knownSkills || [],
-                learning_speed: localProfile.learningSpeed || 'medium',
-              }),
-            });
-          } catch { /* silent */ }
-        }
-
-        const effectiveStatus = (localOnboardingDone && localAssessmentDone) ? 'dashboard'
-          : localOnboardingDone ? 'assessment'
-          : status;
-
-        if (effectiveStatus === 'dashboard') {
-          // Fully onboarded — go straight to dashboard
-          let profile = null;
-          if (statusData._local && statusData._profile) {
-            // Offline/local mode — restore from localStorage
-            profile = statusData._profile;
-            setLearnerProfile(profile);
-          } else {
-            const dbProfile = await fetchFullProfile(authToken).catch(() => null);
-            if (dbProfile) {
-              profile = buildLearnerProfile(dbProfile);
-              setLearnerProfile(profile);
-              loadFromDB(
-                dbProfile.roadmap_id || 'frontend-developer',
-                dbProfile.completed_nodes || [],
-                dbProfile.stats || {}
-              );
-            } else {
-              // DB fetch failed — use any local profile we have
-              setLearnerProfile(localProfile || {
-                targetRole: statusData.target_role,
-                knownSkills: [],
-                learningSpeed: 'medium',
-                onboarding_complete: true,
-                assessmentComplete: true,
-                assessmentResults: null,
-              });
-            }
-          }
-          setShowRoadmap(true);
-
-        } else if (effectiveStatus === 'assessment') {
-          // Onboarding done but no quiz yet
-          if (statusData._local && statusData._profile) {
-            setLearnerProfile(statusData._profile);
-          } else {
-            const dbProfile = await fetchFullProfile(authToken).catch(() => null);
-            if (dbProfile) setLearnerProfile(buildLearnerProfile(dbProfile));
-            else setLearnerProfile({ targetRole: statusData.target_role, knownSkills: [], learningSpeed: 'medium', onboarding_complete: true });
-          }
-          setShowAssessment(true);
-
-        } else {
-          // onboarding_step_N — resume at exact step
-          setShowOnboarding(true);
-          // Pass last_saved_step to OnboardingFlow via learnerProfile
-          setLearnerProfile({ targetRole: statusData.target_role || '', knownSkills: [], learningSpeed: 'medium', onboarding_complete: false, resumeStep: last_saved_step });
-        }
+        await _applyStatus(statusData, authToken, setters);
       })
       .catch(() => {
-        // Backend offline — restore from localStorage
+        // Backend completely unreachable — use localStorage as last resort
         const fallback = _localFallbackStatus();
         setIsAuthenticated(true);
         setIsPro(fallback.is_pro);
-        setCurrentUser({
-          id: fallback.user_id,
-          name: fallback.name,
-          email: fallback.email,
-        });
+        setCurrentUser({ id: fallback.user_id, name: fallback.name, email: fallback.email });
+        const localProfile = fallback._profile;
         if (fallback.status === 'dashboard') {
-          if (fallback._profile) setLearnerProfile(fallback._profile);
+          if (localProfile) setLearnerProfile(localProfile);
           setShowRoadmap(true);
         } else if (fallback.status === 'assessment') {
-          if (fallback._profile) setLearnerProfile(fallback._profile);
+          if (localProfile) setLearnerProfile(localProfile);
           setShowAssessment(true);
         } else {
           setShowOnboarding(true);
@@ -447,92 +425,52 @@ function App() {
   }, [showRoadmap]);
 
   const handleAuthSuccess = async (user) => {
+    // Called after successful login/signup.
+    // Backend is the source of truth — we call /api/user/status immediately.
     const authToken = localStorage.getItem('authToken');
     setIsAuthenticated(true);
     setCurrentUser(user);
+
+    // Apply is_pro from login response immediately (before status call)
+    if (user.is_pro) {
+      localStorage.setItem('isPro', 'true');
+      setIsPro(true);
+    }
+
     setAppLoading(true);
 
-    // Check localStorage first — if user already completed onboarding locally, trust it
-    const localOnboardingDone = localStorage.getItem('onboardingComplete') === 'true';
-    const localAssessmentDone = localStorage.getItem('assessmentComplete') === 'true';
-    const localProfile = (() => {
-      try { return JSON.parse(localStorage.getItem('learnerProfile') || 'null'); } catch { return null; }
-    })();
+    const setters = { setLearnerProfile, setShowRoadmap, setShowAssessment, setShowOnboarding, loadFromDB };
 
     try {
       const statusData = await fetchUserStatus(authToken);
-      if (statusData) {
-        setIsPro(statusData.is_pro || false);
 
-        // If backend says onboarding not done but localStorage says it is — sync to backend
-        if (statusData.status !== 'dashboard' && localOnboardingDone && localProfile?.targetRole) {
-          try {
-            await fetch('/api/user/complete-onboarding', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
-              body: JSON.stringify({
-                target_role: localProfile.targetRole,
-                known_skills: localProfile.knownSkills || [],
-                learning_speed: localProfile.learningSpeed || 'medium',
-              }),
-            });
-          } catch { /* silent */ }
-        }
-
-        // Determine routing — prefer localStorage if it shows more progress
-        const effectiveStatus = (localOnboardingDone && localAssessmentDone) ? 'dashboard'
-          : (localOnboardingDone) ? 'assessment'
-          : statusData.status;
-
-        if (effectiveStatus === 'dashboard') {
-          const dbProfile = await fetchFullProfile(authToken).catch(() => null);
-          if (dbProfile && dbProfile.target_role) {
-            setLearnerProfile(buildLearnerProfile(dbProfile));
-            loadFromDB(dbProfile.roadmap_id || 'frontend-developer', dbProfile.completed_nodes || [], dbProfile.stats || {});
-          } else {
-            // Use localStorage profile
-            setLearnerProfile(localProfile || {
-              targetRole: statusData.target_role || localProfile?.targetRole,
-              knownSkills: localProfile?.knownSkills || [],
-              learningSpeed: localProfile?.learningSpeed || 'medium',
-              onboarding_complete: true,
-              assessmentComplete: true,
-              assessmentResults: localProfile?.assessmentResults || null,
-            });
-          }
-          setShowRoadmap(true);
-        } else if (effectiveStatus === 'assessment') {
-          const dbProfile = await fetchFullProfile(authToken).catch(() => null);
-          if (dbProfile) setLearnerProfile(buildLearnerProfile(dbProfile));
-          else setLearnerProfile(localProfile || { targetRole: statusData.target_role, knownSkills: [], learningSpeed: 'medium', onboarding_complete: true });
-          setShowAssessment(true);
-        } else {
-          setLearnerProfile({ targetRole: statusData.target_role || '', knownSkills: [], learningSpeed: 'medium', onboarding_complete: false, resumeStep: statusData.last_saved_step });
-          setShowOnboarding(true);
-        }
-      } else {
-        // null status — use localStorage fallback
-        const fallback = _localFallbackStatus();
-        setIsPro(fallback.is_pro);
-        if (fallback.status === 'dashboard') {
-          if (fallback._profile) setLearnerProfile(fallback._profile);
-          setShowRoadmap(true);
-        } else if (fallback.status === 'assessment') {
-          if (fallback._profile) setLearnerProfile(fallback._profile);
-          setShowAssessment(true);
-        } else {
-          setShowOnboarding(true);
-        }
+      if (!statusData) {
+        // Status call failed — show onboarding as safe default for new users
+        setShowOnboarding(true);
+        return;
       }
+
+      setIsPro(statusData.is_pro || user.is_pro || false);
+      setCurrentUser(prev => ({
+        ...prev,
+        id:                  statusData.user_id || prev?.id,
+        name:                statusData.name    || prev?.name,
+        email:               statusData.email   || prev?.email,
+        onboarding_complete: statusData.onboarding_complete,
+      }));
+
+      await _applyStatus(statusData, authToken, setters);
+
     } catch {
-      // Backend error — use localStorage fallback
+      // Network error — use localStorage as last resort
       const fallback = _localFallbackStatus();
-      setIsPro(fallback.is_pro);
+      setIsPro(fallback.is_pro || user.is_pro || false);
+      const localProfile = fallback._profile;
       if (fallback.status === 'dashboard') {
-        if (fallback._profile) setLearnerProfile(fallback._profile);
+        if (localProfile) setLearnerProfile(localProfile);
         setShowRoadmap(true);
       } else if (fallback.status === 'assessment') {
-        if (fallback._profile) setLearnerProfile(fallback._profile);
+        if (localProfile) setLearnerProfile(localProfile);
         setShowAssessment(true);
       } else {
         setShowOnboarding(true);
@@ -550,19 +488,23 @@ function App() {
 
   const handleLogout = () => {
     const authToken = localStorage.getItem('authToken');
-    
+
+    // Notify backend (fire-and-forget)
     if (authToken) {
       fetch('/api/auth/logout', {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${authToken}` }
       }).catch(() => {});
     }
-    
-    // Clear all session data
-    ['authToken','userId','userEmail','userName',
-     'onboardingComplete','assessmentComplete','learnerProfile','isPro'].forEach(k => localStorage.removeItem(k));
-    
-    // Clear state
+
+    // ── ONLY remove session/identity keys — NEVER completion flags ──────────
+    // onboardingComplete, assessmentComplete, learnerProfile are kept so that
+    // if the backend is temporarily unreachable, the offline fallback still
+    // routes the user correctly.
+    ['authToken', 'userId', 'userEmail', 'userName', 'isPro']
+      .forEach(k => localStorage.removeItem(k));
+
+    // Reset UI state
     setIsAuthenticated(false);
     setCurrentUser(null);
     setLearnerProfile(null);
@@ -572,6 +514,7 @@ function App() {
     setShowRoadmap(false);
     setShowRoadmapCanvas(false);
     setActivePage(null);
+    setIsPro(false);
     setAppLoading(false);
   };
 
@@ -955,6 +898,8 @@ function App() {
               <AdvancedConceptsPage
                 learnerProfile={learnerProfile}
                 currentUser={currentUser}
+                isPro={isPro}
+                onUpgradeClick={() => setShowPricingModal(true)}
                 onBack={() => {
                   setShowAdvancedConcepts(false);
                   window.location.hash = '';
